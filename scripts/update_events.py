@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """UKA public events updater.
 
-Intentionally conservative: extracts event metadata only from the public official
-O2 arena concert programme, checks robots.txt first, and NEVER invents events.
-Reads public ticket-price ranges from the official O2 arena event detail pages.
-Additional ticket services need a documented API/feed or explicit permission.
+O2 and O2 universum official listings + Ticketmaster Discovery API.
+Prices come from O2 official detail pages, Ticketmaster event API details,
+and optionally Ticketmaster public event pages only when allowed by robots.txt.
+Unknown prices stay unknown. No bypass of technical access controls.
 """
 from __future__ import annotations
 
@@ -372,6 +372,11 @@ def update_from_sources(events: list[dict], today: str) -> tuple[list[dict], int
 # Ticketmaster: dokumentované Discovery API (pouze se soukromým klíčem z GitHub Secrets).
 TICKETMASTER_URL = "https://app.ticketmaster.com/discovery/v2/events.json"
 TM_MAX_PAGES_PER_CLASS = 8  # omezení dotazů i počtu stránek v jedné aktualizaci
+TM_MAX_PRICE_CHECKS_PER_RUN = 24  # postupné doplňování cen starších koncertů
+TM_PRICE_RETRY_DAYS = 3  # chybějící cenu zkusíme znovu až za 3 dny
+TM_PRICE_REFRESH_DAYS = 7  # ceny získané automaticky po týdnu ověříme
+TM_DETAIL_URL = "https://app.ticketmaster.com/discovery/v2/events/{event_id}.json"
+TM_ALLOWED_PAGE_HOSTS = frozenset({"www.ticketmaster.cz", "ticketmaster.cz"})
 
 
 def tm_category(item: dict) -> str:
@@ -409,6 +414,184 @@ def tm_price(item: dict) -> tuple[int | None, int | None]:
     if not prices:
         return None, None
     return round(min(low for low, _ in prices)), round(max(high for _, high in prices))
+
+
+def tm_page_price(html: str) -> tuple[int | None, int | None]:
+    """Conservatively parse ticket-per-piece CZK prices from public event HTML.
+
+    Do NOT parse arbitrary sums in event descriptions or cart totals.
+    Page prices are indicative, availability should be checked on the seller site.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    # Public JSON-LD Event offers are useful if the ticket list is rendered by JS.
+    # Only take prices explicitly belonging to an Event, not unrelated page offers.
+    structured: list[tuple[float, float]] = []
+
+    def to_number(value):
+        if isinstance(value, (int, float)):
+            return float(value)
+        if not isinstance(value, str):
+            raise ValueError("Not numeric")
+        normalized = value.strip().replace("\xa0", " ").replace("\u202f", " ")
+        normalized = normalized.replace(" ", "")
+        if "," in normalized:
+            normalized = normalized.replace(".", "").replace(",", ".")
+        return float(normalized)
+
+    def walk_json(value):
+        if isinstance(value, list):
+            for child in value:
+                walk_json(child)
+        elif isinstance(value, dict):
+            typ = value.get("@type", "")
+            typelist = typ if isinstance(typ, list) else [typ]
+            if any(isinstance(t, str) and t.lower().endswith("event") for t in typelist):
+                offers = value.get("offers") or []
+                if isinstance(offers, dict):
+                    offers = [offers]
+                for offer in offers if isinstance(offers, list) else []:
+                    if not isinstance(offer, dict) or str(offer.get("priceCurrency", "")).upper() != "CZK":
+                        continue
+                    try:
+                        lo = to_number(offer.get("lowPrice", offer.get("price")))
+                        hi = to_number(offer.get("highPrice", offer.get("price", lo)))
+                        if all(map(math.isfinite, (lo, hi))) and 0 <= lo <= hi <= 200_000:
+                            structured.append((lo, hi))
+                    except (ValueError, TypeError, OverflowError):
+                        continue
+            if "@graph" in value:
+                walk_json(value["@graph"])
+
+    for tag in soup.find_all("script", attrs={"type": "application/ld+json"}):
+        try:
+            walk_json(json.loads(tag.string or tag.get_text()))
+        except (ValueError, TypeError):
+            pass
+
+    for tag in soup(["script", "style", "template", "noscript"]):
+        tag.decompose()
+    plain = soup.get_text(" ", strip=True).replace("\xa0", " ").replace("\u202f", " ")
+    plain = re.sub(r"\s+", " ", plain)
+    amount = r"(?:\d{1,3}(?:[ ,. ]\d{3})+|\d{1,6})(?:[,\.]\d{2})?"
+    pattern = re.compile(
+        rf"(?<!\d)({amount})\s*(?:Kč|CZK)"
+        rf"(?:\s*[–—-]\s*({amount})\s*(?:Kč|CZK))?"
+        r"\s*(?:za kus|per ticket|each)\b", re.IGNORECASE)
+
+    def number(s: str) -> float:
+        clean = s.replace(" ", "")
+        if "," in clean and "." in clean:
+            # 1,190.00 (EN) versus 1.190,00 (CS).
+            clean = (clean.replace(",", "") if clean.rfind(".") > clean.rfind(",")
+                     else clean.replace(".", "").replace(",", "."))
+        elif "," in clean:
+            clean = clean.replace(",", "") if re.search(r",\d{3}$", clean) else clean.replace(",", ".")
+        elif "." in clean and re.search(r"\.\d{3}$", clean):
+            clean = clean.replace(".", "")
+        return float(clean)
+
+    found: list[tuple[float, float]] = []
+    for m in pattern.finditer(plain):
+        try:
+            low = number(m.group(1))
+            high = number(m.group(2)) if m.group(2) else low
+        except ValueError:
+            continue
+        if all(map(math.isfinite, (low, high))) and 0 <= low <= high <= 200_000:
+            found.append((low, high))
+    # Prefer visible ticket prices when present; fall back to schema.org Offers.
+    found = found or structured
+    if not found:
+        return None, None
+    return round(min(a for a, _ in found)), round(max(b for _, b in found))
+
+
+def tm_price_check_due(e: dict, today: str) -> bool:
+    """Only touch missing prices or previously machine-sourced Ticketmaster prices."""
+    current = e.get("price")
+    if current is not None and e.get("price_source") not in ("Ticketmaster", "Ticketmaster (stránka)"):
+        return False
+    try:
+        last = date.fromisoformat(str(e.get("tm_price_checked_at", ""))[:10])
+        interval = TM_PRICE_RETRY_DAYS if current is None else TM_PRICE_REFRESH_DAYS
+        return (date.fromisoformat(today) - last).days >= interval
+    except (ValueError, TypeError):
+        return True
+
+
+def tm_detail_price(event_id: str, api_key: str) -> tuple[int | None, int | None]:
+    """Official Discovery event detail sometimes has priceRanges absent from search."""
+    # IDs from existing event records, not user-input URLs.
+    if not re.fullmatch(r"[A-Za-z0-9_-]{3,80}", event_id):
+        return None, None
+    try:
+        r = SESSION.get(TM_DETAIL_URL.format(event_id=event_id),
+                        params={"apikey": api_key}, timeout=16)
+        if r.status_code == 200:
+            return tm_price(r.json())
+        print(f"TM detail price HTTP {r.status_code} (event ID not logged)")
+    except (requests.RequestException, ValueError, TypeError) as exc:
+        print(f"TM detail price unavailable: {type(exc).__name__}")
+    return None, None
+
+
+def tm_web_price(event_url: str, robots_cache: dict) -> tuple[int | None, int | None]:
+    """Optional public ticket page fallback, strictly robots-guarded and rate-limited.
+
+    No scripted checkout, dynamic APIs, CAPTCHA, cookie or bot-block bypass.
+    """
+    parsed = urlparse(event_url)
+    if parsed.scheme != "https" or parsed.netloc.lower() not in TM_ALLOWED_PAGE_HOSTS or not parsed.path.startswith("/event/"):
+        return None, None
+    if not parsed.path.startswith("/event/") or len(event_url) > 1000:
+        return None, None
+    origin = f"{parsed.scheme}://{parsed.netloc.lower()}"
+    if origin not in robots_cache:
+        robots_cache[origin] = get_robots(event_url)
+    rp = robots_cache[origin]
+    if rp is None or not rp.can_fetch(UA, event_url):
+        return None, None
+    try:
+        response = SESSION.get(event_url, timeout=18, allow_redirects=False)
+        if response.status_code != 200 or len(response.content) > 3_000_000:
+            print(f"TM public price page unavailable (HTTP {response.status_code})")
+            return None, None
+        return tm_page_price(response.text)
+    except requests.RequestException as exc:
+        print(f"TM public page fetch failed: {type(exc).__name__}")
+        return None, None
+
+
+def tm_enrich_prices(events: list[dict], today: str, api_key: str) -> None:
+    """Backfill already-imported events, no duplicates or overwrites of manual prices."""
+    candidates = [e for e in events
+                  if (str(e.get("id", "")).startswith("ticketmaster-")
+                      and e.get("date", "") >= today
+                      and tm_price_check_due(e, today))]
+    # Give priority to unknown prices and closest concerts.
+    candidates.sort(key=lambda e: (e.get("price") is not None, e.get("date", "9999")))
+    checked = filled = 0
+    robots_cache: dict = {}
+    for e in candidates[:TM_MAX_PRICE_CHECKS_PER_RUN]:
+        eid = str(e["id"])[len("ticketmaster-"):]
+        low, high = tm_detail_price(eid, api_key)
+        method = "Ticketmaster"
+        if low is None:
+            # Some public pages expose actual per-ticket prices absent from API.
+            # Only read if the site explicitly permits robots access.
+            low, high = tm_web_price(str(e.get("ticket_url") or ""), robots_cache)
+            method = "Ticketmaster (stránka)"
+        e["tm_price_checked_at"] = today
+        checked += 1
+        if low is not None:
+            if e.get("price") is None or e.get("price_source") in ("Ticketmaster", "Ticketmaster (stránka)"):
+                was_missing = e.get("price") is None
+                e["price"], e["price_max"], e["price_source"] = low, high, method
+                if was_missing:
+                    filled += 1
+        time.sleep(0.25)
+    missing_total = sum(1 for e in events if str(e.get("id", "")).startswith("ticketmaster-") and e.get("price") is None)
+    print(f"TM prices: {checked} checked this run, {filled} newly filled, {missing_total} still unknown")
 
 
 def tm_image(item: dict) -> str:
@@ -543,7 +726,9 @@ def update_ticketmaster(events: list[dict], today: str) -> tuple[list[dict], int
                         previous["price_max"] = candidate["price_max"]
                         previous["price_source"] = "Ticketmaster"
                         enriched += 1
-                    elif previous.get("price_source") == "Ticketmaster":
+                    elif (candidate["price"] is not None
+                          and previous.get("price_source") == "Ticketmaster"):
+                        # Never replace a known price with a missing API price.
                         previous["price"] = candidate["price"]
                         previous["price_max"] = candidate["price_max"]
                     if not previous.get("image_url") and candidate.get("image_url"):
@@ -559,7 +744,10 @@ def update_ticketmaster(events: list[dict], today: str) -> tuple[list[dict], int
             if not raw or page + 1 >= total:
                 break
             time.sleep(0.4)
-    print(f"Ticketmaster: {count} new events, {enriched} existing prices filled")
+    # Try both Discovery detail data and permitted public price pages for missing
+    # prices, including records created by previous versions of the importer.
+    tm_enrich_prices(events, today, key)
+    print(f"Ticketmaster: {count} new events, {enriched} existing prices filled by listings")
     return events, count
 
 
