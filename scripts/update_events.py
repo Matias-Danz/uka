@@ -751,6 +751,148 @@ def update_ticketmaster(events: list[dict], today: str) -> tuple[list[dict], int
     return events, count
 
 
+
+# Inventory Status API provides *actual* primary ticket price ranges, including CZ.
+# This is a restricted API: enable ONLY if Ticketmaster approved access and supplied
+# a separate Inventory Status key. Never scrape seating charts or bypass a bot block.
+TM_INVENTORY_ENDPOINT = 'https://app.ticketmaster.com/inventory-status/v1/availability'
+PRICE_OVERRIDES_FILE = ROOT / 'price_overrides.json'
+
+
+def parse_inventory_price(row: dict) -> tuple[int | None, int | None]:
+    """Extract an available primary ticket range in CZK. Exclude resale offers.
+
+    The API caps maximum prices at 2000 and uses `listingsExtendBeyondMax` to
+    signal clipping. When capped, do not publish a misleading maximum.
+    """
+    if not isinstance(row, dict) or str(row.get('currency', '')).upper() != 'CZK':
+        return None, None
+    if row.get('status') not in ('TICKETS_AVAILABLE', 'FEW_TICKETS_LEFT'):
+        return None, None
+    values = []
+    for offer in row.get('priceRanges') or []:
+        if not isinstance(offer, dict) or str(offer.get('type', '')).lower() != 'primary':
+            continue
+        try:
+            low = float(offer['minPrice'])
+            high = float(offer['maxPrice'])
+            if (not all(map(math.isfinite, (low, high)))
+                    or not 0 < low <= high <= 200_000):
+                continue
+            values.append((low, high, bool(offer.get('listingsExtendBeyondMax'))))
+        except (KeyError, ValueError, TypeError, OverflowError):
+            pass
+    if not values:
+        return None, None
+    low = round(min(x[0] for x in values))
+    max_is_capped = any(x[2] for x in values)
+    high = None if max_is_capped else round(max(x[1] for x in values))
+    return low, high
+
+
+def tm_inventory_enrich(events: list[dict], today: str, key: str) -> None:
+    """Optional authorized source. Continue safely if access is missing/denied."""
+    if not key:
+        print('TM inventory: není zapnuté (vyžaduje samostatně schválený API přístup)')
+        return
+    eligible = [e for e in events
+                if str(e.get('id', '')).startswith('ticketmaster-')
+                and str(e.get('date', '')) >= today
+                and (e.get('price') is None or e.get('price_source') in
+                     ('Ticketmaster', 'Ticketmaster (stránka)', 'Ticketmaster Inventory Status API'))]
+    # One batch of 60 per run, fill all missing prices progressively without
+    # spending all requests on already-verified prices.
+    eligible.sort(key=lambda e: (e.get('price') is not None, e.get('date', '9999')))
+    batch = eligible[:60]
+    if not batch:
+        print('TM inventory: nic ke kontrole')
+        return
+    ids = [str(e['id']).removeprefix('ticketmaster-') for e in batch]
+    if any(not re.fullmatch(r'[A-Za-z0-9_-]{3,80}', eid) for eid in ids):
+        print('TM inventory: neplatné ID, krok přeskočen')
+        return
+    try:
+        response = SESSION.post(TM_INVENTORY_ENDPOINT,
+                                params={'events': ','.join(ids), 'apikey': key},
+                                timeout=24)
+        if response.status_code in (401, 403):
+            print('TM inventory: přístup zamítnut (HTTP %s); vyžádej si schválení Ticketmasteru' % response.status_code)
+            return
+        if response.status_code != 200:
+            print('TM inventory: momentálně nedostupné (HTTP %s)' % response.status_code)
+            return
+        rows = response.json()
+        if not isinstance(rows, list):
+            print('TM inventory: neočekávaná odpověď; data nezměněna')
+            return
+    except (requests.RequestException, ValueError, TypeError) as exc:
+        print('TM inventory: chyba odpovědi %s; data nezměněna' % type(exc).__name__)
+        return
+    prices_by_id = {str(r.get('eventId', r.get('eventid', ''))): r
+                    for r in rows if isinstance(r, dict)}
+    filled = changed = 0
+    for e in batch:
+        row = prices_by_id.get(str(e['id']).removeprefix('ticketmaster-'))
+        lo, hi = parse_inventory_price(row)
+        if lo is None:
+            continue
+        was_missing = e.get('price') is None
+        if (e.get('price'), e.get('price_max'), e.get('price_source')) != (lo, hi, 'Ticketmaster Inventory Status API'):
+            e['price'] = lo
+            e['price_max'] = hi
+            e['price_from'] = True
+            e.pop('price_note', None)
+            e['price_source'] = 'Ticketmaster Inventory Status API'
+            e['price_checked_at'] = today
+            changed += 1
+            filled += int(was_missing)
+    print(f'TM inventory: {len(batch)} kontrolováno, {filled} doplněno, {changed} aktualizováno')
+
+
+def apply_price_overrides(events: list[dict]) -> None:
+    """Human-verified section prices; never mistake one sector for the lowest seat."""
+    if not PRICE_OVERRIDES_FILE.exists():
+        return
+    try:
+        data = json.loads(PRICE_OVERRIDES_FILE.read_text(encoding='utf-8'))
+    except (OSError, ValueError) as exc:
+        print('CENY override: neplatný JSON: ' + str(type(exc).__name__), file=sys.stderr)
+        return
+    if not isinstance(data, dict):
+        print('CENY override: očekává se objekt ID -> cena', file=sys.stderr)
+        return
+    count = 0
+    for e in events:
+        row = data.get(e.get('id'))
+        if not isinstance(row, dict):
+            continue
+        try:
+            price = int(row['price'])
+            maximum = row.get('price_max')
+            maximum = int(maximum) if maximum is not None else None
+            if price < 0 or price > 200_000 or (maximum is not None and not price <= maximum <= 200_000):
+                raise ValueError('Mimo rozsah')
+        except (TypeError, ValueError, KeyError):
+            print('CENY override: chybná cena ID: '+str(e.get('id'))[:100], file=sys.stderr)
+            continue
+        label = str(row.get('section') or '').strip()
+        if len(label) > 60 or any(ord(ch)<32 for ch in label):
+            print('CENY override: chybný název sektoru', file=sys.stderr)
+            continue
+        e['price'] = price
+        e['price_max'] = maximum
+        e['price_from'] = bool(row.get('confirmed_minimum', False))
+        if label:
+            e['price_note'] = label
+        else:
+            e.pop('price_note', None)
+        e['price_source'] = 'Ruční ověření vstupenky'
+        if row.get('checked_at'):
+            e['price_checked_at'] = str(row['checked_at'])[:10]
+        count += 1
+    print(f'CENY override: {count} ručně ověřených cen aplikováno')
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--offline-cleanup", action="store_true", help="Prune past events without accessing the network")
@@ -772,6 +914,8 @@ def main() -> int:
         events, new_count = update_from_sources(events, today)
         events, new_tm = update_ticketmaster(events, today)
         new_count += new_tm
+        tm_inventory_enrich(events, today, os.environ.get('TICKETMASTER_INVENTORY_API_KEY', '').strip())
+    apply_price_overrides(events)
     events.sort(key=lambda e: (e["date"], e.get("title", "")))
     unique = {}
     for event in events:
