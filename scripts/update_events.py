@@ -10,12 +10,15 @@ from __future__ import annotations
 
 import argparse
 import copy
+from difflib import SequenceMatcher
 import json
+import os
+import math
 import re
 import sys
 import time
 import unicodedata
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from pathlib import Path
 from urllib.parse import urljoin, urlparse, urlunparse
 from urllib.robotparser import RobotFileParser
@@ -36,6 +39,19 @@ SOURCES = (
         "address": "Českomoravská 2345/17a, Praha 9",
         "lat": 50.10475,
         "lng": 14.49362,
+        "id_prefix": "o2-auto",
+    },
+    {
+        "name": "O2 universum – oficiální program",
+        "url": "https://www.o2universum.cz/filter/concerts/",
+        "host": "www.o2universum.cz",
+        "venue": "O2 universum",
+        "city": "Praha",
+        "address": "Českomoravská 2345/17, Praha 9",
+        # Souřadnice O2 universum (orientační střed budovy).
+        "lat": 50.10366,
+        "lng": 14.49330,
+        "id_prefix": "o2-universum-auto",
     },
 )
 UA = "UKA-MusicEvents/0.4 (public event metadata only; respects robots.txt)"
@@ -123,6 +139,14 @@ def parse_event_dates(heading: Tag) -> list[tuple[str, str]]:
     return list(reversed(matches))[:5]
 
 
+# Odstraňuje jasně nehudební události z občas smíšeného programu haly.
+NON_MUSIC_RX = re.compile(
+    r"(?:\bhc\s+sparta\b|\bhokej\b|\bprohl[ií]dkov[eé]\s+okruhy\b|"
+    r"\bzr[aá]dci:\s+posledn[ií]\s+st[uů]l\b|\bexkurze\b)",
+    flags=re.IGNORECASE,
+)
+
+
 def extract_program(html_text: str, spec: dict) -> list[dict]:
     doc = BeautifulSoup(html_text, "html.parser")
     candidates: list[dict] = []
@@ -136,7 +160,7 @@ def extract_program(html_text: str, spec: dict) -> list[dict]:
         if parsed.netloc != spec["host"] or not parsed.path.startswith("/events/"):
             continue
         title = heading.get_text(" ", strip=True)
-        if not title or len(title) > 160:
+        if not title or len(title) > 160 or NON_MUSIC_RX.search(title):
             continue
         for dt, tm in parse_event_dates(heading):
             key = url, dt
@@ -236,17 +260,16 @@ def normalize_title(title: str) -> str:
 
 def update_from_sources(events: list[dict], today: str) -> tuple[list[dict], int]:
     found = 0
-    # Maps existing records so historic O2 entries can be enriched without duplication.
-    by_url_date = {
-        (canonical_url(e.get("ticket_url", "")), e.get("date")): e
-        for e in events if e.get("ticket_url") and e.get("venue") == "O2 arena"
-    }
-    by_title_date = {
-        (normalize_title(e.get("title", "")), e.get("date")): e
-        for e in events if e.get("venue") == "O2 arena"
-    }
-
     for spec in SOURCES:
+        # Index vždy jen v rámci konkrétní haly, aby se události nespojily napříč místy.
+        by_url_date = {
+            (canonical_url(e.get("ticket_url", "")), e.get("date")): e
+            for e in events if e.get("ticket_url") and e.get("venue") == spec["venue"]
+        }
+        by_title_date = {
+            (normalize_title(e.get("title", "")), e.get("date")): e
+            for e in events if e.get("venue") == spec["venue"]
+        }
         robot = get_robots(spec["url"])
         if robot is None:
             continue
@@ -267,20 +290,20 @@ def update_from_sources(events: list[dict], today: str) -> tuple[list[dict], int
             time.sleep(0.8)  # gentle rate limit, no request to ticket vendors
             return result
 
-        def enrich(event: dict, detail_html: str) -> None:
+        def enrich(event: dict, detail_html: str, detail_url: str) -> None:
             if not event.get("image_url"):
-                image = event_image(detail_html, event.get("ticket_url", spec["url"]))
+                image = event_image(detail_html, detail_url)
                 if image:
                     event["image_url"] = image
-                    event["image_credit"] = "O2 arena / pořadatel"
+                    event["image_credit"] = spec["venue"] + " / pořadatel"
             # Never overwrite an independently-entered price. Periodically refresh
             # only prices recorded by the automated O2 price extractor.
-            if event.get("price") is None or event.get("price_source") == "O2 arena":
+            if event.get("price") is None or event.get("price_source") == spec["venue"]:
                 price = event_price(detail_html)
                 event["price_checked_at"] = today
                 if price is not None:
                     event["price"], event["price_max"] = price
-                    event["price_source"] = "O2 arena"
+                    event["price_source"] = spec["venue"]
                     print(f"PRICE: {event.get('title', '')}: {price[0]} - {price[1]} CZK")
                 else:
                     print(f"PRICE UNKNOWN: {event.get('title', '')}")
@@ -300,28 +323,28 @@ def update_from_sources(events: list[dict], today: str) -> tuple[list[dict], int
                 official = allowed_official_detail(existing.get("ticket_url", ""), spec)
                 # Prefer the official URL from the programme even if the original
                 # old event links to an external ticket seller.
-                if ((existing.get("price") is None or existing.get("price_source") == "O2 arena")
+                if ((existing.get("price") is None or existing.get("price_source") == spec["venue"])
                         and needs_price_check(existing, today)) or not existing.get("image_url"):
                     html = detail(c["url"])
                     if html:
-                        enrich(existing, html)
+                        enrich(existing, html, c["url"])
                 continue
 
             slug = urlparse(c["url"]).path.strip("/").split("/")[-1]
             event = {
-                "id": f"o2-auto-{slug}-{c['date']}",
+                "id": f"{spec['id_prefix']}-{slug}-{c['date']}",
                 "title": c["title"], "artist": c["title"], "category": "koncert",
                 "venue": spec["venue"], "city": spec["city"],
                 "address": spec["address"], "lat": spec["lat"], "lng": spec["lng"],
                 "date": c["date"], "time": c["time"],
                 "price": None, "price_max": None,
                 "ticket_url": c["url"], "source": spec["name"], "verified_at": today,
-                "description": "Akce z oficiálního programu O2 areny. Ceny ověřuj u pořadatele.",
+                "description": "Akce z programu " + spec["venue"] + ". Aktuální ceny ověřuj u pořadatele.",
                 "image_url": "", "image_credit": "",
             }
             html = detail(c["url"])
             if html:
-                enrich(event, html)
+                enrich(event, html, c["url"])
             events.append(event)
             by_url_date[(c["url"], c["date"])] = event
             by_title_date[(normalize_title(c["title"]), c["date"])] = event
@@ -333,17 +356,211 @@ def update_from_sources(events: list[dict], today: str) -> tuple[list[dict], int
             if requests_used >= MAX_DETAIL_PAGES_PER_RUN:
                 break
             if (event.get("venue") != spec["venue"] or not needs_price_check(event, today)
-                    or (event.get("price") is not None and event.get("price_source") != "O2 arena")):
+                    or (event.get("price") is not None and event.get("price_source") != spec["venue"])):
                 continue
             url = event.get("ticket_url", "")
             if not allowed_official_detail(url, spec):
                 continue
             html = detail(url)
             if html:
-                enrich(event, html)
+                enrich(event, html, url)
 
         print(f"{spec['name']}: {found} new events; {requests_used} detail pages checked")
     return events, found
+
+
+# Ticketmaster: dokumentované Discovery API (pouze se soukromým klíčem z GitHub Secrets).
+TICKETMASTER_URL = "https://app.ticketmaster.com/discovery/v2/events.json"
+TM_MAX_PAGES_PER_CLASS = 8  # omezení dotazů i počtu stránek v jedné aktualizaci
+
+
+def tm_category(item: dict) -> str:
+    if item.get("_uka_classification") == "opera":
+        return "opera"
+    classes = item.get("classifications") or []
+    genres = " ".join(
+        str(c.get("genre", {}).get("name", "")) + " "
+        + str(c.get("subGenre", {}).get("name", ""))
+        for c in classes if isinstance(c, dict)
+    ).casefold()
+    title = str(item.get("name", "")).casefold()
+    if "festival" in title or "festival" in genres:
+        return "festival"
+    if any(x in genres for x in ("electronic", "dance", "techno", "trance", "house", "edm")):
+        return "rave"
+    return "koncert"
+
+
+def tm_price(item: dict) -> tuple[int | None, int | None]:
+    """Nepřevádět USD/EUR na Kč; není-li CZK, cena zůstane neznámá."""
+    prices = []
+    for row in item.get("priceRanges") or []:
+        if not isinstance(row, dict) or row.get("currency", "").upper() != "CZK":
+            continue
+        if row.get("type", "standard").casefold() not in ("standard", ""):
+            continue
+        try:
+            low = float(row["min"])
+            high = float(row.get("max", low))
+        except (KeyError, ValueError, TypeError):
+            continue
+        if all(map(math.isfinite, (low, high))) and 0 <= low <= high <= 200_000:
+            prices.append((low, high))
+    if not prices:
+        return None, None
+    return round(min(low for low, _ in prices)), round(max(high for _, high in prices))
+
+
+def tm_image(item: dict) -> str:
+    options = [x for x in item.get("images", []) if isinstance(x, dict)
+               and x.get("url", "").startswith("https://") and not x.get("fallback")]
+    if not options:
+        return ""
+    # Prefer relevant landscape image, not thumbnail or 5 MB hero.
+    options.sort(key=lambda x: (x.get("ratio") != "16_9",
+                                abs(int(x.get("width") or 0) - 1000)))
+    return options[0]["url"]
+
+
+def normalize_venue(name: str) -> str:
+    name = normalize_title(name or "")
+    return {"o2arena": "o2arena", "o2universum": "o2universum"}.get(name, name)
+
+
+def likely_same_show(a: dict, b: dict) -> bool:
+    if a.get("date") != b.get("date") or normalize_venue(a.get("venue", "")) != normalize_venue(b.get("venue", "")):
+        return False
+    left, right = normalize_title(a.get("title", "")), normalize_title(b.get("title", ""))
+    if not left or not right:
+        return False
+    if left == right:
+        return True
+    # Názvy se často mírně liší (přidaný název turné nebo speciální host).
+    if min(len(left), len(right)) >= 12 and (left in right or right in left):
+        return True
+    return min(len(left), len(right)) >= 8 and SequenceMatcher(None, left, right).ratio() >= 0.90
+
+
+def tm_convert(item: dict, today: str) -> dict | None:
+    """Map music event to existing UKA schema; reject unsupported/no-location entries."""
+    try:
+        eid = str(item["id"])
+        title = str(item["name"]).strip()
+        event_date = item["dates"]["start"]["localDate"]
+        date.fromisoformat(event_date)
+        if not eid or not title or event_date < today:
+            return None
+        if (item.get("dates", {}).get("status") or {}).get("code", "").casefold() in ("cancelled", "canceled", "rescheduled"):
+            return None
+        venue = (item.get("_embedded", {}).get("venues") or [])[0]
+        if (venue.get("country") or {}).get("countryCode") != "CZ":
+            return None
+        pos = venue["location"]
+        lat, lng = float(pos["latitude"]), float(pos["longitude"])
+        if not (48.4 <= lat <= 51.2 and 12 <= lng <= 19 and math.isfinite(lat) and math.isfinite(lng)):
+            return None
+        vname = str(venue.get("name") or "").strip()
+        city = str((venue.get("city") or {}).get("name") or "").strip()
+        if not vname or not city:
+            return None
+        link = str(item.get("url") or "")
+        if not link.startswith("https://"):
+            return None
+        address = (venue.get("address") or {}).get("line1") or ""
+        price, price_max = tm_price(item)
+        artist_items = item.get("_embedded", {}).get("attractions") or []
+        artists = ", ".join(str(a.get("name", "")).strip() for a in artist_items[:4] if a.get("name"))
+        return {
+            "id": "ticketmaster-" + eid,
+            "title": title,
+            "artist": artists or title,
+            "category": tm_category(item),
+            "venue": vname,
+            "city": city,
+            "address": address,
+            "lat": lat, "lng": lng,
+            "date": event_date,
+            "time": item.get("dates", {}).get("start", {}).get("localTime", "")[:5],
+            "price": price, "price_max": price_max,
+            "price_source": "Ticketmaster" if price is not None else "",
+            "ticket_url": link,
+            "source": "Ticketmaster Discovery API",
+            "verified_at": today,
+            "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
+            "image_url": tm_image(item),
+            "image_credit": "Ticketmaster / pořadatel" if tm_image(item) else "",
+        }
+    except (KeyError, IndexError, TypeError, ValueError, AttributeError):
+        return None
+
+
+def update_ticketmaster(events: list[dict], today: str) -> tuple[list[dict], int]:
+    key = os.environ.get("TICKETMASTER_API_KEY", "").strip()
+    if not key:
+        print("SKIP Ticketmaster: není nastaven TICKETMASTER_API_KEY v GitHub Secrets")
+        return events, 0
+    existing_by_id = {e.get("id"): e for e in events}
+    existing_by_show = {
+        (e.get("date"), normalize_venue(e.get("venue", "")), normalize_title(e.get("title", ""))): e
+        for e in events if e.get("title") and e.get("venue")
+    }
+    count = enriched = 0
+    for classification in ("music", "opera"):
+        for page in range(TM_MAX_PAGES_PER_CLASS):
+            # Key never logged or printed. Only backend GitHub Action uses this key.
+            params = {
+                "apikey": key, "countryCode": "CZ", "classificationName": classification,
+                "startDateTime": today + "T00:00:00Z", "size": 100, "page": page,
+                "sort": "date,asc", "includeTBA": "no", "includeTBD": "no",
+            }
+            try:
+                res = SESSION.get(TICKETMASTER_URL, params=params, timeout=25)
+                if res.status_code != 200:
+                    print(f"WARNING Ticketmaster API: HTTP {res.status_code} ({classification}), data kept", file=sys.stderr)
+                    break
+                payload = res.json()
+            except (requests.RequestException, ValueError) as ex:
+                # Do not leak API Key via exception URL.
+                print(f"WARNING Ticketmaster API: {type(ex).__name__}; data kept", file=sys.stderr)
+                break
+            raw = payload.get("_embedded", {}).get("events", [])
+            for item in raw:
+                if not isinstance(item, dict):
+                    continue
+                item["_uka_classification"] = classification
+                candidate = tm_convert(item, today)
+                if candidate is None:
+                    continue
+                match_key = (candidate["date"], normalize_venue(candidate["venue"]),
+                             normalize_title(candidate["title"]))
+                previous = existing_by_id.get(candidate["id"]) or existing_by_show.get(match_key)
+                if previous is None:
+                    previous = next((e for e in events if likely_same_show(e, candidate)), None)
+                if previous is not None:
+                    # Never overwrite hand-edited prices and images; fill missing fields.
+                    if previous.get("price") is None and candidate["price"] is not None:
+                        previous["price"] = candidate["price"]
+                        previous["price_max"] = candidate["price_max"]
+                        previous["price_source"] = "Ticketmaster"
+                        enriched += 1
+                    elif previous.get("price_source") == "Ticketmaster":
+                        previous["price"] = candidate["price"]
+                        previous["price_max"] = candidate["price_max"]
+                    if not previous.get("image_url") and candidate.get("image_url"):
+                        previous["image_url"] = candidate["image_url"]
+                        previous["image_credit"] = candidate["image_credit"]
+                    continue
+                events.append(candidate)
+                existing_by_id[candidate["id"]] = candidate
+                existing_by_show[match_key] = candidate
+                count += 1
+            total = payload.get("page", {}).get("totalPages", 1)
+            print(f"Ticketmaster {classification}: page {page+1}/{total}, received {len(raw)}")
+            if not raw or page + 1 >= total:
+                break
+            time.sleep(0.4)
+    print(f"Ticketmaster: {count} new events, {enriched} existing prices filled")
+    return events, count
 
 
 def main() -> int:
@@ -356,12 +573,17 @@ def main() -> int:
     old_events = data.get("events", [])
     if not isinstance(old_events, list):
         raise RuntimeError("Invalid events.json")
-    # Delete passed events from saved published JSON; also filtered on the website immediately.
-    events = [copy.deepcopy(e) for e in old_events if isinstance(e, dict) and e.get("date", "") >= today]
+    # Remove past events and obvious non-music entries previously inserted by O2 auto importer.
+    events = [copy.deepcopy(e) for e in old_events
+              if isinstance(e, dict) and e.get("date", "") >= today
+              and not (str(e.get("id", "")).startswith("o2-auto-")
+                       and NON_MUSIC_RX.search(str(e.get("title", ""))))]
     past_count = len(old_events) - len(events)
     new_count = 0
     if not args.offline_cleanup:
         events, new_count = update_from_sources(events, today)
+        events, new_tm = update_ticketmaster(events, today)
+        new_count += new_tm
     events.sort(key=lambda e: (e["date"], e.get("title", "")))
     unique = {}
     for event in events:
