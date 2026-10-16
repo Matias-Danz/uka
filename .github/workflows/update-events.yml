@@ -6,6 +6,7 @@ on:
     paths:
       - 'index.html'
       - 'events.json'
+      - 'price_overrides.json'
       - 'scripts/**'
       - 'requirements.txt'
       - '.github/workflows/update-events.yml'
@@ -47,6 +48,7 @@ jobs:
       - name: Aktualizovat akce (O2 + Ticketmaster)
         env:
           TICKETMASTER_API_KEY: ${{ secrets.TICKETMASTER_API_KEY }}
+          TICKETMASTER_INVENTORY_API_KEY: ${{ secrets.TICKETMASTER_INVENTORY_API_KEY }}
         run: python scripts/update_events.py
       - name: Uložit změny seznamu do GitHubu
         run: |
