@@ -242,9 +242,8 @@
          renderMapListAndPins(false);
          if(pendingMapFocusId){const id=pendingMapFocusId;pendingMapFocusId=null;focusMapEvent(id);}
        });
-       // A manual drag/zoom must always cancel any automatic fly-to animation.
+       // Při ručním přetažení přerušit automatický přelet; kolečko myši musí zůstat pod kontrolou MapLibre.
        target.addEventListener('pointerdown',()=>mainMap?.stop(),{passive:true});
-       target.addEventListener('wheel',()=>mainMap?.stop(),{passive:true});
       mainMap.on('error',e=>{if(e.error)console.warn('Mapový podklad:',e.error.message||e.error)});
       mainMapTimer=setTimeout(()=>{if(mainMap&& !mainMap.loaded()){mainMap.remove();mainMap=null;mapMarkers=[];showFallbackMap('mainMap');}},12000);
       renderMapListAndPins(false);
