@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-15T17:00:00+02:00",
+  "updated_at": "2026-10-16T21:16:22+02:00",
   "events": [
     {
       "id": "uka-ost-dymytry-1016",
@@ -858,6 +858,27 @@
       "description": "Jazzrocková pocta Radimu Hladíkovi s projektem Nová syntéza."
     },
     {
+      "id": "o2-auto-zradci-posledni-stul-2026-12-02",
+      "title": "ZRÁDCI: POSLEDNÍ STŮL",
+      "artist": "ZRÁDCI: POSLEDNÍ STŮL",
+      "category": "koncert",
+      "venue": "O2 arena",
+      "city": "Praha",
+      "address": "Českomoravská 2345/17a, Praha 9",
+      "lat": 50.10475,
+      "lng": 14.49362,
+      "date": "2026-12-02",
+      "time": "19:30",
+      "price": null,
+      "price_max": null,
+      "ticket_url": "https://www.o2arena.cz/events/zradci-posledni-stul/",
+      "source": "O2 arena – oficiální program",
+      "verified_at": "2026-10-16",
+      "description": "Akce oznámená v oficiálním programu pořadatele. Cena a dostupnost se mohou změnit.",
+      "image_url": "https://www.o2arena.cz/wp-content/uploads/2026/09/1322-x-623.jpg",
+      "image_credit": "O2 arena / pořadatel"
+    },
+    {
       "id": "o2-calin4",
       "title": "Calin & Viktor Sheen – Arena Tour",
       "artist": "Calin, Viktor Sheen",
@@ -1001,6 +1022,27 @@
       "description": "Událost uvedená v oficiálním hudebním programu O2 areny. Aktuální cenu a vstupenky najdeš na webu haly.",
       "image_url": "",
       "image_credit": ""
+    },
+    {
+      "id": "o2-auto-stepan-kozub-bez-debat-silvestrovsky-special-2026-12-31",
+      "title": "Štěpán Kozub: BEZ DEBAT – Silvestrovský speciál",
+      "artist": "Štěpán Kozub: BEZ DEBAT – Silvestrovský speciál",
+      "category": "koncert",
+      "venue": "O2 arena",
+      "city": "Praha",
+      "address": "Českomoravská 2345/17a, Praha 9",
+      "lat": 50.10475,
+      "lng": 14.49362,
+      "date": "2026-12-31",
+      "time": "14:00",
+      "price": null,
+      "price_max": null,
+      "ticket_url": "https://www.o2arena.cz/events/stepan-kozub-bez-debat-silvestrovsky-special/",
+      "source": "O2 arena – oficiální program",
+      "verified_at": "2026-10-16",
+      "description": "Akce oznámená v oficiálním programu pořadatele. Cena a dostupnost se mohou změnit.",
+      "image_url": "https://www.o2arena.cz/wp-content/uploads/2026/09/kozub-new-1322x623-1.jpg",
+      "image_credit": "O2 arena / pořadatel"
     },
     {
       "id": "o2-tublatanka",
@@ -1291,6 +1333,27 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2026/09/1322x623-sombr.jpg.webp",
+      "image_credit": "O2 arena / pořadatel"
+    },
+    {
+      "id": "o2-auto-eros-ramazzotti-una-storia-importante-2027-2027-05-20",
+      "title": "EROS RAMAZZOTTI – UNA STORIA IMPORTANTE / PŘESUNUTO",
+      "artist": "EROS RAMAZZOTTI – UNA STORIA IMPORTANTE / PŘESUNUTO",
+      "category": "koncert",
+      "venue": "O2 arena",
+      "city": "Praha",
+      "address": "Českomoravská 2345/17a, Praha 9",
+      "lat": 50.10475,
+      "lng": 14.49362,
+      "date": "2027-05-20",
+      "time": "20:00",
+      "price": null,
+      "price_max": null,
+      "ticket_url": "https://www.o2arena.cz/events/eros-ramazzotti-una-storia-importante-2027/",
+      "source": "O2 arena – oficiální program",
+      "verified_at": "2026-10-16",
+      "description": "Akce oznámená v oficiálním programu pořadatele. Cena a dostupnost se mohou změnit.",
+      "image_url": "https://www.o2arena.cz/wp-content/uploads/2026/04/er-o2-1322x623-1.jpg",
       "image_credit": "O2 arena / pořadatel"
     },
     {
