@@ -1,88 +1,6 @@
 {
-  "updated_at": "2026-10-16T23:38:43+02:00",
+  "updated_at": "2026-10-17T00:06:44+02:00",
   "events": [
-    {
-      "id": "uka-ost-dymytry-1016",
-      "title": "Dymytry & Arakain: Best Rock Tour 2026",
-      "artist": "Dymytry, Arakain, April Art",
-      "category": "koncert",
-      "venue": "Tatran",
-      "city": "Ostrava",
-      "address": "Cingrova 1627/10",
-      "date": "2026-10-16",
-      "time": "18:30",
-      "price": 990,
-      "price_max": null,
-      "lat": 49.8335502,
-      "lng": 18.2807156,
-      "ticket_url": "https://goout.net/cs/dymytry-and-arakain-best-rock-tour-2026/szwcrdy/",
-      "source": "GoOut",
-      "verified_at": "2026-10-15",
-      "description": "Rockový večer se skupinami Dymytry a Arakain; čas odpovídá začátku programu."
-    },
-    {
-      "id": "uka-pce-loudz-1016",
-      "title": "LOUDZ1 – Contemporary Tour",
-      "artist": "LOUDZ1",
-      "category": "koncert",
-      "venue": "Žlutý pes",
-      "city": "Pardubice",
-      "address": "Ke Koupališti 62",
-      "date": "2026-10-16",
-      "time": "21:00",
-      "price": 350,
-      "price_max": 1000,
-      "lat": 50.0497294,
-      "lng": 15.7752025,
-      "ticket_url": "https://www.eventlook.cz/udalosti/loudz-1-contemporary-tour-pardubice-rorlth/",
-      "source": "Eventlook",
-      "verified_at": "2026-10-15",
-      "description": "Koncertní zastávka v pardubickém klubu Žlutý pes.",
-      "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/event-lookpardubice-xwjaqv.png",
-      "image_credit": "Eventlook / pořadatel"
-    },
-    {
-      "id": "uka-brn-sergei-1016",
-      "title": "Sergei Barracuda – Album Tour 2026",
-      "artist": "Sergei Barracuda",
-      "category": "koncert",
-      "venue": "Two Faces",
-      "city": "Brno",
-      "address": "Biskupská 283",
-      "date": "2026-10-16",
-      "time": "21:00",
-      "price": 449,
-      "price_max": 890,
-      "lat": 49.1921237,
-      "lng": 16.6059503,
-      "ticket_url": "https://www.eventlook.cz/udalosti/sergei-barracuda-1610-brno-ohnidv/",
-      "source": "Eventlook",
-      "verified_at": "2026-10-15",
-      "description": "Brněnská zastávka nového album tour.",
-      "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/3-15-xjsdut.jpg",
-      "image_credit": "Eventlook / pořadatel"
-    },
-    {
-      "id": "uka-plz-white-1016",
-      "title": "White Girl Music – Plzeň",
-      "artist": "DJ line-up",
-      "category": "klub",
-      "venue": "Fénix Club",
-      "city": "Plzeň",
-      "address": "Prokopova 2796",
-      "date": "2026-10-16",
-      "time": "21:00",
-      "price": 159,
-      "price_max": 179,
-      "lat": 49.7419057,
-      "lng": 13.3790509,
-      "ticket_url": "https://www.eventlook.cz/udalosti/white-girl-music-zsrwuh/",
-      "source": "Eventlook",
-      "verified_at": "2026-10-15",
-      "description": "Tematická taneční párty s hity posledních let.",
-      "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/white-girl-pc-uvczfh.png",
-      "image_credit": "Eventlook / pořadatel"
-    },
     {
       "id": "ticketmaster-Z698xZu0Z1kuV1vvY",
       "title": "CAVESOUNDS - Michal Pavlíček a Trio",
@@ -6157,7 +6075,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/c9c/c0ad775f-6603-4314-8107-f07b2b986c9c_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16v4-_k4a",
@@ -6179,7 +6098,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/f20/0a3bf8e4-55bb-4b2f-98c0-f57c4c16ef20_1390791_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1Ap1koe",
@@ -6201,7 +6121,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "o2-hans27",
@@ -6269,7 +6190,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/f8a/619a248b-1833-4725-8ef8-00bd71fbff8a_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "o2-universum-auto-vangelis-original-symphonic-concert-2027-04-21",
@@ -6337,7 +6259,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/72d/451692de-5602-4448-989c-17376d2ec72d_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kjNQAu0",
@@ -6359,7 +6282,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16vbd-4bN",
@@ -6381,7 +6305,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/ece/654ef6c5-0ef8-4943-9ea7-fcec7de0cece_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "o2-universum-auto-anna-k-cesky-narodni-symfonicky-orchestr-2027-04-24",
@@ -6426,7 +6351,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/72d/451692de-5602-4448-989c-17376d2ec72d_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kAS1Kvf",
@@ -6448,7 +6374,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16vuP4Uqs",
@@ -6470,7 +6397,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/790/b7982d80-4364-4296-89f1-781dd9602790_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1ka8Z8j-",
@@ -6492,7 +6420,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/71f/eac33d63-ec52-4ccc-8946-4af63facd71f_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kP0epFz",
@@ -6514,7 +6443,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/c2e/79f959d4-d6aa-40be-93c5-52ef3a5d4c2e_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "o2-universum-auto-the-lord-of-the-rings-the-fellowship-of-the-ring-in-concert-2027-04-30",
@@ -6559,7 +6489,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "o2-universum-auto-the-lord-of-the-rings-the-fellowship-of-the-ring-in-concert-2027-05-01",
@@ -6604,7 +6535,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kAkZtGE",
@@ -6626,7 +6558,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kGgP0G_",
@@ -6648,7 +6581,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/5c2/fc96c4e5-dd10-4a65-ba94-0182234c55c2_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "o2-sabaton",
@@ -6693,7 +6627,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/421/c4c793c9-7c1b-4e7e-ba33-8edd5d3f8421_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "o2-universum-auto-adam-30-2027-05-07",
@@ -6738,7 +6673,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kCf7Vjg",
@@ -6760,7 +6696,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/b8c/787e18da-72f2-4eaf-9ebc-cd346ff33b8c_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "o2-andre",
@@ -6805,7 +6742,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/e98/6eb46a79-4c10-4bf3-a4b1-ac5dd6cdae98_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16v4NG44N",
@@ -6827,7 +6765,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/c2e/79f959d4-d6aa-40be-93c5-52ef3a5d4c2e_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kFF70jo",
@@ -6849,7 +6788,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/9ac/67c40b43-6c82-465f-a5ce-94e983ec59ac_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kOUAe-O",
@@ -6871,7 +6811,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "o2-universum-auto-skwor-na-hrane-tour-2027-05-13",
@@ -6916,7 +6857,8 @@
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
-      "image_credit": "Ticketmaster / pořadatel"
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-17"
     },
     {
       "id": "o2-nedved14",
