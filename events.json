@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-16T21:16:22+02:00",
+  "updated_at": "2026-10-16T21:37:22+02:00",
   "events": [
     {
       "id": "uka-ost-dymytry-1016",
@@ -114,8 +114,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-10-17",
       "time": "18:00",
-      "price": null,
-      "price_max": null,
+      "price": 750,
+      "price_max": 7490,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/cesky-mejdan-s-impulsem-2026/",
@@ -123,7 +123,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2026/06/imp-1322x623-o2.jpg.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "uka-pra-caravan-1022",
@@ -217,8 +219,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-10-25",
       "time": "19:30",
-      "price": null,
-      "price_max": null,
+      "price": 1290,
+      "price_max": 5990,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/the-world-of-hans-zimmer-a-new-dimension/",
@@ -226,7 +228,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2025/03/wohz-o2-1322x623-1-1322x621.jpg.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "uka-pra-nemzzz-1027",
@@ -280,8 +284,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-10-30",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
+      "price": 1948,
+      "price_max": 3010,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/don-toliver-nitrous-octane-world-tour-leg/",
@@ -289,7 +293,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2026/06/1322x623-dontoliver.jpg.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "uka-pra-komiks-1030",
@@ -518,8 +524,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-11-10",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
+      "price": 880,
+      "price_max": 1590,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/kabat-turne-2026/",
@@ -527,7 +533,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2025/11/kabat-o2-1322x623-3.jpg.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "o2-kabat11",
@@ -539,8 +547,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-11-11",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
+      "price": 880,
+      "price_max": 1590,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/kabat-turne-2026/",
@@ -548,7 +556,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2025/11/kabat-o2-1322x623-3.jpg.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "uka-pra-danz-1113",
@@ -581,8 +591,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-11-13",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
+      "price": 1190,
+      "price_max": 4390,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/sima-v-o2-arene/",
@@ -590,7 +600,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2025/11/x-sima-o2-1322x623-1.jpg.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "o2-korn",
@@ -602,8 +614,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-11-16",
       "time": "19:30",
-      "price": null,
-      "price_max": null,
+      "price": 1889,
+      "price_max": 2361,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/korn/",
@@ -611,7 +623,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2026/03/korn-1322x623-1.jpg.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "uka-ost-jamaron-1120",
@@ -642,8 +656,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-11-20",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
+      "price": 990,
+      "price_max": 1490,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/martina-partlova/",
@@ -651,7 +665,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2025/11/1322x623.jpg.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "o2-radio",
@@ -684,8 +700,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-11-22",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
+      "price": 2184,
+      "price_max": 8190,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/pitbull-im-back/",
@@ -693,7 +709,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2026/03/1322x623-pitbull-2026-o2arena.jpg.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "o2-prodigy",
@@ -705,8 +723,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-11-23",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
+      "price": 1830,
+      "price_max": 4690,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/the-prodigy/",
@@ -714,7 +732,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2026/04/prodigy-1322x623-1.jpg.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "uka-brn-colorfactory-1125",
@@ -745,8 +765,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-11-26",
       "time": "19:30",
-      "price": null,
-      "price_max": null,
+      "price": 1500,
+      "price_max": 15900,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/sarah-brightman-a-winter-symphony/",
@@ -754,7 +774,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://cdn.static-assets.cz/20261012-180702/1080x1080-sarah-brightman-2026-praha-o2-d6d856b7fd4c.jpg",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "uka-pce-dorian-1127",
@@ -787,8 +809,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-11-27",
       "time": "18:30",
-      "price": null,
-      "price_max": null,
+      "price": 1190,
+      "price_max": 9990,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/the-sound-chapter/",
@@ -796,7 +818,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2026/08/1322-x-623.jpg.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "uka-pce-fixa-1127",
@@ -827,8 +851,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-11-28",
       "time": "21:00",
-      "price": null,
-      "price_max": null,
+      "price": 990,
+      "price_max": 9990,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/separ-40-bday-party/",
@@ -836,7 +860,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://cdn.static-assets.cz/20261012-180702/separ-o2-1322x623-v-poslednim-zaslani.jpg-22c6d89e1c7c.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "uka-ost-hladik-1201",
@@ -869,14 +895,16 @@
       "lng": 14.49362,
       "date": "2026-12-02",
       "time": "19:30",
-      "price": null,
-      "price_max": null,
+      "price": 990,
+      "price_max": 50000,
       "ticket_url": "https://www.o2arena.cz/events/zradci-posledni-stul/",
       "source": "O2 arena – oficiální program",
       "verified_at": "2026-10-16",
       "description": "Akce oznámená v oficiálním programu pořadatele. Cena a dostupnost se mohou změnit.",
       "image_url": "https://www.o2arena.cz/wp-content/uploads/2026/09/1322-x-623.jpg",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "o2-calin4",
@@ -888,8 +916,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-12-04",
       "time": "19:00",
-      "price": null,
-      "price_max": null,
+      "price": 990,
+      "price_max": 1990,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/calin-viktor-sheen-arena-tour/",
@@ -897,7 +925,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://cdn.static-assets.cz/20261012-180702/arena-tour-2026-12-05-praha-03-1322x623px-compressed.jpg-0db998e3949a.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "o2-calin5",
@@ -909,8 +939,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-12-05",
       "time": "19:00",
-      "price": null,
-      "price_max": null,
+      "price": 990,
+      "price_max": 1990,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/calin-viktor-sheen-arena-tour/",
@@ -918,7 +948,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://cdn.static-assets.cz/20261012-180702/arena-tour-2026-12-05-praha-03-1322x623px-compressed.jpg-0db998e3949a.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "uka-lib-paulie-1205",
@@ -949,8 +981,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-12-12",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
+      "price": 790,
+      "price_max": 4380,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/no-name-30/",
@@ -958,7 +990,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://cdn.static-assets.cz/20261012-180702/o2-nn30-2026-1322x623-1-1322x621.jpg-0e906b7986f7.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "o2-bryan",
@@ -970,8 +1004,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-12-13",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
+      "price": 1948,
+      "price_max": 3010,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/bryan-adams-roll-with-the-punches/",
@@ -979,7 +1013,9 @@
       "verified_at": "2026-10-15",
       "description": "Potvrzený koncert v oficiálním programu O2 areny. Pro aktuální cenu a dostupnost vstupenek otevři zdroj pořadatele.",
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2026/02/1322x623-bryanadams.jpg.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "o2-drupi",
@@ -991,8 +1027,8 @@
       "address": "Českomoravská 2345/17a, Praha 9",
       "date": "2026-12-27",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
+      "price": 1490,
+      "price_max": 2990,
       "lat": 50.10475,
       "lng": 14.49362,
       "ticket_url": "https://www.o2arena.cz/events/drupi/",
@@ -1000,7 +1036,9 @@
       "verified_at": "2026-10-15",
       "description": "Událost uvedená v oficiálním hudebním programu O2 areny. Aktuální cenu a vstupenky najdeš na webu haly.",
       "image_url": "https://cdn.static-assets.cz/20261012-180702/drupi-o2-1080x1080-1.jpg-3522264507e5.webp",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "o2-silvestr",
@@ -1035,14 +1073,16 @@
       "lng": 14.49362,
       "date": "2026-12-31",
       "time": "14:00",
-      "price": null,
-      "price_max": null,
+      "price": 990,
+      "price_max": 2490,
       "ticket_url": "https://www.o2arena.cz/events/stepan-kozub-bez-debat-silvestrovsky-special/",
       "source": "O2 arena – oficiální program",
       "verified_at": "2026-10-16",
       "description": "Akce oznámená v oficiálním programu pořadatele. Cena a dostupnost se mohou změnit.",
       "image_url": "https://www.o2arena.cz/wp-content/uploads/2026/09/kozub-new-1322x623-1.jpg",
-      "image_credit": "O2 arena / pořadatel"
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-16",
+      "price_source": "O2 arena"
     },
     {
       "id": "o2-tublatanka",
