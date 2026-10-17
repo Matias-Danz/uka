@@ -7,6 +7,7 @@ on:
       - 'index.html'
       - 'events.json'
       - 'price_overrides.json'
+      - 'availability_overrides.json'
       - 'scripts/**'
       - 'requirements.txt'
       - '.github/workflows/update-events.yml'
@@ -49,7 +50,9 @@ jobs:
         env:
           TICKETMASTER_API_KEY: ${{ secrets.TICKETMASTER_API_KEY }}
           TICKETMASTER_INVENTORY_API_KEY: ${{ secrets.TICKETMASTER_INVENTORY_API_KEY }}
-        run: python scripts/update_events.py
+        run: |
+          python scripts/update_events.py
+          python scripts/sync_ticket_info.py
       - name: Uložit změny seznamu do GitHubu
         run: |
           if git diff --quiet -- events.json; then
