@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T19:35:43+02:00",
+  "updated_at": "2026-10-17T20:38:41+02:00",
   "events": [
     {
       "id": "ticketmaster-Z698xZu0Z1kuV1vvY",
@@ -8417,6 +8417,32 @@
       "sales_phase": "on_sale"
     },
     {
+      "id": "o2-auto-cesky-mejdan-s-impulsem-2027-2027-10-16",
+      "title": "ČESKÝ MEJDAN S IMPULSEM 2027",
+      "artist": "ČESKÝ MEJDAN S IMPULSEM 2027",
+      "category": "koncert",
+      "venue": "O2 arena",
+      "city": "Praha",
+      "address": "Českomoravská 2345/17a, Praha 9",
+      "lat": 50.10475,
+      "lng": 14.49362,
+      "date": "2027-10-16",
+      "time": "18:00",
+      "price": 750,
+      "price_max": 7690,
+      "ticket_url": "https://www.o2arena.cz/events/cesky-mejdan-s-impulsem-2027/",
+      "source": "O2 arena – oficiální program",
+      "verified_at": "2026-10-17",
+      "description": "Akce z programu O2 arena. Aktuální ceny ověřuj u pořadatele.",
+      "image_url": "https://www.o2arena.cz/wp-content/uploads/2026/10/imp-1322x623-o2-kupte.jpg",
+      "image_credit": "O2 arena / pořadatel",
+      "price_checked_at": "2026-10-17",
+      "price_source": "O2 arena",
+      "sales_phase_checked_at": "2026-10-17T18:38:39Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
+    },
+    {
       "id": "o2-ilvolo",
       "title": "Il Volo",
       "artist": "Il Volo",
@@ -8849,7 +8875,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/cee/be173fd8-8a23-4a30-af3d-6a80e088ecee_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-17"
+      "tm_price_checked_at": "2026-10-17",
+      "sales_phase_checked_at": "2026-10-17T18:38:39Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "paused"
     }
   ]
 }
