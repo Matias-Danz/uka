@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#0b0d12">
-  <meta name="description" content="UKA — skutečné hudební akce v Česku na jednom místě. Přehled ověřený 15. 10. 2026.">
+  <meta name="description" content="UKA — hudební akce v Česku, filtry a ověřené stavy dostupnosti vstupenek.">
   <title>UKA — Hudba. Všude. Teď. · Reálné akce</title>
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="preconnect" href="https://tiles.openfreemap.org">
@@ -74,6 +74,49 @@
   .modal-art .poster-photo{object-position:center}
   .uka-popup-event{display:flex;flex-direction:column;gap:4px;width:100%;text-align:left}
   .uka-popup-event small{font-size:10px;opacity:.7}
+
+  /* UKA: dostupnost vstupenek; neutrální stav nikdy neznamená vyprodáno */
+  .availability-badge{display:inline-flex;align-items:center;gap:7px;max-width:100%;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800;line-height:1.25;border:1px solid var(--stroke);background:var(--surface2);color:var(--muted)}
+  .availability-badge::before{content:'';width:7px;height:7px;border-radius:50%;flex:0 0 7px;background:currentColor}
+  .availability-badge.av-available{background:rgba(26,160,98,.11);border-color:rgba(26,160,98,.35);color:var(--av-green)}
+  .availability-badge.av-low{background:rgba(230,144,34,.12);border-color:rgba(230,144,34,.4);color:var(--av-orange)}
+  .availability-badge.av-temporarily_sold_out{background:rgba(205,91,28,.1);border-color:rgba(205,91,28,.4);color:var(--av-orange)}
+  .availability-badge.av-sold_out{background:rgba(222,58,72,.13);border-color:rgba(222,58,72,.5);color:var(--av-red)}
+  .availability-badge.av-unknown{color:var(--muted)}
+  :root{--av-red:#ff6f78;--av-green:#56d6a0;--av-orange:#f8ac57;--av-gray:#9297a4}
+  html[data-theme="light"]{--av-red:#bb2636;--av-green:#137c50;--av-orange:#ab5b08;--av-gray:#858996}
+  .availability-meta{margin:9px 0 1px;font-size:11px;color:var(--muted);line-height:1.5}
+  .availability-row{margin-top:11px;display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+  .event-card.av-sold_out{border-color:rgba(222,58,72,.68);background:linear-gradient(175deg,var(--surface),rgba(176,27,45,.13));box-shadow:0 0 0 1px rgba(222,58,72,.14)}
+  .event-card.av-sold_out:hover{border-color:var(--av-red)}
+  .event-card.av-sold_out .poster.has-image:after{background:linear-gradient(0deg,rgba(125,7,24,.65),rgba(100,4,12,.32));z-index:1}
+  .event-card.av-sold_out .card-price{color:var(--av-red)}
+  .poster-sold-ribbon{position:absolute;z-index:4;bottom:13px;left:13px;background:#ba1833;color:#fff;border:1px solid #f27a8b;border-radius:8px;padding:6px 11px;font-weight:900;font-size:12px;letter-spacing:.07em;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  .map-event.av-sold_out{background:rgba(222,58,72,.09);border-color:rgba(222,58,72,.33)}
+  .map-event.av-sold_out:hover{border-color:var(--av-red)}
+  .map-event .availability-badge{font-size:10px;padding:4px 8px}
+  .map-event .availability-row{margin:5px 0 0}
+  .pin-bubble.av-available{background:#24be74}
+  .pin-bubble.av-low{background:#eea23a}
+  .pin-bubble.av-temporarily_sold_out{background:#ed8541}
+  .pin-bubble.av-sold_out{background:#ec334e;box-shadow:0 4px 19px rgba(237,51,78,.4)}
+  .pin-bubble.av-unknown{background:#9ca2af}
+  .uka-popup-event.av-sold_out{background:#fff0f1;border-color:#e84b60}
+  .uka-popup-event .availability-badge{font-size:10px;padding:3px 7px}
+  .filter-availability{display:inline-flex;align-items:center;gap:8px;cursor:pointer;color:var(--text);font-size:12px;font-weight:750;line-height:1.4;border:1px solid var(--stroke);border-radius:11px;padding:9px 12px;background:var(--surface);user-select:none}
+  .filter-availability input{accent-color:var(--gold);width:16px;height:16px;cursor:pointer;margin:0}
+  .filter-availability:focus-within{outline:2px solid var(--gold);outline-offset:2px}
+  .filter-availability.is-active{border-color:var(--av-green);background:rgba(25,159,93,.07)}
+  .filter-availability small{font-size:10px;color:var(--muted);font-weight:500}
+  .home-av-wrap{margin:0 0 14px}
+  .map-av-wrap{margin-top:10px}
+  .status-legend{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+  .status-legend .availability-badge{font-size:10px;padding:4px 8px}
+  .modal-status-panel{margin-top:18px;padding:14px 16px;background:var(--surface2);border:1px solid var(--stroke);border-radius:13px}
+  .modal-status-panel.av-sold_out{border-color:rgba(222,58,72,.48);background:rgba(222,58,72,.10)}
+  .modal-status-panel .availability-meta{font-size:12px}
+  .modal-status-panel .availability-badge{font-size:13px}
+  @media(max-width:760px){.filter-availability{width:100%}.map-av-wrap{width:100%}.status-legend{gap:5px}}
   </style>
 </head>
 <body>
@@ -113,13 +156,64 @@
   const STORE='uka-events-v1',FAVORITES='uka-favorites-v1'; // vlastní akce uživatele ponecháváme uložené
   function loadJson(key,def){try{const d=JSON.parse(localStorage.getItem(key));return Array.isArray(d)?d:def}catch{return def}}
   let added=loadJson(STORE,[]), favorites=new Set(loadJson(FAVORITES,[]));
-  let page='akce',search='',category='',city='',when='all',favoriteOnly=false,mapCategory='',mapCity='',mapQuery='',radius=0,userCoords=null;
+  let page='akce',search='',category='',city='',when='all',favoriteOnly=false,mapCategory='',mapCity='',mapQuery='',radius=0,userCoords=null,onlyAvailable=false;
+  let availabilityOverrides={};
   let mainMap=null,miniMap=null,mainTiles=null,miniTiles=null,mapMarkers=null,miniMarker=null,chosenCoords=null;
   let toastTimer=null,mapSearchTimer=null,pendingMapFocusId=null,mapReady=false;
   const el=id=>document.getElementById(id);
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const money=p=>p===null||p===undefined||p===''?'Cena neuvedena':Number(p)===0?'Zdarma':`${Number(p).toLocaleString('cs-CZ')} Kč`;
   const priceLabel=e=>e.price==null?money(e.price):e.price_note?`${money(e.price)} · ${esc(e.price_note)}`:(e.price_from===true||(e.price_max!=null&&e.price_max>e.price))?`od ${money(e.price)}`:money(e.price);
+
+  // Stav dostupnosti musí mít zdroj a čas kontroly. Neznámý stav není vyprodáno.
+  const AV_STATES={
+    available:{label:'V prodeji',hint:'Vstupenky byly při poslední kontrole dostupné.'},
+    low:{label:'Poslední místa',hint:'Omezenou dostupnost výslovně potvrdil prodejce nebo pořadatel.'},
+    temporarily_sold_out:{label:'Aktuálně vyprodáno',hint:'Momentálně nejsou vstupenky k dispozici; další vlna může následovat.'},
+    sold_out:{label:'Vyprodáno',hint:'Akce je dle ověřeného zdroje vyprodaná.'},
+    unknown:{label:'Dostupnost neověřena',hint:'Dosud nemáme potvrzené informace o dostupnosti vstupenek.'}
+  };
+  // Bez další živé kontroly údaj časem zastará; zvlášť u „posledních míst“.
+  const AV_TTL_MS={available:48*3600000,low:24*3600000,temporarily_sold_out:24*3600000,sold_out:72*3600000};
+  function availabilityFor(event){
+    const o=availabilityOverrides[event.id];
+    const raw=o&&typeof o==='object'?o:{status:event.ticket_status||event.availability_status,verified_at:event.ticket_status_verified_at||event.availability_verified_at,source:event.ticket_status_source||event.availability_source,expires_at:event.ticket_status_expires_at||event.availability_expires_at,note:event.ticket_status_note||event.availability_note};
+    const state=typeof raw.status==='string'&&Object.hasOwn(AV_TTL_MS,raw.status)?raw.status:'unknown';
+    const checked=Date.parse(raw.verified_at||'');
+    const explicitExpiry=raw.expires_at?Date.parse(raw.expires_at):Infinity;
+    const source=typeof raw.source==='string'?raw.source.trim():'';
+    if(state==='unknown'||!source||!Number.isFinite(checked)||checked>Date.now()+300000)return {status:'unknown'};
+    const expires=Math.min(checked+AV_TTL_MS[state],Number.isFinite(explicitExpiry)?explicitExpiry:Infinity);
+    if(Date.now()>=expires)return {status:'unknown'};
+    return {status:state,source,verified_at:raw.verified_at,note:typeof raw.note==='string'?raw.note.slice(0,200):''};
+  }
+  function availabilityBadge(event){const info=availabilityFor(event),state=info.status;return `<span class="availability-badge av-${state}" title="${esc(AV_STATES[state].hint)}">${esc(AV_STATES[state].label)}</span>`;}
+  function availabilityMeta(event){
+    const a=availabilityFor(event);
+    if(a.status==='unknown')return 'Před nákupem ověř stav u prodejce. Cena ani platný odkaz nepotvrzují dostupnost.';
+    return `${a.note?esc(a.note)+' · ':''}Zdroj: ${esc(a.source)} · zkontrolováno ${esc(new Date(a.verified_at).toLocaleString('cs-CZ'))}. Stav se může změnit.`;
+  }
+  function venueAvailability(group){
+    const statuses=group.map(ev=>availabilityFor(ev).status);
+    if(statuses.every(s=>s==='sold_out'))return 'sold_out';
+    if(statuses.every(s=>s==='sold_out'||s==='temporarily_sold_out'))return 'temporarily_sold_out';
+    if(statuses.every(s=>s==='available'||s==='low'))return statuses.includes('available')?'available':'low';
+    return 'unknown'; // Smíšené a neověřené skupiny nesmí být mylně červené.
+  }
+  async function refreshAvailability(){
+    if(location.protocol==='file:')return;
+    try{
+      const res=await fetch('./availability_overrides.json?v='+Date.now(),{cache:'no-store'});
+      if(!res.ok)return;
+      const parsed=await res.json();
+      if(!parsed||typeof parsed.overrides!=='object'||Array.isArray(parsed.overrides)||!parsed.overrides)return;
+      const next=parsed.overrides;
+      if(JSON.stringify(next)===JSON.stringify(availabilityOverrides))return;
+      availabilityOverrides=next;
+      if(page==='mapa')renderMapListAndPins();
+      else if(page==='akce'||page==='oblibene')rerenderList();
+    }catch(err){console.warn('UKA: stav vstupenek není dostupný',err);}
+  }
   const eventSource=e=>e.source||'Vlastní událost';
   function fmtDate(d,mode='long'){const a=String(d).split('-').map(Number); const date=new Date(a[0],a[1]-1,a[2]);return Number.isNaN(date.getTime())?'Datum neuvedeno':date.toLocaleDateString('cs-CZ',mode==='long'?{day:'numeric',month:'long',year:'numeric'}:{day:'numeric',month:'short'});}
   const dateParts=d=>{const p=fmtDate(d,'short').split(' ');return [p[0]?.replace('.','')||'',(p[1]||'').replace('.','').toUpperCase()]};
@@ -143,7 +237,7 @@
       const status=el('syncStatus');if(status)status.textContent=liveSyncLabel;
     }catch(e){console.warn('UKA: live feed není k dispozici; použiji vloženou zálohu',e);}
   }
-  function filterEvents({favoritesOnly=false,cat='',cityFilter='',query='',period='all',loc=null,maxRadius=0}={}){
+  function filterEvents({favoritesOnly=false,cat='',cityFilter='',query='',period='all',loc=null,maxRadius=0,availableOnly=onlyAvailable}={}){
     const now=daysFromNow(0);const dt=new Date();const end=new Date(dt.getFullYear(),dt.getMonth()+1,0);const monthEnd=`${end.getFullYear()}-${String(end.getMonth()+1).padStart(2,'0')}-${String(end.getDate()).padStart(2,'0')}`;
     return getEvents().filter(e=>{
       if(e.date<now || (favoritesOnly&&!favorites.has(e.id)) || (cat&&e.category!==cat) || (cityFilter&&e.city!==cityFilter))return false;
@@ -151,6 +245,7 @@
       if(period==='week'&&e.date>daysFromNow(7))return false;
       if(period==='month'&&e.date>monthEnd)return false;
       if(period==='free'&&(e.price==null||Number(e.price)!==0))return false;
+      if(availableOnly&&!['available','low'].includes(availabilityFor(e).status))return false;
       if(loc&&maxRadius>0&&distance(loc,[e.lat,e.lng])>maxRadius)return false;
       return true;
     });
@@ -159,17 +254,18 @@
   function eventPoster(e,modal=false){
     const letter=(e.title.match(/[\p{L}]/u)||['U'])[0].toUpperCase();
     const image=typeof e.image_url==='string'&&/^https:\/\//.test(e.image_url)?e.image_url:'';
-    return `<div class="poster ${image?'has-image':''}" data-theme="${esc(e.category)}">${image?`<img class="poster-photo" src="${esc(image)}" alt="Plakát akce ${esc(e.title)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.querySelector('.photo-credit')?.remove();this.remove();this.parentElement.classList.remove('has-image')">`:''}<span class="poster-symbol">${esc(letter)}.</span>${modal?'':datePill(e)}${image&&e.image_credit?`<span class="photo-credit">${esc(e.image_credit)}</span>`:''}${modal?'':`<button class="favorite ${favorites.has(e.id)?'active':''}" data-fav="${esc(e.id)}" aria-label="${favorites.has(e.id)?'Odebrat z oblíbených':'Uložit do oblíbených'}" title="Oblíbené">${icon('heart')}</button>`}</div>`;
+    return `<div class="poster ${image?'has-image':''}" data-theme="${esc(e.category)}">${image?`<img class="poster-photo" src="${esc(image)}" alt="Plakát akce ${esc(e.title)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.querySelector('.photo-credit')?.remove();this.remove();this.parentElement.classList.remove('has-image')">`:''}<span class="poster-symbol">${esc(letter)}.</span>${modal?'':datePill(e)}${!modal&&availabilityFor(e).status==='sold_out'?'<span class="poster-sold-ribbon">VYPRODÁNO</span>':''}${image&&e.image_credit?`<span class="photo-credit">${esc(e.image_credit)}</span>`:''}${modal?'':`<button class="favorite ${favorites.has(e.id)?'active':''}" data-fav="${esc(e.id)}" aria-label="${favorites.has(e.id)?'Odebrat z oblíbených':'Uložit do oblíbených'}" title="Oblíbené">${icon('heart')}</button>`}</div>`;
   }
-  function card(e){return `<article class="event-card">${eventPoster(e)}<div class="card-body"><div class="card-top"><span class="category">${esc(CAT_LABELS[e.category]||'Akce')}</span><span class="card-price">${priceLabel(e)}</span></div><h3>${esc(e.title)}</h3><div class="card-line tiny">${icon('ticket','sm')} <span>${esc(eventSource(e))} ${e.verified_at?'· ověřeno '+fmtDate(e.verified_at):'· uložené lokálně'}</span></div><div class="card-line">${icon('music','sm')} <span>${esc(e.artist||'Účinkující neuvedeni')}</span></div><div class="card-line">${icon('pin','sm')} <span>${esc(e.venue)}, ${esc(e.city)}</span></div><div class="card-foot"><span>${fmtDate(e.date,'short')} · ${esc(e.time||'—')}</span><button class="text-link" data-detail="${esc(e.id)}">Detail ${icon('arrow','sm')}</button></div></div></article>`;}
+  function card(e){return `<article class="event-card av-${availabilityFor(e).status}">${eventPoster(e)}<div class="card-body"><div class="card-top"><span class="category">${esc(CAT_LABELS[e.category]||'Akce')}</span><span class="card-price">${priceLabel(e)}</span></div><div class="availability-row">${availabilityBadge(e)}</div><h3>${esc(e.title)}</h3><div class="card-line tiny">${icon('ticket','sm')} <span>${esc(eventSource(e))} ${e.verified_at?'· ověřeno '+fmtDate(e.verified_at):'· uložené lokálně'}</span></div><div class="card-line">${icon('music','sm')} <span>${esc(e.artist||'Účinkující neuvedeni')}</span></div><div class="card-line">${icon('pin','sm')} <span>${esc(e.venue)}, ${esc(e.city)}</span></div><div class="card-foot"><span>${fmtDate(e.date,'short')} · ${esc(e.time||'—')}</span><button class="text-link" data-detail="${esc(e.id)}">Detail ${icon('arrow','sm')}</button></div></div></article>`;}
   function pageHome(){const events=filterEvents({favoritesOnly:favoriteOnly,cat:category,cityFilter:city,query:search,period:when});return `
     ${favoriteOnly?'':`<section class="hero"><div class="container hero-wrap"><div><div class="eyebrow">✦ České hudební události na jednom místě</div><h1>Hudba.<br>Všude. <span>Teď.</span></h1><p class="hero-desc">Koncerty, ravy, festivaly nebo opera? Objev, co se děje kolem tebe. Kdo hraje, kde, kdy a za kolik — všechno přehledně na jednom místě.</p><div class="hero-actions"><button class="btn btn-primary" data-nav="mapa">${icon('pin')} Prozkoumat mapu ${icon('arrow')}</button><button class="btn btn-outline" data-jump="events">Prohlédnout akce</button></div><div class="hero-note"><span class="signal"></span> Bez registrace · Akce z GoOut, Eventlook a O2 arena</div></div><div class="art-panel" aria-label="Grafická hudební ilustrace"><span class="art-number">UKA / 001 — SOUND IS EVERYWHERE</span><div class="art-eq"><i></i><i></i><i></i><i></i><i></i></div><div class="art-caption"><b>YOUR CITY.<br>YOUR SOUND.</b><p>Najdi si svůj další zážitek.</p></div></div></div></section><div class="strip"><div class="container"><div class="strip-left">${icon('music')} <span><strong>Skutečné hudební akce.</strong> Akce z GoOutu, Eventlooku a O2 areny · rozšířeno 15. 10. 2026.</span></div><span class="strip-pill">BEZ BASE44 · ZDARMA</span></div></div>`}
     <section id="events" class="container section"><div class="section-head"><div><div class="eyebrow">${favoriteOnly?'TVŮJ VÝBĚR':'OBJEVUJ NOVOU HUDBU'}</div><h2>${favoriteOnly?'Uložené akce':'Kam vyrazíš příště?'}</h2><div id="syncStatus" class="muted tiny" style="margin:8px 0 0">${esc(liveSyncLabel)}</div><div class="section-sub">${favoriteOnly?'Akce, které sis označil srdíčkem.':'Koncerty a párty z veřejných programů · před cestou si ověř aktuální stav u pořadatele.'}</div></div><span class="muted tiny">Česko · ${getEvents().length} akcí v databázi</span></div>
     <div class="toolbar"><label class="field-wrap">${icon('search')}<input id="searchInput" autocomplete="off" placeholder="Interpret, akce, místo..." value="${esc(search)}" aria-label="Hledat akci"></label><select id="cityFilter" class="select" aria-label="Město"><option value="">Všechna města</option>${['Praha','Brno','Ostrava','Plzeň','Olomouc','Liberec','Pardubice'].map(c=>`<option value="${c}" ${city===c?'selected':''}>${c}</option>`).join('')}</select><select id="whenFilter" class="select" aria-label="Termín"><option value="all" ${when==='all'?'selected':''}>Kdykoliv</option><option value="week" ${when==='week'?'selected':''}>Do 7 dní</option><option value="month" ${when==='month'?'selected':''}>Tento měsíc</option><option value="free" ${when==='free'?'selected':''}>Vstup zdarma</option></select><button class="btn btn-outline btn-sm" id="clearFilters">Vymazat filtry</button></div>
+    <div class="home-av-wrap"><label class="filter-availability ${onlyAvailable?'is-active':''}"><input id="homeAvailableOnly" type="checkbox" ${onlyAvailable?'checked':''}> Pouze dostupné vstupenky <small>(ověřené)</small></label></div>
     <div class="filter-pills">${CATS.map(([value,label])=>`<button class="pill ${category===value?'active':''}" data-category="${esc(value)}">${label}</button>`).join('')}</div><div class="results"><span>Našli jsme <b style="color:var(--text)">${events.length}</b> akcí</span><span>Seřazeno podle nejbližšího termínu</span></div>
-    ${events.length?`<div id="eventCards" class="cards">${events.map(card).join('')}</div>`:`<div class="empty"><div class="empty-icon">♫</div><h3>Zatím tady nic není</h3><p>Vyzkoušej jiné filtry nebo přidej vlastní akci.</p><button class="btn btn-primary" data-nav="pridat">Přidat akci</button></div>`}</section>`;}
+    ${events.length?`<div id="eventCards" class="cards">${events.map(card).join('')}</div>`:`<div class="empty"><div class="empty-icon">♫</div><h3>Zatím tady nic není</h3><p>Vyzkoušej jiné filtry nebo vypni omezení na ověřeně dostupné vstupenky.</p><button class="btn btn-primary" data-nav="pridat">Přidat akci</button></div>`}</section>`;}
   function mapEvents(){return filterEvents({cat:mapCategory,cityFilter:mapCity,query:mapQuery,loc:userCoords,maxRadius:radius});}
-  function mapPage(){const list=mapEvents();return `<div class="container"><div class="page-top"><div><div class="eyebrow">AKCE VE TVÉM OKOLÍ</div><h1 class="page-title">Mapa hudebních akcí</h1><div class="section-sub">Barevná mapa ve dne, příjemně tmavá v noci. Přiblížení až do úrovně 22 · na jednom místě může být více akcí.</div></div><button class="btn btn-outline btn-sm" id="locateMe">${icon('locate')} Moje poloha</button></div><div class="map-layout"><div id="mainMap" class="map-box"><div class="map-loading">${icon('pin')} Načítám mapu…</div></div><aside class="map-side"><div class="map-tools"><h3>${list.length} akcí na mapě</h3><div class="muted tiny">Klikni na značku nebo na akci v seznamu. Číslo u značky = počet akcí na místě.</div><div class="map-selects"><select class="select" id="mapCity"><option value="">Všechna města</option>${['Praha','Brno','Ostrava','Plzeň','Olomouc','Liberec','Pardubice'].map(c=>`<option ${mapCity===c?'selected':''}>${c}</option>`).join('')}</select><select class="select" id="mapCat">${CATS.map(([v,l])=>`<option value="${v}" ${mapCategory===v?'selected':''}>${l}</option>`).join('')}</select></div><label class="field-wrap map-search-field" for="mapSearch">${icon('search')}<input id="mapSearch" type="search" autocomplete="off" enterkeyhint="search" placeholder="Hledat koncert, interpreta, místo…" aria-label="Hledat akci na mapě" value="${esc(mapQuery)}"></label><div class="map-search-help">Vyber akci ve výsledcích nebo stiskni Enter pro její zobrazení na mapě.</div>${userCoords?`<div class="radius-row"><button data-radius="0" class="pill ${radius===0?'active':''}">Vše</button>${[5,10,25,50,100].map(n=>`<button data-radius="${n}" class="pill ${radius===n?'active':''}">${n} km</button>`).join('')}</div>`:''}</div><div class="map-event-list">${list.length?list.map(e=>`<button class="map-event" data-focus="${esc(e.id)}"><span class="map-e-top"><span class="category">${esc(CAT_LABELS[e.category]||e.category)}</span><b>${priceLabel(e)}</b></span><strong>${esc(e.title)}</strong><small>${icon('pin','sm')} ${esc(e.city)} · ${fmtDate(e.date,'short')} · ${esc(e.time||'—')}${userCoords?' · '+Math.round(distance(userCoords,[e.lat,e.lng]))+' km':''}</small></button>`).join(''):'<div class="empty">Žádné akce ve výběru.</div>'}</div></aside></div></div>`;}
+  function mapPage(){const list=mapEvents();return `<div class="container"><div class="page-top"><div><div class="eyebrow">AKCE VE TVÉM OKOLÍ</div><h1 class="page-title">Mapa hudebních akcí</h1><div class="section-sub">Barevná mapa ve dne, příjemně tmavá v noci. Přiblížení až do úrovně 22 · na jednom místě může být více akcí.</div></div><button class="btn btn-outline btn-sm" id="locateMe">${icon('locate')} Moje poloha</button></div><div class="map-layout"><div id="mainMap" class="map-box"><div class="map-loading">${icon('pin')} Načítám mapu…</div></div><aside class="map-side"><div class="map-tools"><h3>${list.length} akcí na mapě</h3><div class="muted tiny">Klikni na značku nebo na akci v seznamu. Číslo u značky = počet akcí na místě.</div><div class="map-selects"><select class="select" id="mapCity"><option value="">Všechna města</option>${['Praha','Brno','Ostrava','Plzeň','Olomouc','Liberec','Pardubice'].map(c=>`<option ${mapCity===c?'selected':''}>${c}</option>`).join('')}</select><select class="select" id="mapCat">${CATS.map(([v,l])=>`<option value="${v}" ${mapCategory===v?'selected':''}>${l}</option>`).join('')}</select></div><label class="field-wrap map-search-field" for="mapSearch">${icon('search')}<input id="mapSearch" type="search" autocomplete="off" enterkeyhint="search" placeholder="Hledat koncert, interpreta, místo…" aria-label="Hledat akci na mapě" value="${esc(mapQuery)}"></label><div class="map-search-help">Vyber akci ve výsledcích nebo stiskni Enter pro její zobrazení na mapě.</div><div class="map-av-wrap"><label class="filter-availability ${onlyAvailable?'is-active':''}"><input id="mapAvailableOnly" type="checkbox" ${onlyAvailable?'checked':''}> Pouze dostupné vstupenky <small>(ověřené)</small></label></div><div class="status-legend">${['available','low','sold_out','unknown'].map(st=>`<span class="availability-badge av-${st}">${AV_STATES[st].label}</span>`).join('')}</div>${userCoords?`<div class="radius-row"><button data-radius="0" class="pill ${radius===0?'active':''}">Vše</button>${[5,10,25,50,100].map(n=>`<button data-radius="${n}" class="pill ${radius===n?'active':''}">${n} km</button>`).join('')}</div>`:''}</div><div class="map-event-list">${list.length?list.map(e=>`<button class="map-event av-${availabilityFor(e).status}" data-focus="${esc(e.id)}"><span class="map-e-top"><span class="category">${esc(CAT_LABELS[e.category]||e.category)}</span><b>${priceLabel(e)}</b></span><strong>${esc(e.title)}</strong><small>${icon('pin','sm')} ${esc(e.city)} · ${fmtDate(e.date,'short')} · ${esc(e.time||'—')}${userCoords?' · '+Math.round(distance(userCoords,[e.lat,e.lng]))+' km':''}</small><span class="availability-row">${availabilityBadge(e)}</span></button>`).join(''):'<div class="empty">Žádné akce ve výběru.</div>'}</div></aside></div></div>`;}
   function addPage(){return `<div class="form-shell"><div class="eyebrow">STAŇ SE SOUČÁSTÍ SCÉNY</div><h1>Přidat hudební akci</h1><p class="form-intro">Vyzkoušej formulář jako v opravdové UKA. Tvoje přidané akce se uloží <strong>jen do tvého prohlížeče</strong> a hned se zobrazí v seznamu i na mapě.</p><form id="eventForm">
     <div class="form-card"><h2><span>01</span> Co se bude dít?</h2><div class="form-grid"><div class="form-group wide"><label for="eTitle">Název akce *</label><input id="eTitle" required maxlength="130" placeholder="Např. Páteční Techno Night"></div><div class="form-group"><label for="eArtist">Interpret / line-up</label><input id="eArtist" maxlength="130" placeholder="Kdo vystupuje"></div><div class="form-group"><label for="eCat">Kategorie</label><select id="eCat">${CATS.filter(([v])=>v).map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}</select></div><div class="form-group wide"><label for="eDesc">Popis akce</label><textarea id="eDesc" maxlength="1200" placeholder="Co návštěvníci zažijí..."></textarea></div></div></div>
     <div class="form-card"><h2><span>02</span> Kde se potkáme?</h2><div class="form-grid"><div class="form-group"><label for="eVenue">Místo konání *</label><input id="eVenue" required maxlength="120" placeholder="Např. klub, hala, park"></div><div class="form-group"><label for="eCity">Město *</label><select required id="eCity">${Object.keys(CITIES).map(c=>`<option value="${c.replaceAll('_',' ')}">${c.replaceAll('_',' ')}</option>`).join('')}</select></div><div class="form-group wide"><label>Poloha na mapě</label><small>Kliknutím na mapu umísti značku. Jinak použijeme centrum města.</small><div id="formMap" class="form-map"></div><div class="form-status" id="coordsText">Vybrána poloha podle města: Praha.</div></div></div></div>
@@ -197,12 +293,12 @@
   function go(where){const to=['akce','mapa','oblibene','pridat'].includes(where)?where:'akce';if(location.hash===`#${to}`){render()}else location.hash=to;}
   function rerenderList(){const scroll=window.scrollY;const elem=el('searchInput');const start=elem?.selectionStart,end=elem?.selectionEnd;const focused=document.activeElement===elem;el('app').innerHTML=pageHome();if(focused){const input=el('searchInput');input.focus({preventScroll:true});input.setSelectionRange(Math.min(start??search.length,search.length),Math.min(end??search.length,search.length));}window.scrollTo(0,scroll);}
   function toggleFav(id){if(favorites.has(id))favorites.delete(id);else favorites.add(id);try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{};showToast(favorites.has(id)?'Přidáno do oblíbených':'Odebráno z oblíbených');if(page==='mapa'){renderMapListAndPins()}else if(page!=='pridat')rerenderList();if(el('modalRoot').querySelector('.overlay'))showDetails(id);}
-  function showDetails(id){const e=getEvents().find(x=>x.id===id);if(!e)return;const fav=favorites.has(id),price=priceLabel(e);el('modalRoot').innerHTML=`<div class="overlay" role="presentation" data-close="true"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="modal-art">${eventPoster(e,true)}<button class="modal-close" data-close="true" aria-label="Zavřít">${icon('cross')}</button></div><div class="modal-main"><div class="category">${esc(CAT_LABELS[e.category]||e.category)}</div><h2 id="detailTitle">${esc(e.title)}</h2><div class="muted">${esc(e.artist||'Interpret neuveden')}</div><div class="modal-info"><div class="info-item">${icon('calendar')}<div><small>Datum</small><b>${fmtDate(e.date)}</b></div></div><div class="info-item">${icon('clock')}<div><small>Začátek</small><b>${esc(e.time||'Čas neuveden')}</b></div></div><div class="info-item">${icon('pin')}<div><small>Místo</small><b>${esc(e.venue)}, ${esc(e.city)}${e.address?' · '+esc(e.address):''}</b></div></div><div class="info-item">${icon('ticket')}<div><small>Vstupné</small><b>${price}</b></div></div></div><p class="modal-desc">${esc(e.description||'U této akce zatím není k dispozici popis.')}</p><div class="muted tiny">Zdroj: ${esc(eventSource(e))}${e.verified_at?' · ověřeno '+fmtDate(e.verified_at):' · vlastní záznam'}. Údaje se mohou změnit; před nákupem je ověř u pořadatele.${e.price_max!=null?' Cenové rozpětí: '+money(e.price)+' – '+money(e.price_max):''}</div><div class="modal-actions">${e.ticket_url?`<a class="btn btn-primary" href="${esc(e.ticket_url)}" target="_blank" rel="noopener noreferrer">${icon('ticket')} Vstupenky / detail ${icon('arrow')}</a>`:`<button type="button" disabled class="btn btn-outline" title="Odkaz na vstupenky není dostupný">Odkaz na vstupenky není dostupný</button>`}<button class="btn btn-outline" data-fav="${esc(e.id)}">${icon('heart')} ${fav?'Odebrat z oblíbených':'Uložit akci'}</button><button class="btn btn-outline" data-map-event="${esc(e.id)}">${icon('pin')} Na mapě</button></div></div></div></div>`;document.body.style.overflow='hidden';}
+  function showDetails(id){const e=getEvents().find(x=>x.id===id);if(!e)return;const fav=favorites.has(id),price=priceLabel(e);el('modalRoot').innerHTML=`<div class="overlay" role="presentation" data-close="true"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="modal-art">${eventPoster(e,true)}<button class="modal-close" data-close="true" aria-label="Zavřít">${icon('cross')}</button></div><div class="modal-main"><div class="category">${esc(CAT_LABELS[e.category]||e.category)}</div><h2 id="detailTitle">${esc(e.title)}</h2><div class="muted">${esc(e.artist||'Interpret neuveden')}</div><div class="modal-status-panel av-${availabilityFor(e).status}">${availabilityBadge(e)}<div class="availability-meta">${availabilityMeta(e)}</div></div><div class="modal-info"><div class="info-item">${icon('calendar')}<div><small>Datum</small><b>${fmtDate(e.date)}</b></div></div><div class="info-item">${icon('clock')}<div><small>Začátek</small><b>${esc(e.time||'Čas neuveden')}</b></div></div><div class="info-item">${icon('pin')}<div><small>Místo</small><b>${esc(e.venue)}, ${esc(e.city)}${e.address?' · '+esc(e.address):''}</b></div></div><div class="info-item">${icon('ticket')}<div><small>Vstupné</small><b>${price}</b></div></div></div><p class="modal-desc">${esc(e.description||'U této akce zatím není k dispozici popis.')}</p><div class="muted tiny">Zdroj: ${esc(eventSource(e))}${e.verified_at?' · ověřeno '+fmtDate(e.verified_at):' · vlastní záznam'}. Údaje se mohou změnit; před nákupem je ověř u pořadatele.${e.price_max!=null?' Cenové rozpětí: '+money(e.price)+' – '+money(e.price_max):''}</div><div class="modal-actions">${e.ticket_url?`<a class="btn btn-primary" href="${esc(e.ticket_url)}" target="_blank" rel="noopener noreferrer">${icon('ticket')} Vstupenky / detail ${icon('arrow')}</a>`:`<button type="button" disabled class="btn btn-outline" title="Odkaz na vstupenky není dostupný">Odkaz na vstupenky není dostupný</button>`}<button class="btn btn-outline" data-fav="${esc(e.id)}">${icon('heart')} ${fav?'Odebrat z oblíbených':'Uložit akci'}</button><button class="btn btn-outline" data-map-event="${esc(e.id)}">${icon('pin')} Na mapě</button></div></div></div></div>`;document.body.style.overflow='hidden';}
   function closeModal(clear=true){if(clear){el('modalRoot').innerHTML='';document.body.style.overflow='';}else{el('modalRoot').innerHTML='';document.body.style.overflow='';}}
   function distance(a,b){let toR=x=>x*Math.PI/180,dl=toR(b[0]-a[0]),dn=toR(b[1]-a[1]);let v=Math.sin(dl/2)**2+Math.cos(toR(a[0]))*Math.cos(toR(b[0]))*Math.sin(dn/2)**2;return 6371*2*Math.atan2(Math.sqrt(v),Math.sqrt(1-v));}
-  function pinNode(user=false){
+  function pinNode(user=false,status='unknown'){
     const node=document.createElement('div');node.className='uka-marker';
-    node.innerHTML=`<div class="pin-bubble ${user?'user':''}"><i></i></div>`;
+    node.innerHTML=`<div class="pin-bubble ${user?'user':'av-'+status}"><i></i></div>`;
     return node;
   }
   let mainMapTimer=null,miniMapTimer=null,offlineZoom=1;
@@ -223,7 +319,7 @@
     const dots=source.map(ev=>{
       if(!Number.isFinite(Number(ev.lat))||!Number.isFinite(Number(ev.lng)))return '';
       const [x,y]=project(Number(ev.lat),Number(ev.lng));
-      return `<g class="fallback-dot" data-detail="${esc(ev.id)}" tabindex="0" role="button" aria-label="Detail: ${esc(ev.title)}"><circle class="fallback-disc" cx="${x}" cy="${y}" r="10" stroke="var(--bg)" stroke-width="3" fill="var(--gold)"/><circle cx="${x}" cy="${y}" r="2.5" fill="var(--bg)"/></g>`;
+      return `<g class="fallback-dot" data-detail="${esc(ev.id)}" tabindex="0" role="button" aria-label="Detail: ${esc(ev.title)}"><circle class="fallback-disc" cx="${x}" cy="${y}" r="10" stroke="var(--bg)" stroke-width="3" fill="${({available:'#24be74',low:'#eea23a',temporarily_sold_out:'#ed8541',sold_out:'#ec334e',unknown:'#9ca2af'})[availabilityFor(ev).status]}"/><circle cx="${x}" cy="${y}" r="2.5" fill="var(--bg)"/></g>`;
     }).join('');
     target.innerHTML=`<div class="fallback-map"><p>Detailní mapu se nepodařilo načíst. Zobrazuji orientační mapu ČR s akcemi. Pro ulice a přesné přiblížení je potřeba přístup k mapovým podkladům.</p><svg class="schematic" viewBox="0 0 900 540" role="img" aria-label="Orientační mapa České republiky s hudebními akcemi"><defs><pattern id="geo-grid-${id}" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M 36 0 L 0 0 0 36" fill="none" stroke="var(--stroke)" stroke-width="1"/></pattern></defs><rect width="900" height="540" fill="var(--tile-placeholder)"/><rect width="900" height="540" fill="url(#geo-grid-${id})"/><path d="M70 135 L177 88 L283 92 L362 46 L485 95 L550 53 L676 113 L790 111 L855 188 L825 285 L776 338 L808 422 L698 459 L595 439 L506 485 L383 445 L296 465 L182 411 L87 370 L46 270 Z" fill="var(--surface2)" stroke="var(--stroke)" stroke-width="5" stroke-linejoin="round"/><path d="M120 280 Q280 220 406 278 T789 256 M186 380 Q380 330 527 362 T728 350 M300 112 Q380 250 470 320 T607 435" fill="none" stroke="var(--muted)" stroke-width="5" opacity=".34" stroke-linecap="round"/>${cities}${dots}</svg><div class="fallback-actions"><button type="button" data-offline-zoom="1" title="Oddálit">−</button><button type="button" data-offline-zoom="-1" title="Přiblížit">+</button></div><span class="fallback-badge">Orientační náhled · nejedná se o podrobnou mapu</span></div>`;
     offlineZoom=1;
@@ -277,12 +373,12 @@
     }
     byVenue.forEach(group=>{
       const ev=group[0];
-      const markerEl=pinNode();
+      const markerEl=pinNode(false,venueAvailability(group));
       if(group.length>1){
         markerEl.classList.add('uka-cluster');
         const count=document.createElement('span');count.className='uka-pin-count';count.textContent=String(group.length);markerEl.append(count);
       }
-      const items=group.map(item=>`<button type="button" class="uka-popup-event" data-detail="${esc(item.id)}"><b>${esc(item.title)}</b><small>${fmtDate(item.date,'short')} · ${esc(item.time||'—')} · ${priceLabel(item)}</small></button>`).join('');
+      const items=group.map(item=>`<button type="button" class="uka-popup-event av-${availabilityFor(item).status}" data-detail="${esc(item.id)}"><b>${esc(item.title)}</b><small>${fmtDate(item.date,'short')} · ${esc(item.time||'—')} · ${priceLabel(item)}</small>${availabilityBadge(item)}</button>`).join('');
       const popup=`<div class="uka-popup"><strong>${esc(ev.venue)} · ${esc(ev.city)}</strong><div class="muted tiny">${group.length} ${group.length===1?'akce':'akcí'} na tomto místě</div>${items}</div>`;
       const marker=new maplibregl.Marker({element:markerEl}).setLngLat([Number(ev.lng),Number(ev.lat)]).setPopup(new maplibregl.Popup({offset:23,maxWidth:'300px'}).setHTML(popup)).addTo(mainMap);
       marker.ukaEventIds=group.map(item=>item.id);
@@ -360,7 +456,7 @@
     const d=e.target.closest('[data-detail]');if(d){showDetails(d.dataset.detail);return;}
     const close=e.target.closest('[data-close]');if(close&&(e.target===close||e.target.closest('button[data-close]'))){closeModal();return;}
     const jump=e.target.closest('[data-jump]');if(jump){el(jump.dataset.jump)?.scrollIntoView({behavior:'smooth'});return;}
-    if(e.target.closest('#clearFilters')){search='';city='';when='all';category='';rerenderList();return;}
+    if(e.target.closest('#clearFilters')){search='';city='';when='all';category='';onlyAvailable=false;rerenderList();return;}
     if(e.target.closest('#locateMe')){locate();return;}
     const r=e.target.closest('[data-radius]');if(r){radius=Number(r.dataset.radius);renderMapListAndPins();return;}
     const focus=e.target.closest('[data-focus]');if(focus){focusMapEvent(focus.dataset.focus);return;}
@@ -374,7 +470,7 @@
        return;
      }
      if(e.target.id==='searchInput'){search=e.target.value;const list=filterEvents({favoritesOnly:favoriteOnly,cat:category,cityFilter:city,query:search,period:when});const cards=el('eventCards');const section=cards?.parentElement;if(cards){cards.innerHTML=list.map(card).join('');const rs=document.querySelector('.results span');if(rs)rs.innerHTML=`Našli jsme <b style="color:var(--text)">${list.length}</b> akcí`;cards.style.display=list.length?'grid':'none';if(!list.length&&section&&!el('searchEmpty')){cards.insertAdjacentHTML('afterend','<p id="searchEmpty" class="empty">Nic jsme nenašli. Zkus jiné hledání.</p>')}else if(list.length)el('searchEmpty')?.remove();}else rerenderList();}});
-  document.addEventListener('change',e=>{if(e.target.id==='cityFilter'){city=e.target.value;rerenderList()}if(e.target.id==='whenFilter'){when=e.target.value;rerenderList()}if(e.target.id==='mapCity'){mapCity=e.target.value;renderMapListAndPins()}if(e.target.id==='mapCat'){mapCategory=e.target.value;renderMapListAndPins()}if(e.target.id==='eCity')updateFormCity();});
+  document.addEventListener('change',e=>{if(e.target.id==='homeAvailableOnly'||e.target.id==='mapAvailableOnly'){onlyAvailable=!!e.target.checked;if(page==='mapa')renderMapListAndPins();else rerenderList();return;}if(e.target.id==='cityFilter'){city=e.target.value;rerenderList()}if(e.target.id==='whenFilter'){when=e.target.value;rerenderList()}if(e.target.id==='mapCity'){mapCity=e.target.value;renderMapListAndPins()}if(e.target.id==='mapCat'){mapCategory=e.target.value;renderMapListAndPins()}if(e.target.id==='eCity')updateFormCity();});
   document.addEventListener('submit',e=>{if(e.target.id==='eventForm'){e.preventDefault();submitEvent();}});
   document.addEventListener('keydown',e=>{
      if(e.target.id==='mapSearch'&&e.key==='Enter'){
@@ -387,9 +483,9 @@
      if(e.key==='Escape')closeModal();if((e.key==='Enter'||e.key===' ')&&e.target.matches('.fallback-dot[data-detail]')){e.preventDefault();showDetails(e.target.dataset.detail);}});
   el('themeToggle').addEventListener('click',()=>setTheme(theme()==='dark'?'light':'dark'));
   window.addEventListener('hashchange',render);
-  syncThemeButton();render();refreshEvents();
+  syncThemeButton();render();refreshEvents();refreshAvailability();
   // Refresh the published JSON while tab stays open, independently of background crawler.
-  setInterval(refreshEvents,15*60*1000);
+  setInterval(()=>{refreshEvents();refreshAvailability();},15*60*1000);
   </script>
 </body>
 </html>
