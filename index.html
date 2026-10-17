@@ -83,6 +83,7 @@
   .availability-badge.av-temporarily_sold_out{background:rgba(205,91,28,.1);border-color:rgba(205,91,28,.4);color:var(--av-orange)}
   .availability-badge.av-sold_out{background:rgba(222,58,72,.13);border-color:rgba(222,58,72,.5);color:var(--av-red)}
   .availability-badge.av-unknown{color:var(--muted)}
+  .availability-badge.av-phase{color:var(--muted);background:var(--surface2);border-color:var(--stroke)}
   :root{--av-red:#ff6f78;--av-green:#56d6a0;--av-orange:#f8ac57;--av-gray:#9297a4}
   html[data-theme="light"]{--av-red:#bb2636;--av-green:#137c50;--av-orange:#ab5b08;--av-gray:#858996}
   .availability-meta{margin:9px 0 1px;font-size:11px;color:var(--muted);line-height:1.5}
@@ -187,10 +188,29 @@
     if(Date.now()>=expires)return {status:'unknown'};
     return {status:state,source,verified_at:raw.verified_at,note:typeof raw.note==='string'?raw.note.slice(0,200):''};
   }
-  function availabilityBadge(event){const info=availabilityFor(event),state=info.status;return `<span class="availability-badge av-${state}" title="${esc(AV_STATES[state].hint)}">${esc(AV_STATES[state].label)}</span>`;}
+  // Informace o době prodeje není důkazem dostupných vstupenek.
+  function salesPhaseFor(event){
+    const at=Date.parse(event.sales_phase_checked_at||'');
+    if(!Number.isFinite(at)||at>Date.now()+300000||Date.now()-at>36*3600000)return null;
+    const states={on_sale:['Prodej zahájen','Prodej podle pořadatele běží, konkrétní volná místa nejsou ověřena.'],upcoming:['Prodej zatím nezačal','Prodej podle dostupných údajů začne později.'],closed:['Prodej ukončen','Ukončení prodeje není potvrzením vyprodání.'],paused:['Změna / pozastavení','U prodejce ověř aktuální stav akce.']};
+    const value=states[event.sales_phase];
+    return value?{label:value[0],hint:value[1],checked:at,source:event.sales_phase_source||'oficiální zdroj'}:null;
+  }
+  function availabilityBadge(event){
+    const info=availabilityFor(event),state=info.status;
+    if(state==='unknown'){
+      const sale=salesPhaseFor(event);
+      if(sale)return `<span class="availability-badge av-phase" title="${esc(sale.hint)}">${esc(sale.label)}</span>`;
+    }
+    return `<span class="availability-badge av-${state}" title="${esc(AV_STATES[state].hint)}">${esc(AV_STATES[state].label)}</span>`;
+  }
   function availabilityMeta(event){
     const a=availabilityFor(event);
-    if(a.status==='unknown')return 'Před nákupem ověř stav u prodejce. Cena ani platný odkaz nepotvrzují dostupnost.';
+    if(a.status==='unknown'){
+      const sale=salesPhaseFor(event);
+      if(sale)return `${esc(sale.label)} · ${esc(sale.hint)} Zdroj: ${esc(sale.source)} · kontrola ${esc(new Date(sale.checked).toLocaleString('cs-CZ'))}.`;
+      return 'Před nákupem ověř stav u prodejce. Cena ani platný odkaz nepotvrzují dostupnost.';
+    }
     return `${a.note?esc(a.note)+' · ':''}Zdroj: ${esc(a.source)} · zkontrolováno ${esc(new Date(a.verified_at).toLocaleString('cs-CZ'))}. Stav se může změnit.`;
   }
   function venueAvailability(group){
