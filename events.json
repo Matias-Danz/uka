@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T00:07:23+02:00",
+  "updated_at": "2026-10-17T13:01:08+02:00",
   "events": [
     {
       "id": "ticketmaster-Z698xZu0Z1kuV1vvY",
@@ -22,7 +22,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/519/c2854f0d-7ac8-46a0-a686-186312b6e519_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kuP_KPE",
@@ -45,7 +48,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/ecb/3697b706-4f3f-4422-93e0-731d584c2ecb_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "uka-pra-oskar-1017",
@@ -89,7 +95,10 @@
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2026/06/imp-1322x623-o2.jpg.webp",
       "image_credit": "O2 arena / pořadatel",
       "price_checked_at": "2026-10-16",
-      "price_source": "O2 arena"
+      "price_source": "O2 arena",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kGePgfS",
@@ -103,16 +112,21 @@
       "lng": 14.49352,
       "date": "2026-10-18",
       "time": "19:00",
-      "price": null,
-      "price_max": null,
-      "price_source": "",
+      "price": 1290,
+      "price_max": 3180,
+      "price_source": "O2 universum – oficiální program (stejná akce)",
       "ticket_url": "https://www.ticketmaster.cz/event/simple-plan-tickets/302975533?language=en-us",
       "source": "Ticketmaster Discovery API",
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/e7a/eaa9f0ab-e6cd-464c-8cdf-4aecda6a5e7a_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale",
+      "price_from": true,
+      "price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kuE7wJ6",
@@ -135,7 +149,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "o2-universum-auto-simple-plan-bigger-than-you-think-europe-tour-2026-2026-10-18",
@@ -158,7 +175,10 @@
       "image_url": "https://www.o2universum.cz/wp-content/uploads/2025/11/sp-1322x623-1.jpg",
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-16",
-      "price_source": "O2 universum"
+      "price_source": "O2 universum",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1k16AJ_S",
@@ -181,7 +201,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/09d/55d3137c-0eea-4ec8-819c-616c0a67c09d_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1ku9jIZb",
@@ -204,7 +227,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/72f/230a9224-4178-4dc6-8737-eccc4bd2072f_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kebv7CA",
@@ -227,7 +253,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/7a4/27411d5c-0273-4251-8562-4c56e82a37a4_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "uka-pra-caravan-1022",
@@ -271,7 +300,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/6b3/15e1a79a-6a9b-43ce-8713-93794ea3b6b3_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16vbM-Fp9",
@@ -294,7 +326,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/385/51c5f959-628a-493a-8d50-855add9d7385_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16v0409Z4",
@@ -317,7 +352,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/c2e/79f959d4-d6aa-40be-93c5-52ef3a5d4c2e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kk_ee4g",
@@ -340,7 +378,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/5dd/2c222369-7901-42c0-823f-4ece9b3dc5dd_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "o2-universum-auto-dymytry-arakain-2026-10-23",
@@ -363,7 +404,10 @@
       "image_url": "https://www.o2universum.cz/wp-content/uploads/2025/11/02-dm3a-1322x623-1.jpg",
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-16",
-      "price_source": "O2 universum"
+      "price_source": "O2 universum",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16v7kp8r6",
@@ -386,7 +430,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/1ce/7f1e9720-b87f-4e84-8753-b62314a2b1ce_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16eZ7P737",
@@ -409,7 +456,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/865/47db65a9-e0a9-4b44-b116-40e942b79865_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "closed"
     },
     {
       "id": "uka-plz-loudz-1023",
@@ -453,7 +503,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/ae4/0901129e-dd58-4567-aa4b-ff4252bc3ae4_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "closed"
     },
     {
       "id": "uka-pra-golpe-1024",
@@ -495,7 +548,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/ecb/3697b706-4f3f-4422-93e0-731d584c2ecb_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1k-V-8bK",
@@ -518,7 +574,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/865/47db65a9-e0a9-4b44-b116-40e942b79865_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "uka-brn-loudz-1024",
@@ -562,7 +621,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/d4e/94cb6ee1-68b6-4ec1-8bb4-06c906759d4e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "o2-universum-auto-kpop-all-stars-2026-10-25",
@@ -585,7 +647,10 @@
       "image_url": "https://www.o2universum.cz/wp-content/uploads/2026/03/k-pop-o2-banner-1322x623-2.jpg",
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-16",
-      "price_source": "O2 universum"
+      "price_source": "O2 universum",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kfevvuA",
@@ -608,7 +673,10 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/72e/d2c447a0-af6c-455b-8536-7a514db2672e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "on_sale"
     },
     {
       "id": "o2-hans26",
@@ -631,7 +699,10 @@
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2025/03/wohz-o2-1322x623-1-1322x621.jpg.webp",
       "image_credit": "O2 arena / pořadatel",
       "price_checked_at": "2026-10-16",
-      "price_source": "O2 arena"
+      "price_source": "O2 arena",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16v4Zjtb-",
@@ -698,7 +769,10 @@
       "image_url": "https://www.o2universum.cz/wp-content/uploads/2026/01/1322-x-623-8.jpg",
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-16",
-      "price_source": "O2 universum"
+      "price_source": "O2 universum",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
     },
     {
       "id": "uka-plz-halloween-1027",
@@ -811,7 +885,10 @@
       "image_url": "https://www.o2arena.cz/wp-content/webp-express/webp-images/uploads/2026/06/1322x623-dontoliver.jpg.webp",
       "image_credit": "O2 arena / pořadatel",
       "price_checked_at": "2026-10-16",
-      "price_source": "O2 arena"
+      "price_source": "O2 arena",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16vOUudJv",
@@ -867,16 +944,18 @@
       "lng": 14.49352,
       "date": "2026-10-30",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
-      "price_source": "",
+      "price": 1090,
+      "price_max": 2190,
+      "price_source": "O2 universum – oficiální program (stejná akce)",
       "ticket_url": "https://www.ticketmaster.cz/event/uriah-heep-tickets/1673900253?language=en-us",
       "source": "Ticketmaster Discovery API",
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/2a4/89a51e4f-f9c7-4932-8527-a3c77afd42a4_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "price_from": true,
+      "price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kuoOU0t",
@@ -922,7 +1001,10 @@
       "image_url": "https://www.o2universum.cz/wp-content/uploads/2026/04/o2u-uriahheep26-1322x623px-3.jpg",
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-16",
-      "price_source": "O2 universum"
+      "price_source": "O2 universum",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kCAkpv8",
@@ -987,7 +1069,10 @@
       "image_url": "https://www.o2universum.cz/wp-content/uploads/2026/02/praha-1322x623-1.png",
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-16",
-      "price_source": "O2 universum"
+      "price_source": "O2 universum",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
     },
     {
       "id": "uka-pra-students-1031",
@@ -1098,7 +1183,10 @@
       "image_url": "https://www.o2universum.cz/wp-content/uploads/2025/12/es-26-1322x623-1.png",
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-16",
-      "price_source": "O2 universum"
+      "price_source": "O2 universum",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1k_k3FJF",
@@ -1196,16 +1284,18 @@
       "lng": 14.49352,
       "date": "2026-11-05",
       "time": "19:30",
-      "price": null,
-      "price_max": null,
-      "price_source": "",
+      "price": 490,
+      "price_max": 2990,
+      "price_source": "O2 universum – oficiální program (stejná akce)",
       "ticket_url": "https://www.ticketmaster.cz/event/olga-lounova-tickets/1683213289?language=en-us",
       "source": "Ticketmaster Discovery API",
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/39e/77616534-2ace-4497-b791-893ae096539e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "price_from": true,
+      "price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kawxFo6",
@@ -1251,7 +1341,10 @@
       "image_url": "https://www.o2universum.cz/wp-content/uploads/2025/12/5-11-o2-universum-ol-o2-ban-1322x623-2.jpg",
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-16",
-      "price_source": "O2 universum"
+      "price_source": "O2 universum",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
     },
     {
       "id": "uka-pra-opera-1105",
@@ -1339,7 +1432,10 @@
       "image_url": "https://www.o2universum.cz/wp-content/uploads/2025/11/o2u-amonamarth26-1322x623px-3.jpg",
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-16",
-      "price_source": "O2 universum"
+      "price_source": "O2 universum",
+      "sales_phase_checked_at": "2026-10-17T11:00:52Z",
+      "sales_phase_source": "O2 official",
+      "sales_phase": "on_sale"
     },
     {
       "id": "uka-plz-rico-1106",
@@ -2713,16 +2809,18 @@
       "lng": 14.49377,
       "date": "2026-11-23",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
-      "price_source": "",
+      "price": 1830,
+      "price_max": 4690,
+      "price_source": "O2 arena – oficiální program (stejná akce)",
       "ticket_url": "https://www.ticketmaster.cz/event/the-prodigy-tickets/1730206285?language=en-us",
       "source": "Ticketmaster Discovery API",
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/10f/8a9d5c63-cd60-4e45-9c1a-da0b1327210f_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "price_from": true,
+      "price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kpfQ6PI",
@@ -2914,16 +3012,18 @@
       "lng": 14.49352,
       "date": "2026-11-27",
       "time": "19:30",
-      "price": null,
-      "price_max": null,
-      "price_source": "",
+      "price": 990,
+      "price_max": 3990,
+      "price_source": "O2 universum – oficiální program (stejná akce)",
       "ticket_url": "https://www.ticketmaster.cz/event/tomas-klus-tickets/1365580245?language=en-us",
       "source": "Ticketmaster Discovery API",
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/6b9/e20ddf6a-82f2-43b5-8d48-764c4ecf56b9_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "price_from": true,
+      "price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16vqSxaZ0",
@@ -5288,16 +5388,18 @@
       "lng": 14.49352,
       "date": "2027-03-05",
       "time": "20:00",
-      "price": null,
-      "price_max": null,
-      "price_source": "",
+      "price": 1490,
+      "price_max": 1790,
+      "price_source": "O2 universum – oficiální program (stejná akce)",
       "ticket_url": "https://www.ticketmaster.cz/event/james-blunt-tickets/35342494?language=en-us",
       "source": "Ticketmaster Discovery API",
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/baa/9bed16e2-35c5-4f56-a3c5-56beeac9cbaa_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-16"
+      "tm_price_checked_at": "2026-10-16",
+      "price_from": true,
+      "price_checked_at": "2026-10-17"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1k8_bbp8",
@@ -7803,16 +7905,18 @@
       "lng": 14.49377,
       "date": "2028-02-26",
       "time": "19:00",
-      "price": null,
-      "price_max": null,
-      "price_source": "",
+      "price": 1090,
+      "price_max": 2990,
+      "price_source": "O2 arena – oficiální program (stejná akce)",
       "ticket_url": "https://www.ticketmaster.cz/event/o5-a-radecek-tickets/140548629?language=en-us",
       "source": "Ticketmaster Discovery API",
       "verified_at": "2026-10-16",
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a75/c6852b1f-1989-40cc-a8d3-ad2fc1120a75_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-17"
+      "tm_price_checked_at": "2026-10-17",
+      "price_from": true,
+      "price_checked_at": "2026-10-17"
     },
     {
       "id": "o2-o5",
