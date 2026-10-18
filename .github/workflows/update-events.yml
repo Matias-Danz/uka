@@ -53,7 +53,7 @@ jobs:
         run: |
           python scripts/update_events.py
           python scripts/sync_ticket_info.py
-          python scripts/find_public_prices.py --dry-run
+          python scripts/find_public_prices.py 
       - name: Uložit změny seznamu do GitHubu
         run: |
           if git diff --quiet -- events.json; then
