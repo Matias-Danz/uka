@@ -43,12 +43,13 @@ HEADERS = {'User-Agent': USER_AGENT, 'Accept-Language': 'cs-CZ,cs;q=0.9'}
 SUPPORTED_HOSTS = {'goout.net', 'www.goout.net', 'eventlook.cz', 'www.eventlook.cz',
                    'www.o2arena.cz', 'www.o2universum.cz'}
 NO_PRICE_HOSTS = {'ticketmaster.cz', 'www.ticketmaster.cz', 'app.ticketmaster.com'}
-MAX_REQUESTS = 18
-MAX_SECONDS = 110
+MAX_REQUESTS = 24
+MAX_SECONDS = 140
 MAX_BYTES = 2_000_000
 MAX_AGE_DAYS = 7
-CATALOG_PAGES_PER_RUN = 4  # modest load: up to 4 public listings + up to 14 event details
+CATALOG_PAGES_PER_RUN = 8  # up to 8 public listings + remaining requests for matched event details
 GOOUT_CATALOGS = {
+    'Česko': 'https://goout.net/cs/cesko/koncerty/lezfymftizf/',
     'Praha': 'https://goout.net/cs/praha/koncerty/leznyvlkkzf/',
     'Brno': 'https://goout.net/cs/brno/koncerty/lezjyvlkkzf/',
     'Ostrava': 'https://goout.net/cs/ostrava/koncerty/lezaawlkkzf/',
@@ -354,21 +355,24 @@ def goout_listing_url(city, *, sort='recommendations', page=0):
 
 
 def catalogue_plan(now):
-    """Rotate through publicly accessible catalogue pages each hour.
+    """Prioritize real first-page programme results; sample deeper pages sparingly.
 
-    No account, search API key or manual per-event price_links.json is needed.
-    We intentionally bound traffic. Across 24 hours different pages are
-    visited; each run processes only a small slice.
+    Previous rotation only fetched pages 20-36 where most of the ~200 missing
+    UKA events never appeared. That resulted in 0 candidates despite valid HTML.
+    All these are regular, public catalogue URLs (not a hidden API).
     """
     hour_number = int(now.timestamp() // 3600)
     smaller = ['Brno', 'Ostrava', 'Plzeň']
-    # New/popular events appear early; future shows may appear much deeper.
-    # Two different recommendation pages reach additional dates over time.
+    city = smaller[hour_number % len(smaller)]
     return [
-        ('Praha', 'recommendations', hour_number % 36 + 1),
-        ('Praha', 'recommendations', (hour_number * 7 + 11) % 36 + 1),
-        ('Praha', 'popularity' if hour_number % 2 else 'news', 0),
-        (smaller[hour_number % 3], 'recommendations', (hour_number // 3) % 20 + 1),
+        ('Praha', 'popularity', 0),
+        ('Praha', 'recommendations', 0),
+        ('Česko', 'popularity', 0),
+        (city, 'popularity', 0),
+        ('Praha', 'news', 0),
+        ('Česko', 'recommendations', 0),
+        ('Praha', 'recommendations', hour_number % 12 + 1),
+        (city, 'recommendations', (hour_number // 3) % 8 + 1),
     ]
 
 
@@ -377,6 +381,10 @@ def plausible_identity(a, b):
     a, b = norm(a), norm(b)
     if not a or not b or len(b) < 5: return False
     if a == b or SequenceMatcher(None, a, b).ratio() >= .71: return True
+    # E.g. 'FKJ' versus 'FKJ + support: Richie Griner'.
+    # Date and venue are still mandatory when confirming the detail.
+    if len(a) >= 3 and (b.startswith(a + ' ') or a.startswith(b + ' ') and len(b) >= 3):
+        return True
     def important(t):
         ignored = {'tour', 'support', 'world', 'live', 'prague', 'praha', '2026', '2027',
                    '2028', 'europe', 'the', 'and', 'with', 'special', 'guest', 'hoste'}
@@ -403,7 +411,8 @@ def discover_goout(events, fetcher, now=None):
     stats = {'pages': 0, 'candidates': 0}
     for city, sort, page in catalogue_plan(now)[:CATALOG_PAGES_PER_RUN]:
         key = city_key(city)
-        if not by_city.get(key): continue
+        candidates_in_area = events if city == 'Česko' else by_city.get(key, [])
+        if not candidates_in_area: continue
         url = goout_listing_url(city, sort=sort, page=page)
         html, error = fetcher.get_html(url)
         if error:
@@ -413,6 +422,7 @@ def discover_goout(events, fetcher, now=None):
         soup = BeautifulSoup(html, 'html.parser')
         count = 0
         seen = set()
+        sampled_titles = []
         for a in soup.select('a[href]'):
             raw_link = a.get('href', '')
             event_url = urljoin(url, raw_link)
@@ -424,7 +434,8 @@ def discover_goout(events, fetcher, now=None):
             seen.add(event_url)
             page_title = a.get_text(' ', strip=True)
             if not page_title.strip(): continue
-            for ev in by_city[key]:
+            if len(sampled_titles) < 3: sampled_titles.append(page_title[:55])
+            for ev in candidates_in_area:
                 if not (plausible_identity(ev.get('title'), page_title)
                         or plausible_identity(ev.get('artist'), page_title)):
                     continue
@@ -434,6 +445,7 @@ def discover_goout(events, fetcher, now=None):
         stats['candidates'] += count
         print(f'GOOUT KATALOG: {city}, {sort} str.{page}: {count} kandidátů, '
               f'{len(seen)} odkazů na akce; detail následně ověří datum a místo')
+        if not count: print('  UKÁZKA NÁZVŮ:', ' | '.join(sampled_titles) or '(žádné odkazy s názvem)')
         time.sleep(.3)
     print(f'GOOUT KATALOG CELKEM: {stats["pages"]} stran, '
           f'{stats["candidates"]} předběžných shod (nejsou to zatím potvrzené ceny)')
