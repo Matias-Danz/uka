@@ -118,6 +118,58 @@
   .modal-status-panel .availability-meta{font-size:12px}
   .modal-status-panel .availability-badge{font-size:13px}
   @media(max-width:760px){.filter-availability{width:100%}.map-av-wrap{width:100%}.status-legend{gap:5px}}
+
+  /* UKA: jemné a konzistentní přepínání denního/nočního režimu.
+     Přechody se zapínají pouze po kliknutí, nikdy při prvním načtení. */
+  html.uka-theme-switching :is(
+    body, header, .footer, .mobile-nav, .strip, .hero,
+    .event-card, .toolbar, .map-side, .map-tools, .map-event,
+    .map-box, .form-map, .form-card, .modal, .modal-status-panel,
+    .filter-availability, .field-wrap, .icon-btn, .btn-outline,
+    .select, .pill, .fallback-map, .fallback-map>p,
+    .maplibregl-map, .maplibregl-ctrl-group,
+    .maplibregl-ctrl-group button, .maplibregl-popup-content,
+    .maplibregl-popup-tip, .maplibregl-ctrl-attrib,
+    input, textarea, select, .form-group input, .form-group textarea,
+    .form-group select
+  ) {
+    transition-property: background-color, color, border-color, box-shadow;
+    transition-duration: 380ms;
+    transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+  }
+  html.uka-theme-switching :is(
+    .muted, .section-sub, .section-head, .theme-label,
+    .event-card h3, .event-card small, .card-price, .map-event strong,
+    .map-event small, .foot, .footer span, .nav button,
+    .mobile-nav button, .eyebrow, .hero-desc, .results,
+    .info-item, .category, .maplibregl-ctrl-attrib a
+  ) {
+    transition: color 380ms cubic-bezier(.22, 1, .36, 1);
+  }
+  #themeToggle .icon {
+    transition: transform 380ms cubic-bezier(.22, 1, .36, 1);
+  }
+  html.uka-theme-switching #themeToggle .icon {
+    transform: rotate(25deg) scale(1.08);
+  }
+  /* Zakrytí načítání nového vektorového stylu mapy bez zablokování myši. */
+  .uka-map-theme-veil {
+    position: absolute;
+    inset: 0;
+    z-index: 15;
+    pointer-events: none;
+    opacity: 0;
+    background: var(--tile-placeholder);
+    transition: opacity 180ms ease-in-out;
+  }
+  .uka-map-theme-veil.is-visible { opacity: .97; }
+  @media (prefers-reduced-motion: reduce) {
+    html.uka-theme-switching *,
+    #themeToggle .icon,
+    .uka-map-theme-veil {
+      transition: none !important;
+    }
+  }
   </style>
 </head>
 <body>
@@ -296,17 +348,71 @@
   function syncThemeButton(){let day=theme()==='light';el('themeIcon').setAttribute('href',day?'#i-moon':'#i-sun');el('themeText').textContent=day?'Denní režim':'Noční režim';el('themeToggle').setAttribute('aria-label',day?'Přepnout na noční režim':'Přepnout na denní režim');document.querySelector('meta[name="theme-color"]').content=day?'#f8f8f6':'#0b0c11';}
   const MAP_STYLES={light:'https://tiles.openfreemap.org/styles/liberty',dark:'https://tiles.openfreemap.org/styles/dark'};
   const mapStyle=()=>MAP_STYLES[theme()];
+  // Každá mapa používá vlastní přechod; změna barvy nikdy nevyvolá další zoom
+  // ani přesun kamery. Značky MapLibre zůstanou na svém místě.
+  const mapThemeSessions=new WeakMap();
+  let themeClassTimer=null;
+  function smoothlyChangeMapStyle(map,styleURL){
+    if(!map)return;
+    const previous=mapThemeSessions.get(map);
+    if(previous)previous.cancel();
+    const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if(reduced){try{map.setStyle(styleURL)}catch(e){console.warn('UKA map theme',e)}return;}
+    const container=map.getContainer();
+    if(!container)return;
+    const veil=document.createElement('div');
+    veil.className='uka-map-theme-veil';
+    veil.setAttribute('aria-hidden','true');
+    container.appendChild(veil);
+    let startTimer=null, deadline=null, removeTimer=null, finished=false;
+    function removeVeil(){
+      if(finished)return;
+      finished=true;
+      clearTimeout(startTimer);clearTimeout(deadline);
+      map.off('idle',removeVeil);
+      veil.classList.remove('is-visible');
+      removeTimer=setTimeout(()=>veil.remove(),230);
+      mapThemeSessions.delete(map);
+    }
+    function cancel(){
+      finished=true;
+      clearTimeout(startTimer);clearTimeout(deadline);clearTimeout(removeTimer);
+      map.off('idle',removeVeil);
+      veil.remove();
+    }
+    mapThemeSessions.set(map,{cancel});
+    requestAnimationFrame(()=>{
+      if(finished)return;
+      veil.classList.add('is-visible');
+      // Nejprve zakrýt starý styl, až poté začít stahovat nové podklady.
+      startTimer=setTimeout(()=>{
+        if(finished)return;
+        try{
+          map.on('idle',removeVeil);
+          map.setStyle(styleURL);
+          // Pokud server mapy neodpoví, web nezůstane zakrytý napořád.
+          deadline=setTimeout(removeVeil,4200);
+        }catch(e){console.warn('UKA map theme',e);removeVeil();}
+      },190);
+    });
+  }
   function refreshMapStyles(){
-    if(mainMap)mainMap.setStyle(mapStyle());
-    if(miniMap)miniMap.setStyle(mapStyle());
+    const nextStyle=mapStyle();
+    if(mainMap)smoothlyChangeMapStyle(mainMap,nextStyle);
+    if(miniMap)smoothlyChangeMapStyle(miniMap,nextStyle);
   }
   function setTheme(newTheme){
+    if(!['light','dark'].includes(newTheme)||newTheme===theme())return;
+    const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    clearTimeout(themeClassTimer);
+    document.documentElement.classList.toggle('uka-theme-switching',!reduced);
     document.documentElement.dataset.theme=newTheme;
     try{localStorage.setItem('uka-theme',newTheme)}catch{}
     syncThemeButton();refreshMapStyles();
     const offline=el('mainMap')?.querySelector('.fallback-map');
     if(offline)showFallbackMap('mainMap',false);
     if(el('formMap')?.querySelector('.fallback-map'))showFallbackMap('formMap',true);
+    themeClassTimer=setTimeout(()=>document.documentElement.classList.remove('uka-theme-switching'),460);
   }
   function showToast(msg){const t=el('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3200);}
   function render(){const current=(location.hash||'#akce').slice(1);page=['akce','mapa','oblibene','pridat'].includes(current)?current:'akce';favoriteOnly=page==='oblibene';closeModal(false);destroyMaps();document.querySelectorAll('[data-nav]').forEach(n=>n.classList.toggle('active',n.dataset.nav===page));el('app').innerHTML=page==='mapa'?mapPage():page==='pridat'?addPage():pageHome();window.scrollTo({top:0,behavior:'instant'});if(page==='mapa')setTimeout(initMainMap,30);if(page==='pridat')setTimeout(initFormMap,30);}
