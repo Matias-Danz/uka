@@ -53,7 +53,7 @@ GOOUT_CATALOGS = {
 DATE_RE = re.compile(r'(?<!\d)([0-3]?\d)\.\s*([01]?\d)\.\s*(20\d{2})(?!\d)')
 MONEY_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[ \u00a0\u202f.]\d{3})*|\d{1,6})\s*(?:Kč|CZK)(?!\w)', re.I)
 RANGE_RE = re.compile(r'(?:od\s+)?([\d .\u00a0\u202f]+)\s*(?:Kč|CZK)?\s*[\-–—]\s*([\d .\u00a0\u202f]+)\s*(?:Kč|CZK)', re.I)
-LABELS = {'vstupné', 'vstupne', 'cena vstupenek', 'cena vstupenky', 'vstupné od', 'tickets from', 'ticket price', 'price'}
+LABELS = {'vstupné', 'vstupne', 'cena vstupenek', 'cena vstupenky', 'vstupné od', 'tickets from', 'ticket price', 'price', 'entry', 'admission', 'cena', 'cena od'}
 NEGATIVE_TITLES = re.compile(r'\b(parking|fast track|early entry|upgrade|meet and greet|merch|balicek)\b', re.I)
 
 
@@ -68,24 +68,50 @@ def host_ok(url):
     return p.scheme == 'https' and p.hostname in SUPPORTED_HOSTS and not p.username and not p.password
 
 
-def parse_price(val):
-    """Only accepts a whole compact price field, never prose containing a number."""
+def parse_price(val, *, labeled=False):
+    """Accept CZK only, or a bare amount/range immediately after an Entry label.
+
+    The 2nd case is used by GoOut (e.g. Entry / 690–3790). It is NOT
+    applied to unrelated body text or to other currencies.
+    """
     if val is None:
         return None
-    s = ' '.join(str(val).split()).strip()
-    if len(s) > 85:
+    raw = ' '.join(str(val).replace('\u00a0', ' ').replace('\u202f', ' ').split()).strip()
+    if not raw or len(raw) > 85:
         return None
-    if norm(s) in {'zdarma', 'vstup zdarma', 'vstupne zdarma', 'free entry'}:
+    if norm(raw) in {'zdarma', 'vstup zdarma', 'vstupne zdarma', 'free entry'}:
         return (0, 0)
-    num = r'(?:\d{1,3}(?:[ .]\d{3})*|\d{1,6})'
-    single = re.fullmatch(rf'(?:od\s+)?({num})\s*(?:Kč|CZK)', s, flags=re.I)
-    if single:
-        amount = int(re.sub(r'\D', '', single.group(1)))
-        return (amount, None) if 0 < amount <= 100000 else None
-    rng = re.fullmatch(rf'(?:od\s+)?({num})\s*(?:Kč|CZK)?\s*(?:[-–—]|až)\s*({num})\s*(?:Kč|CZK)', s, flags=re.I)
-    if rng:
-        a, b = (int(re.sub(r'\D', '', v)) for v in rng.groups())
-        return (a, b) if 0 < a <= b <= 100000 else None
+    # CZK 690, 690 Kč, 790–990, 790 - 990 CZK, CZK 1,190.00
+    prefix = re.match(r'^(?:CZK|Kč)\s*', raw, flags=re.I)
+    suffix = re.search(r'\s*(?:CZK|Kč)$', raw, flags=re.I)
+    currency = bool(prefix or suffix)
+    if not currency and not labeled:
+        return None
+    clean = raw
+    if prefix: clean = clean[prefix.end():]
+    clean = re.sub(r'\s*(?:CZK|Kč)$', '', clean, flags=re.I).strip()
+    if not re.fullmatch(r'[0-9\s.,–—-]+', clean):
+        return None
+
+    def amount(part):
+        part = re.sub(r'\s+', '', part)
+        if re.fullmatch(r'\d{1,3}(?:[.,]\d{3})+', part):
+            value = int(re.sub(r'[.,]', '', part))
+        elif re.fullmatch(r'\d+[.,]00', part):
+            value = int(part[:-3])
+        elif part.isdigit():
+            value = int(part)
+        else:
+            return None
+        return value if 0 < value <= 100000 else None
+
+    parts = re.split(r'\s*[-–—]\s*', clean)
+    if len(parts) == 1:
+        value = amount(parts[0])
+        return (value, None) if value is not None else None
+    if len(parts) == 2:
+        low, high = amount(parts[0]), amount(parts[1])
+        return (low, high) if low is not None and high is not None and low <= high else None
     return None
 
 
@@ -129,17 +155,18 @@ def structured_price(event):
 
 
 def label_value(soup):
-    """Look near a literal price heading; never regex the entire description."""
-    strings = [str(s).strip() for s in soup.stripped_strings]
-    for i, fragment in enumerate(strings):
-        if norm(fragment).rstrip(':') not in LABELS:
+    """Prices immediately after a price heading, not from arbitrary prose."""
+    strings = [str(x).strip() for x in soup.stripped_strings]
+    for i, txt in enumerate(strings):
+        if norm(txt).rstrip(':') not in LABELS:
             continue
-        # Price immediately after heading (possibly separated by a wrapper).
+        # Labels 'Entry' and 'Vstupné' are sufficient context for bare numbers.
         for candidate in strings[i+1:i+4]:
             if len(candidate) > 85 or norm(candidate) in LABELS:
                 break
-            result = parse_price(candidate)
-            if result is not None: return result
+            price = parse_price(candidate, labeled=True)
+            if price is not None:
+                return price
     return None
 
 
@@ -149,7 +176,7 @@ def iso_day(raw):
     try:
         return date.fromisoformat(s[:10]).isoformat()
     except ValueError: pass
-    m = DATE_RE.search(s)
+    m = DATE_RE.search(s) or re.search(r'(?<!\d)([0-3]?\d)[/-]([01]?\d)[/-](20\d{2})(?!\d)', s)
     if m:
         try: return date(int(m.group(3)), int(m.group(2)), int(m.group(1))).isoformat()
         except ValueError: pass
@@ -179,10 +206,14 @@ def extract_page(html, url):
         if isinstance(place, list): place = next((x for x in place if isinstance(x, dict)), {})
         if isinstance(place, dict): venue = str(place.get('name') or venue)
         price = structured_price(obj) or price
+    # Extract an HTML time tag before any prose/date in unrelated articles.
+    if not event_date:
+        time_node = soup.select_one('time[datetime]')
+        if time_node: event_date = iso_day(time_node.get('datetime'))
     # Visible event header first; do not interpret a date in an unrelated story.
     if not event_date:
         container = soup.find('main') or soup.find('article') or soup.body or soup
-        short = ' '.join(list(container.stripped_strings)[:24])
+        short = ' '.join(list(container.stripped_strings)[:42])
         event_date = iso_day(short)
     if not venue:
         venue = labeled_text(soup, 'Místo') or labeled_text(soup, 'Venue')
@@ -209,7 +240,9 @@ def same_event(event, detail):
     if not a or not b:
         return False
     venue_aliases = {'o2 arena': 'o2 arena', '02 arena': 'o2 arena',
-                     'o2 universum': 'o2 universum', 'areal 7': 'areal 7'}
+                     'o2 universum': 'o2 universum', 'areal 7': 'areal 7',
+                     'prague congress centre': 'kongresove centrum praha',
+                     'kongresove centrum praha': 'kongresove centrum praha'}
     a, b = venue_aliases.get(a, a), venue_aliases.get(b, b)
     if a != b and SequenceMatcher(None, a, b).ratio() < .89:
         return False
@@ -226,6 +259,20 @@ def same_event(event, detail):
     # and title differs merely by a descriptive suffix (e.g. tour name).
     if artist and len(artist) >= 8 and page == artist and (artist in title or title in artist):
         return True
+    # Allow descriptive tour/support terms when artist/leading title remains intact,
+    # provided the date and venue have already matched exactly.
+    def meaningful_tokens(raw):
+        ignored = {'tour', 'support', 'with', 'and', 'the', 'live', 'world', '2026', '2027'}
+        return {t for t in norm(raw).split() if len(t) >= 3 and t not in ignored}
+    ta, tb = meaningful_tokens(title), meaningful_tokens(page)
+    if ta and tb:
+        overlap = ta & tb
+        if len(overlap) >= 2 and len(overlap) / min(len(ta), len(tb)) >= .7:
+            return True
+        if len(ta) == 1 and ta <= tb and len(next(iter(ta))) >= 5:
+            return True
+        if len(tb) == 1 and tb <= ta and len(next(iter(tb))) >= 5:
+            return True
     return False
 
 
@@ -277,12 +324,20 @@ class RespectfulFetcher:
         return (extract_page(html, url), None) if html else (None, error)
 
 
+def city_key(value):
+    value = norm(value)
+    # Ticketmaster writes Czech municipal districts as Praha 1, Praha 9, etc.
+    if re.fullmatch(r'praha(?: [1-9][0-9]?)?', value):
+        return 'praha'
+    return value
+
+
 def discover_goout(events, fetcher):
     """Find likely event links in short public city listings; never assume a match.
 
     Only event DETAILS with exact date + venue + title can set a price.
     """
-    cities = {norm(e.get('city')) for e in events}
+    cities = {city_key(e.get('city')) for e in events}
     by_title = defaultdict(list)
     for e in events:
         by_title[norm(e.get('title'))].append(e)
@@ -291,7 +346,7 @@ def discover_goout(events, fetcher):
             by_title[artist].append(e)
     urls = defaultdict(list)
     for city, listing in GOOUT_CATALOGS.items():
-        if norm(city) not in cities: continue
+        if city_key(city) not in cities: continue
         html, error = fetcher.get_html(listing)
         if error:
             print('GOOUT KATALOG:', city, error)
@@ -306,11 +361,11 @@ def discover_goout(events, fetcher):
             if len(title) < 7: continue
             candidates = by_title.get(title, [])
             if not candidates:
-                candidates = [e for e in events if norm(e.get('city')) == norm(city)
+                candidates = [e for e in events if city_key(e.get('city')) == city_key(city)
                               and len(norm(e.get('title'))) >= 10
                               and SequenceMatcher(None, norm(e.get('title')), title).ratio() >= .87]
             for e in candidates:
-                if norm(e.get('city')) != norm(city): continue
+                if city_key(e.get('city')) != city_key(city): continue
                 if u not in urls[e.get('id')]:
                     urls[e.get('id')].append(u); matches += 1
         print('GOOUT KATALOG:', city, matches, 'možných shod (ověří se na detailu)')
@@ -319,69 +374,139 @@ def discover_goout(events, fetcher):
 
 
 def load_seeds():
-    if not LINKS_FILE.exists(): return []
+    if not LINKS_FILE.exists():
+        return []
     obj = json.loads(LINKS_FILE.read_text('utf-8'))
-    return [x for x in obj if isinstance(x, dict) and host_ok(x.get('url'))] if isinstance(obj, list) else []
+    if not isinstance(obj, list):
+        raise RuntimeError('price_links.json musí být JSON pole v hranatých závorkách []')
+    return [x for x in obj if isinstance(x, dict) and host_ok(x.get('url'))]
+
+
+def seed_matches(event, seed):
+    if event.get('date') != seed.get('date'):
+        return False
+    if seed.get('event_id'):
+        # Event ID is exact, but also check venue/date/title to prevent stale ID mistakes.
+        return (event.get('id') == seed['event_id']
+                and norm(event.get('venue')) == norm(seed.get('venue'))
+                and norm(event.get('title')) == norm(seed.get('title')))
+    a, b = norm(event.get('title')), norm(seed.get('title'))
+    art = norm(event.get('artist'))
+    return bool(a and b and (a == b or SequenceMatcher(None, a, b).ratio() >= .78
+                             or (art and len(art) >= 8 and art == b)))
 
 
 def seed_event_candidates(event, seeds):
-    # Seeds are hints, never price assertions. Still validate fetched details.
     for seed in seeds:
-        if event.get('date') != seed.get('date'): continue
-        a, b = norm(event.get('title')), norm(seed.get('title'))
-        art = norm(event.get('artist'))
-        if not a or not b: continue
-        if a == b or SequenceMatcher(None, a, b).ratio() >= .78 or (art and len(art) >= 8 and art == b):
+        if seed_matches(event, seed):
             yield seed['url']
+
+
+def observed_seed_price(event, seed, today):
+    """A human-verified source observation, not live inventory.
+
+    Fallback only if exact event/date/venue/title ID matched, source is provided,
+    observed date is recent, and amounts were independently verified.
+    """
+    if not seed_matches(event, seed) or not seed.get('event_id'):
+        return None
+    day_str = seed.get('observed_at')
+    if not day_str or not seed.get('observed_source'):
+        return None
+    try:
+        day = date.fromisoformat(day_str)
+    except ValueError:
+        return None
+    if not (0 <= (today-day).days <= 5):
+        return None
+    low, high = seed.get('observed_price'), seed.get('observed_price_max')
+    if isinstance(low, bool) or not isinstance(low, int) or not (0 < low <= 100000):
+        return None
+    if high is not None and (isinstance(high, bool) or not isinstance(high, int) or not low <= high <= 100000):
+        return None
+    return low, high
 
 
 def process(events, fetcher, seeds, now=None):
     now = now or datetime.now(timezone.utc)
     started = time.monotonic()
-    upcoming = [e for e in events if e.get('price') is None and e.get('date', '') >= now.date().isoformat()]
-    # Oldest missing entries first; don't constantly revisit the first 20.
+    today = now.date().isoformat()
+    upcoming = [e for e in events if e.get('price') is None and e.get('date', '') >= today]
     upcoming.sort(key=lambda e: (e.get('public_price_attempt_at', ''), e.get('date', '9999')))
-    report = {'unknown_before': len(upcoming), 'matched': [], 'skipped': defaultdict(int), 'checked': 0}
+    report = {'unknown_before': len(upcoming), 'matched': [], 'skipped': defaultdict(int),
+              'checked': 0, 'price_sources': defaultdict(int), 'seed_targets': 0}
     details_cache = {}
     catalog_urls = discover_goout(upcoming, fetcher)
-    today = now.date().isoformat()
+    observed_by_id = defaultdict(list)
+    for seed in seeds:
+        if seed.get('event_id'):
+            observed_by_id[seed['event_id']].append(seed)
+    report['seed_targets'] = sum(any(seed_matches(ev, x) for x in observed_by_id.get(ev.get('id'), [])) for ev in upcoming)
     for event in upcoming:
-        if fetcher.count >= MAX_REQUESTS or time.monotonic()-started > MAX_SECONDS: break
+        if fetcher.count >= MAX_REQUESTS or time.monotonic() - started > MAX_SECONDS:
+            break
         old = event.get('public_price_attempt_at', '')
         try:
-            if old and date.fromisoformat(old) + timedelta(days=MAX_AGE_DAYS) > now.date(): continue
-        except ValueError: pass
+            if old and date.fromisoformat(old) + timedelta(days=MAX_AGE_DAYS) > now.date():
+                # Still allow a newly supplied verified source observation.
+                if not any(observed_seed_price(event, x, now.date()) for x in observed_by_id.get(event.get('id'), [])):
+                    continue
+        except ValueError:
+            pass
         urls = []
         for key in ('price_url', 'ticket_url', 'source_url'):
             url = event.get(key, '')
-            if host_ok(url) and url not in urls: urls.append(url)
+            if host_ok(url) and url not in urls:
+                urls.append(url)
         for url in seed_event_candidates(event, seeds):
-            if url not in urls: urls.append(url)
+            if url not in urls:
+                urls.append(url)
         for url in catalog_urls.get(event.get('id'), []):
-            if url not in urls: urls.append(url)
-        if not urls: continue
+            if url not in urls:
+                urls.append(url)
+        if not urls:
+            continue
         event['public_price_attempt_at'] = today
         for url in urls[:3]:
+            seed = next((s for s in seeds if s.get('url') == url and seed_matches(event, s)), None)
             if url not in details_cache:
                 details_cache[url] = fetcher.get(url)
                 report['checked'] += 1
-                time.sleep(.25)
+                time.sleep(.1)
             detail, error = details_cache[url]
+            evidence_type = None
+            price = None
             if error:
-                report['skipped'][error] += 1; continue
-            if not same_event(event, detail):
-                report['skipped']['identity mismatch'] += 1; continue
-            if detail['price'] is None:
-                report['skipped']['no explicit CZK price'] += 1; continue
-            low, high = detail['price']
+                report['skipped'][error] += 1
+            elif not same_event(event, detail):
+                report['skipped']['identity mismatch'] += 1
+            elif detail['price'] is None:
+                report['skipped']['no explicit CZK price'] += 1
+            else:
+                price = detail['price']
+                evidence_type = 'živě načteno'
+            if price is None and seed is not None:
+                price = observed_seed_price(event, seed, now.date())
+                if price is not None:
+                    evidence_type = 'ověřený veřejný údaj (datum v price_links.json)'
+            if price is None:
+                continue
+            low, high = price
+            checked_at = today if evidence_type == 'živě načteno' else seed['observed_at']
+            source = ('Veřejná stránka ' + urlparse(url).hostname if evidence_type == 'živě načteno'
+                      else 'Ověřeno: ' + seed['observed_source'])
             event.update({'price': low, 'price_max': high,
-                          'price_source': 'Veřejný ceník (' + urlparse(url).hostname + ')',
-                          'price_checked_at': today, 'price_from': bool(high is None or high != low),
+                          'price_source': source,
+                          'price_checked_at': checked_at,
+                          'price_from': bool(high is not None and high > low),
                           'price_url': url})
             report['matched'].append({'id': event.get('id'), 'title': event.get('title'),
-                                      'price': low, 'price_max': high, 'url': url})
+                                      'price': low, 'price_max': high, 'url': url,
+                                      'type': evidence_type})
+            report['price_sources'][evidence_type] += 1
             break
     report['skipped'] = dict(report['skipped'])
+    report['price_sources'] = dict(report['price_sources'])
     report['unknown_after'] = sum(e.get('price') is None for e in events)
     report['requests'] = fetcher.count
     report['index_matches'] = sum(len(v) for v in catalog_urls.values())
@@ -397,9 +522,11 @@ def run(dry_run=False):
     print(f'VEŘEJNÉ CENY: {report["checked"]} detailů, {len(report["matched"])} nových cen, '
           f'{report["unknown_after"]} stále neznámých; {report["requests"]} HTML požadavků, '
           f'{report["index_matches"]} možných shod v katalozích')
+    print(f'SHODA S ODKAZY: {report["seed_targets"]} akcí s chybějící cenou z aktuální databáze')
+    for key, num in report['price_sources'].items(): print(f'  ZDROJ: {key}: {num}')
     for key, num in report['skipped'].items(): print(f'  Přeskočeno – {key}: {num}')
     for m in report['matched']:
-        print('  NALEZENO:', m['title'], '=>', m['price'], 'Kč; zdroj:', m['url'])
+        print('  NALEZENO:', m['title'], '=>', m['price'], 'Kč;', m['type'], '; zdroj:', m['url'])
     if dry_run:
         print('TESTOVACÍ REŽIM: events.json zůstává beze změny.')
         return report
