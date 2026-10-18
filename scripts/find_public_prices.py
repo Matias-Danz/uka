@@ -11,11 +11,14 @@ Run AFTER update_events.py and sync_ticket_info.py:
     python scripts/find_public_prices.py --dry-run
 
 Optional price_links.json contains additional *confirmed event detail links*.
+Rotating public GoOut catalogue pages are inspected automatically to avoid
+entering hundreds of URLs by hand. Coverage is partial and best-effort.
 Such links are matched to events by title, exact date and venue. The script
 also tries event's own ticket_url when on the supported public sites.
 """
 from __future__ import annotations
 import argparse
+import base64
 import json
 import re
 import sys
@@ -25,7 +28,7 @@ from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from difflib import SequenceMatcher
 from pathlib import Path
-from urllib.parse import urlparse, urljoin
+from urllib.parse import urlparse, urljoin, urlencode
 from urllib.robotparser import RobotFileParser
 
 import requests
@@ -40,10 +43,11 @@ HEADERS = {'User-Agent': USER_AGENT, 'Accept-Language': 'cs-CZ,cs;q=0.9'}
 SUPPORTED_HOSTS = {'goout.net', 'www.goout.net', 'eventlook.cz', 'www.eventlook.cz',
                    'www.o2arena.cz', 'www.o2universum.cz'}
 NO_PRICE_HOSTS = {'ticketmaster.cz', 'www.ticketmaster.cz', 'app.ticketmaster.com'}
-MAX_REQUESTS = 24
-MAX_SECONDS = 125
+MAX_REQUESTS = 18
+MAX_SECONDS = 110
 MAX_BYTES = 2_000_000
 MAX_AGE_DAYS = 7
+CATALOG_PAGES_PER_RUN = 4  # modest load: up to 4 public listings + up to 14 event details
 GOOUT_CATALOGS = {
     'Praha': 'https://goout.net/cs/praha/koncerty/leznyvlkkzf/',
     'Brno': 'https://goout.net/cs/brno/koncerty/lezjyvlkkzf/',
@@ -332,45 +336,108 @@ def city_key(value):
     return value
 
 
-def discover_goout(events, fetcher):
-    """Find likely event links in short public city listings; never assume a match.
+def goout_listing_url(city, *, sort='recommendations', page=0):
+    """Build a PUBLIC GoOut page URL (no undocumented JSON endpoint).
 
-    Only event DETAILS with exact date + venue + title can set a price.
+    The public site exposes scrollId in links for ordinary catalogue paging.
+    If a site changes that scheme, requests may return the first page or no
+    useful items; this remains best-effort and fails safely.
     """
-    cities = {city_key(e.get('city')) for e in events}
-    by_title = defaultdict(list)
-    for e in events:
-        by_title[norm(e.get('title'))].append(e)
-        artist = norm(e.get('artist'))
-        if artist and len(artist) >= 8 and ',' not in artist:
-            by_title[artist].append(e)
-    urls = defaultdict(list)
-    for city, listing in GOOUT_CATALOGS.items():
-        if city_key(city) not in cities: continue
-        html, error = fetcher.get_html(listing)
+    base = GOOUT_CATALOGS[city]
+    params = {'sort': sort}
+    if page:
+        cursor = base64.urlsafe_b64encode(
+            json.dumps({'donutSize': 'd0', 'page': page}, separators=(',', ':')).encode()
+        ).decode().rstrip('=')
+        params['scrollId'] = cursor
+    return base + '?' + urlencode(params)
+
+
+def catalogue_plan(now):
+    """Rotate through publicly accessible catalogue pages each hour.
+
+    No account, search API key or manual per-event price_links.json is needed.
+    We intentionally bound traffic. Across 24 hours different pages are
+    visited; each run processes only a small slice.
+    """
+    hour_number = int(now.timestamp() // 3600)
+    smaller = ['Brno', 'Ostrava', 'Plzeň']
+    # New/popular events appear early; future shows may appear much deeper.
+    # Two different recommendation pages reach additional dates over time.
+    return [
+        ('Praha', 'recommendations', hour_number % 36 + 1),
+        ('Praha', 'recommendations', (hour_number * 7 + 11) % 36 + 1),
+        ('Praha', 'popularity' if hour_number % 2 else 'news', 0),
+        (smaller[hour_number % 3], 'recommendations', (hour_number // 3) % 20 + 1),
+    ]
+
+
+def plausible_identity(a, b):
+    """Candidate-title match ONLY; verified exact date+venue in same_event."""
+    a, b = norm(a), norm(b)
+    if not a or not b or len(b) < 5: return False
+    if a == b or SequenceMatcher(None, a, b).ratio() >= .71: return True
+    def important(t):
+        ignored = {'tour', 'support', 'world', 'live', 'prague', 'praha', '2026', '2027',
+                   '2028', 'europe', 'the', 'and', 'with', 'special', 'guest', 'hoste'}
+        return {w for w in t.split() if len(w) >= 4 and w not in ignored}
+    aa, bb = important(a), important(b)
+    shared = aa & bb
+    return bool(shared and (len(shared) >= 2 or any(len(w) >= 7 for w in shared))
+                and len(shared) / min(len(aa), len(bb)) >= .65)
+
+
+def discover_goout(events, fetcher, now=None):
+    """Discover public GoOut EVENT urls from rotated catalogue pages.
+
+    This is NOT a generic internet search. Public programme pages only list
+    part of GoOut's catalogue and not all events on Ticketmaster. NEVER claim
+    complete coverage. Candidate URLs must pass same_event before writing.
+    """
+    now = now or datetime.now(timezone.utc)
+    by_city = defaultdict(list)
+    for ev in events:
+        if not NEGATIVE_TITLES.search(str(ev.get('title', ''))):
+            by_city[city_key(ev.get('city'))].append(ev)
+    links = defaultdict(list)
+    stats = {'pages': 0, 'candidates': 0}
+    for city, sort, page in catalogue_plan(now)[:CATALOG_PAGES_PER_RUN]:
+        key = city_key(city)
+        if not by_city.get(key): continue
+        url = goout_listing_url(city, sort=sort, page=page)
+        html, error = fetcher.get_html(url)
         if error:
-            print('GOOUT KATALOG:', city, error)
+            print(f'GOOUT KATALOG: {city}, {sort} str.{page}: nedostupný ({error})')
             continue
+        stats['pages'] += 1
         soup = BeautifulSoup(html, 'html.parser')
-        matches = 0
+        count = 0
+        seen = set()
         for a in soup.select('a[href]'):
-            u = urljoin(listing, a['href'])
-            if not host_ok(u) or not re.fullmatch(r'/cs/[^/]+/sz[a-z0-9]+/?', urlparse(u).path, re.I):
-                continue
-            title = norm(a.get_text(' ', strip=True))
-            if len(title) < 7: continue
-            candidates = by_title.get(title, [])
-            if not candidates:
-                candidates = [e for e in events if city_key(e.get('city')) == city_key(city)
-                              and len(norm(e.get('title'))) >= 10
-                              and SequenceMatcher(None, norm(e.get('title')), title).ratio() >= .87]
-            for e in candidates:
-                if city_key(e.get('city')) != city_key(city): continue
-                if u not in urls[e.get('id')]:
-                    urls[e.get('id')].append(u); matches += 1
-        print('GOOUT KATALOG:', city, matches, 'možných shod (ověří se na detailu)')
-        time.sleep(.2)
-    return urls
+            raw_link = a.get('href', '')
+            event_url = urljoin(url, raw_link)
+            # GoOut exposes event detail links as /cs/slug/szID or /en/slug/szID.
+            if not host_ok(event_url) or not re.fullmatch(
+                r'/(?:cs|en)/[^/]+/sz[a-z0-9]+/?', urlparse(event_url).path, re.I
+            ): continue
+            if event_url in seen: continue
+            seen.add(event_url)
+            page_title = a.get_text(' ', strip=True)
+            if not page_title.strip(): continue
+            for ev in by_city[key]:
+                if not (plausible_identity(ev.get('title'), page_title)
+                        or plausible_identity(ev.get('artist'), page_title)):
+                    continue
+                if event_url not in links[ev['id']]:
+                    links[ev['id']].append(event_url)
+                    count += 1
+        stats['candidates'] += count
+        print(f'GOOUT KATALOG: {city}, {sort} str.{page}: {count} kandidátů, '
+              f'{len(seen)} odkazů na akce; detail následně ověří datum a místo')
+        time.sleep(.3)
+    print(f'GOOUT KATALOG CELKEM: {stats["pages"]} stran, '
+          f'{stats["candidates"]} předběžných shod (nejsou to zatím potvrzené ceny)')
+    return links
 
 
 def load_seeds():
@@ -436,7 +503,7 @@ def process(events, fetcher, seeds, now=None):
     report = {'unknown_before': len(upcoming), 'matched': [], 'skipped': defaultdict(int),
               'checked': 0, 'price_sources': defaultdict(int), 'seed_targets': 0}
     details_cache = {}
-    catalog_urls = discover_goout(upcoming, fetcher)
+    catalog_urls = discover_goout(upcoming, fetcher, now=now)
     observed_by_id = defaultdict(list)
     for seed in seeds:
         if seed.get('event_id'):
@@ -509,6 +576,7 @@ def process(events, fetcher, seeds, now=None):
     report['price_sources'] = dict(report['price_sources'])
     report['unknown_after'] = sum(e.get('price') is None for e in events)
     report['requests'] = fetcher.count
+    report['rotating_catalogues'] = len(catalogue_plan(now))
     report['index_matches'] = sum(len(v) for v in catalog_urls.values())
     return report
 
