@@ -101,7 +101,7 @@
   .pin-bubble.av-low{background:#eea23a}
   .pin-bubble.av-temporarily_sold_out{background:#ed8541}
   .pin-bubble.av-sold_out{background:#ec334e;box-shadow:0 4px 19px rgba(237,51,78,.4)}
-  .pin-bubble.av-unknown{background:#9ca2af}
+  .pin-bubble.av-unknown{background:var(--gold)}
   .uka-popup-event.av-sold_out{background:#fff0f1;border-color:#e84b60}
   .uka-popup-event .availability-badge{font-size:10px;padding:3px 7px}
   .filter-availability{display:inline-flex;align-items:center;gap:8px;cursor:pointer;color:var(--text);font-size:12px;font-weight:750;line-height:1.4;border:1px solid var(--stroke);border-radius:11px;padding:9px 12px;background:var(--surface);user-select:none}
@@ -119,56 +119,26 @@
   .modal-status-panel .availability-badge{font-size:13px}
   @media(max-width:760px){.filter-availability{width:100%}.map-av-wrap{width:100%}.status-legend{gap:5px}}
 
-  /* UKA: jemné a konzistentní přepínání denního/nočního režimu.
-     Přechody se zapínají pouze po kliknutí, nikdy při prvním načtení. */
-  html.uka-theme-switching :is(
-    body, header, .footer, .mobile-nav, .strip, .hero,
-    .event-card, .toolbar, .map-side, .map-tools, .map-event,
-    .map-box, .form-map, .form-card, .modal, .modal-status-panel,
-    .filter-availability, .field-wrap, .icon-btn, .btn-outline,
-    .select, .pill, .fallback-map, .fallback-map>p,
-    .maplibregl-map, .maplibregl-ctrl-group,
-    .maplibregl-ctrl-group button, .maplibregl-popup-content,
-    .maplibregl-popup-tip, .maplibregl-ctrl-attrib,
-    input, textarea, select, .form-group input, .form-group textarea,
-    .form-group select
-  ) {
-    transition-property: background-color, color, border-color, box-shadow;
-    transition-duration: 380ms;
-    transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+  /* UKA: jednokrokový crossfade celého rozhraní – žádné dvojí animování barev. */
+  @keyframes ukaFadeIn  { from { opacity: 0 } to { opacity: 1 } }
+  /* Starý snímek zůstává pod novým; žádný dvojitý fade ani mezisnímek. */
+  ::view-transition-old(root) { animation: none !important; }
+  ::view-transition-new(root) { animation: 260ms ease-in-out both ukaFadeIn; }
+  /* Během snímkového přechodu vypneme staré přechody jednotlivých elementů. */
+  html.uka-theme-atomic *, html.uka-theme-atomic *::before,
+  html.uka-theme-atomic *::after { transition: none !important; }
+  /* Záloha pro prohlížeče bez View Transitions: vše se mění jedním tempem. */
+  html.uka-theme-css *, html.uka-theme-css *::before,
+  html.uka-theme-css *::after {
+    transition-property: background-color, color, border-color, box-shadow, fill, stroke !important;
+    transition-duration: 260ms !important;
+    transition-timing-function: ease-in-out !important;
   }
-  html.uka-theme-switching :is(
-    .muted, .section-sub, .section-head, .theme-label,
-    .event-card h3, .event-card small, .card-price, .map-event strong,
-    .map-event small, .foot, .footer span, .nav button,
-    .mobile-nav button, .eyebrow, .hero-desc, .results,
-    .info-item, .category, .maplibregl-ctrl-attrib a
-  ) {
-    transition: color 380ms cubic-bezier(.22, 1, .36, 1);
-  }
-  #themeToggle .icon {
-    transition: transform 380ms cubic-bezier(.22, 1, .36, 1);
-  }
-  html.uka-theme-switching #themeToggle .icon {
-    transform: rotate(25deg) scale(1.08);
-  }
-  /* Zakrytí načítání nového vektorového stylu mapy bez zablokování myši. */
-  .uka-map-theme-veil {
-    position: absolute;
-    inset: 0;
-    z-index: 15;
-    pointer-events: none;
-    opacity: 0;
-    background: var(--tile-placeholder);
-    transition: opacity 180ms ease-in-out;
-  }
-  .uka-map-theme-veil.is-visible { opacity: .97; }
   @media (prefers-reduced-motion: reduce) {
-    html.uka-theme-switching *,
-    #themeToggle .icon,
-    .uka-map-theme-veil {
-      transition: none !important;
-    }
+    body {transition:none!important}
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
+    html.uka-theme-css *, html.uka-theme-css *::before,
+    html.uka-theme-css *::after { transition: none !important; }
   }
   </style>
 </head>
@@ -348,71 +318,45 @@
   function syncThemeButton(){let day=theme()==='light';el('themeIcon').setAttribute('href',day?'#i-moon':'#i-sun');el('themeText').textContent=day?'Denní režim':'Noční režim';el('themeToggle').setAttribute('aria-label',day?'Přepnout na noční režim':'Přepnout na denní režim');document.querySelector('meta[name="theme-color"]').content=day?'#f8f8f6':'#0b0c11';}
   const MAP_STYLES={light:'https://tiles.openfreemap.org/styles/liberty',dark:'https://tiles.openfreemap.org/styles/dark'};
   const mapStyle=()=>MAP_STYLES[theme()];
-  // Každá mapa používá vlastní přechod; změna barvy nikdy nevyvolá další zoom
-  // ani přesun kamery. Značky MapLibre zůstanou na svém místě.
-  const mapThemeSessions=new WeakMap();
-  let themeClassTimer=null;
-  function smoothlyChangeMapStyle(map,styleURL){
-    if(!map)return;
-    const previous=mapThemeSessions.get(map);
-    if(previous)previous.cancel();
-    const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    if(reduced){try{map.setStyle(styleURL)}catch(e){console.warn('UKA map theme',e)}return;}
-    const container=map.getContainer();
-    if(!container)return;
-    const veil=document.createElement('div');
-    veil.className='uka-map-theme-veil';
-    veil.setAttribute('aria-hidden','true');
-    container.appendChild(veil);
-    let startTimer=null, deadline=null, removeTimer=null, finished=false;
-    function removeVeil(){
-      if(finished)return;
-      finished=true;
-      clearTimeout(startTimer);clearTimeout(deadline);
-      map.off('idle',removeVeil);
-      veil.classList.remove('is-visible');
-      removeTimer=setTimeout(()=>veil.remove(),230);
-      mapThemeSessions.delete(map);
-    }
-    function cancel(){
-      finished=true;
-      clearTimeout(startTimer);clearTimeout(deadline);clearTimeout(removeTimer);
-      map.off('idle',removeVeil);
-      veil.remove();
-    }
-    mapThemeSessions.set(map,{cancel});
-    requestAnimationFrame(()=>{
-      if(finished)return;
-      veil.classList.add('is-visible');
-      // Nejprve zakrýt starý styl, až poté začít stahovat nové podklady.
-      startTimer=setTimeout(()=>{
-        if(finished)return;
-        try{
-          map.on('idle',removeVeil);
-          map.setStyle(styleURL);
-          // Pokud server mapy neodpoví, web nezůstane zakrytý napořád.
-          deadline=setTimeout(removeVeil,4200);
-        }catch(e){console.warn('UKA map theme',e);removeVeil();}
-      },190);
-    });
-  }
+  // Mapu nikdy neschovávat pod závoj ani uměle nečekat na změnu stylu.
   function refreshMapStyles(){
-    const nextStyle=mapStyle();
-    if(mainMap)smoothlyChangeMapStyle(mainMap,nextStyle);
-    if(miniMap)smoothlyChangeMapStyle(miniMap,nextStyle);
+    const styleURL=mapStyle();
+    for(const map of [mainMap,miniMap]){
+      if(!map)continue;
+      try { map.setStyle(styleURL,{diff:true}); }
+      catch(err) { console.warn('UKA: nepodařilo se změnit styl mapy',err); }
+    }
   }
+  let themeTransitionSerial=0;
   function setTheme(newTheme){
     if(!['light','dark'].includes(newTheme)||newTheme===theme())return;
-    const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    clearTimeout(themeClassTimer);
-    document.documentElement.classList.toggle('uka-theme-switching',!reduced);
-    document.documentElement.dataset.theme=newTheme;
-    try{localStorage.setItem('uka-theme',newTheme)}catch{}
-    syncThemeButton();refreshMapStyles();
-    const offline=el('mainMap')?.querySelector('.fallback-map');
-    if(offline)showFallbackMap('mainMap',false);
-    if(el('formMap')?.querySelector('.fallback-map'))showFallbackMap('formMap',true);
-    themeClassTimer=setTimeout(()=>document.documentElement.classList.remove('uka-theme-switching'),460);
+    const root=document.documentElement;
+    const session=++themeTransitionSerial;
+    const reduceMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const apply=()=>{
+      root.dataset.theme=newTheme;
+      try{localStorage.setItem('uka-theme',newTheme)}catch{}
+      syncThemeButton();
+      refreshMapStyles();
+      // Offline náhradní mapa používá proměnné CSS, není nutné ji znovu vytvářet.
+    };
+    if(reduceMotion){apply();return;}
+    if(typeof document.startViewTransition==='function'){
+      root.classList.add('uka-theme-atomic');
+      try{
+        const transition=document.startViewTransition(apply);
+        transition.finished.then(
+          ()=>{if(session===themeTransitionSerial)root.classList.remove('uka-theme-atomic')},
+          ()=>{if(session===themeTransitionSerial)root.classList.remove('uka-theme-atomic')}
+        );
+      }catch(err){root.classList.remove('uka-theme-atomic');apply();}
+    }else{
+      root.classList.add('uka-theme-css');
+      // Prohlížeč nejprve zaregistruje přechod a až v dalším snímku změní barvy.
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        apply();setTimeout(()=>root.classList.remove('uka-theme-css'),300);
+      }));
+    }
   }
   function showToast(msg){const t=el('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3200);}
   function render(){const current=(location.hash||'#akce').slice(1);page=['akce','mapa','oblibene','pridat'].includes(current)?current:'akce';favoriteOnly=page==='oblibene';closeModal(false);destroyMaps();document.querySelectorAll('[data-nav]').forEach(n=>n.classList.toggle('active',n.dataset.nav===page));el('app').innerHTML=page==='mapa'?mapPage():page==='pridat'?addPage():pageHome();window.scrollTo({top:0,behavior:'instant'});if(page==='mapa')setTimeout(initMainMap,30);if(page==='pridat')setTimeout(initFormMap,30);}
@@ -445,7 +389,7 @@
     const dots=source.map(ev=>{
       if(!Number.isFinite(Number(ev.lat))||!Number.isFinite(Number(ev.lng)))return '';
       const [x,y]=project(Number(ev.lat),Number(ev.lng));
-      return `<g class="fallback-dot" data-detail="${esc(ev.id)}" tabindex="0" role="button" aria-label="Detail: ${esc(ev.title)}"><circle class="fallback-disc" cx="${x}" cy="${y}" r="10" stroke="var(--bg)" stroke-width="3" fill="${({available:'#24be74',low:'#eea23a',temporarily_sold_out:'#ed8541',sold_out:'#ec334e',unknown:'#9ca2af'})[availabilityFor(ev).status]}"/><circle cx="${x}" cy="${y}" r="2.5" fill="var(--bg)"/></g>`;
+      return `<g class="fallback-dot" data-detail="${esc(ev.id)}" tabindex="0" role="button" aria-label="Detail: ${esc(ev.title)}"><circle class="fallback-disc" cx="${x}" cy="${y}" r="10" stroke="var(--bg)" stroke-width="3" fill="${({available:'#24be74',low:'#eea23a',temporarily_sold_out:'#ed8541',sold_out:'#ec334e',unknown:'var(--gold)'})[availabilityFor(ev).status]}"/><circle cx="${x}" cy="${y}" r="2.5" fill="var(--bg)"/></g>`;
     }).join('');
     target.innerHTML=`<div class="fallback-map"><p>Detailní mapu se nepodařilo načíst. Zobrazuji orientační mapu ČR s akcemi. Pro ulice a přesné přiblížení je potřeba přístup k mapovým podkladům.</p><svg class="schematic" viewBox="0 0 900 540" role="img" aria-label="Orientační mapa České republiky s hudebními akcemi"><defs><pattern id="geo-grid-${id}" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M 36 0 L 0 0 0 36" fill="none" stroke="var(--stroke)" stroke-width="1"/></pattern></defs><rect width="900" height="540" fill="var(--tile-placeholder)"/><rect width="900" height="540" fill="url(#geo-grid-${id})"/><path d="M70 135 L177 88 L283 92 L362 46 L485 95 L550 53 L676 113 L790 111 L855 188 L825 285 L776 338 L808 422 L698 459 L595 439 L506 485 L383 445 L296 465 L182 411 L87 370 L46 270 Z" fill="var(--surface2)" stroke="var(--stroke)" stroke-width="5" stroke-linejoin="round"/><path d="M120 280 Q280 220 406 278 T789 256 M186 380 Q380 330 527 362 T728 350 M300 112 Q380 250 470 320 T607 435" fill="none" stroke="var(--muted)" stroke-width="5" opacity=".34" stroke-linecap="round"/>${cities}${dots}</svg><div class="fallback-actions"><button type="button" data-offline-zoom="1" title="Oddálit">−</button><button type="button" data-offline-zoom="-1" title="Přiblížit">+</button></div><span class="fallback-badge">Orientační náhled · nejedná se o podrobnou mapu</span></div>`;
     offlineZoom=1;
