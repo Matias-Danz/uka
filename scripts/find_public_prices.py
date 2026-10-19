@@ -24,6 +24,7 @@ import re
 import sys
 import time
 import unicodedata
+from zoneinfo import ZoneInfo
 from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from difflib import SequenceMatcher
@@ -38,15 +39,18 @@ ROOT = Path(__file__).resolve().parents[1]
 EVENTS_FILE = ROOT / 'events.json'
 LINKS_FILE = ROOT / 'price_links.json'
 REPORT_FILE = ROOT / 'price_check_report.json'
+CACHE_FILE = ROOT / 'price_catalog_cache.json'
+CACHE_TTL_DAYS = 45
+MAX_CACHE_ITEMS = 3500
 USER_AGENT = 'UKA-EventPriceChecker/1.0 (public event metadata, respectful robots.txt)'
 HEADERS = {'User-Agent': USER_AGENT, 'Accept-Language': 'cs-CZ,cs;q=0.9'}
 SUPPORTED_HOSTS = {'goout.net', 'www.goout.net', 'eventlook.cz', 'www.eventlook.cz',
                    'www.o2arena.cz', 'www.o2universum.cz'}
-NO_PRICE_HOSTS = {'ticketmaster.cz', 'www.ticketmaster.cz', 'app.ticketmaster.com'}
+# Ticketmaster interactive checkout is deliberately not scraped: access is restricted.
 MAX_REQUESTS = 24
 MAX_SECONDS = 140
 MAX_BYTES = 2_000_000
-MAX_AGE_DAYS = 7
+MAX_AGE_DAYS = 7  # per-URL cooldown, not per-event: new candidates get checked immediately
 CATALOG_PAGES_PER_RUN = 8  # up to 8 public listings + remaining requests for matched event details
 GOOUT_CATALOGS = {
     'Česko': 'https://goout.net/cs/cesko/koncerty/lezfymftizf/',
@@ -59,7 +63,7 @@ DATE_RE = re.compile(r'(?<!\d)([0-3]?\d)\.\s*([01]?\d)\.\s*(20\d{2})(?!\d)')
 MONEY_RE = re.compile(r'(?<!\d)(\d{1,3}(?:[ \u00a0\u202f.]\d{3})*|\d{1,6})\s*(?:Kč|CZK)(?!\w)', re.I)
 RANGE_RE = re.compile(r'(?:od\s+)?([\d .\u00a0\u202f]+)\s*(?:Kč|CZK)?\s*[\-–—]\s*([\d .\u00a0\u202f]+)\s*(?:Kč|CZK)', re.I)
 LABELS = {'vstupné', 'vstupne', 'cena vstupenek', 'cena vstupenky', 'vstupné od', 'tickets from', 'ticket price', 'price', 'entry', 'admission', 'cena', 'cena od'}
-NEGATIVE_TITLES = re.compile(r'\b(parking|fast track|early entry|upgrade|meet and greet|merch|balicek)\b', re.I)
+NEGATIVE_TITLES = re.compile(r'\b(parking|fast[ -]?track|early entry|upgrade|meet[ -]?and[ -]?greet|merch|balicek|vip upgrade|parking)\b', re.I)
 
 
 def norm(s):
@@ -100,8 +104,10 @@ def parse_price(val, *, labeled=False):
 
     def amount(part):
         part = re.sub(r'\s+', '', part)
-        if re.fullmatch(r'\d{1,3}(?:[.,]\d{3})+', part):
-            value = int(re.sub(r'[.,]', '', part))
+        if re.fullmatch(r'\d{1,3}(?:,\d{3})+(?:\.00)?', part):
+            value = int(part.split('.')[0].replace(',', ''))
+        elif re.fullmatch(r'\d{1,3}(?:\.\d{3})+(?:,00)?', part):
+            value = int(part.split(',')[0].replace('.', ''))
         elif re.fullmatch(r'\d+[.,]00', part):
             value = int(part[:-3])
         elif part.isdigit():
@@ -163,7 +169,15 @@ def label_value(soup):
     """Prices immediately after a price heading, not from arbitrary prose."""
     strings = [str(x).strip() for x in soup.stripped_strings]
     for i, txt in enumerate(strings):
-        if norm(txt).rstrip(':') not in LABELS:
+        normalized = norm(txt)
+        # HTML often places the price in the SAME text node as the label.
+        # Never treat an unrelated number in a description as a ticket price.
+        if normalized not in LABELS:
+            match = re.match(r'^\s*(vstupné|vstupne|entry|admission|price|cena vstupenek|cena)\s*[:：–-]\s*(.+)$', txt, re.I)
+            if match:
+                inline = parse_price(match.group(2), labeled=True)
+                if inline is not None:
+                    return inline
             continue
         # Labels 'Entry' and 'Vstupné' are sufficient context for bare numbers.
         for candidate in strings[i+1:i+4]:
@@ -203,13 +217,18 @@ def extract_page(html, url):
     title = title_node.get_text(' ', strip=True) if title_node else ''
     event_date = None
     venue = ''
+    city = ''
     price = None
     for obj in events:
         title = str(obj.get('name') or title)
         event_date = iso_day(obj.get('startDate')) or event_date
         place = obj.get('location')
         if isinstance(place, list): place = next((x for x in place if isinstance(x, dict)), {})
-        if isinstance(place, dict): venue = str(place.get('name') or venue)
+        if isinstance(place, dict):
+            venue = str(place.get('name') or venue)
+            address = place.get('address')
+            if isinstance(address, dict):
+                city = str(address.get('addressLocality') or city)
         price = structured_price(obj) or price
     # Extract an HTML time tag before any prose/date in unrelated articles.
     if not event_date:
@@ -234,7 +253,7 @@ def extract_page(html, url):
             currency_node = soup.select_one('[itemprop="priceCurrency"][content]')
             if currency_node and currency_node.get('content', '').upper() == 'CZK':
                 price = (candidate, None); break
-    return {'title': title, 'date': event_date, 'venue': venue, 'price': price, 'url': url}
+    return {'title': title, 'date': event_date, 'venue': venue, 'city': city, 'price': price, 'url': url}
 
 
 def same_event(event, detail):
@@ -242,6 +261,10 @@ def same_event(event, detail):
     if event.get('date') != detail.get('date') or not detail.get('date'):
         return False
     a, b = norm(event.get('venue')), norm(detail.get('venue'))
+    # A venue name can occur in several cities. When the source specifies a
+    # city, require it to agree (Praha 7 and Praha are equivalent).
+    if detail.get('city') and city_key(event.get('city')) != city_key(detail['city']):
+        return False
     if not a or not b:
         return False
     venue_aliases = {'o2 arena': 'o2 arena', '02 arena': 'o2 arena',
@@ -332,7 +355,7 @@ class RespectfulFetcher:
 def city_key(value):
     value = norm(value)
     # Ticketmaster writes Czech municipal districts as Praha 1, Praha 9, etc.
-    if re.fullmatch(r'praha(?: [1-9][0-9]?)?', value):
+    if re.fullmatch(r'(?:praha|prague)(?: [1-9][0-9]?)?', value):
         return 'praha'
     return value
 
@@ -355,25 +378,61 @@ def goout_listing_url(city, *, sort='recommendations', page=0):
 
 
 def catalogue_plan(now):
-    """Prioritize real first-page programme results; sample deeper pages sparingly.
+    """Rotate allowed public HTML catalogue pages instead of retrying a few forever.
 
-    Previous rotation only fetched pages 20-36 where most of the ~200 missing
-    UKA events never appeared. That resulted in 0 candidates despite valid HTML.
-    All these are regular, public catalogue URLs (not a hidden API).
+    Reading the whole public catalogue is not guaranteed: future event coverage
+    remains partial. The persistent cache below allows *cumulative* discovery
+    across hourly runs without re-requesting previously found event details.
     """
-    hour_number = int(now.timestamp() // 3600)
-    smaller = ['Brno', 'Ostrava', 'Plzeň']
-    city = smaller[hour_number % len(smaller)]
-    return [
-        ('Praha', 'popularity', 0),
-        ('Praha', 'recommendations', 0),
-        ('Česko', 'popularity', 0),
-        (city, 'popularity', 0),
-        ('Praha', 'news', 0),
-        ('Česko', 'recommendations', 0),
-        ('Praha', 'recommendations', hour_number % 12 + 1),
-        (city, 'recommendations', (hour_number // 3) % 8 + 1),
-    ]
+    hour = int(now.timestamp() // 3600)
+    cities = ['Praha', 'Brno', 'Ostrava', 'Plzeň', 'Česko']
+    sorts = ['popularity', 'recommendations', 'news']
+    plan = [('Praha', 'popularity', 0), ('Česko', 'popularity', 0)]
+    for offset in range(6):
+        rotation = (hour * 6 + offset) % (len(cities) * len(sorts) * 18)
+        city = cities[rotation % len(cities)]
+        sort = sorts[(rotation // len(cities)) % len(sorts)]
+        page = (rotation // (len(cities) * len(sorts))) % 18
+        triple = (city, sort, page)
+        if triple not in plan:
+            plan.append(triple)
+    return plan[:8]
+
+
+def load_catalog_cache():
+    """Cache contains candidate names/URLs, NEVER verified prices."""
+    if not CACHE_FILE.exists():
+        return {}
+    try:
+        raw = json.loads(CACHE_FILE.read_text(encoding='utf-8'))
+        entries = raw.get('entries', {})
+        if not isinstance(entries, dict):
+            return {}
+        today = datetime.now(ZoneInfo('Europe/Prague')).date()
+        result = {}
+        for url, entry in entries.items():
+            if not host_ok(url) or urlparse(url).hostname not in {'goout.net', 'www.goout.net'}:
+                continue
+            if not isinstance(entry, dict) or not isinstance(entry.get('names'), list):
+                continue
+            seen = date.fromisoformat(entry.get('last_seen', '1970-01-01'))
+            if 0 <= (today - seen).days <= CACHE_TTL_DAYS:
+                result[url] = {'names': [str(n)[:160] for n in entry['names'][:8]],
+                               'city': str(entry.get('city', 'Česko')),
+                               'last_seen': seen.isoformat()}
+        return result
+    except (OSError, ValueError, TypeError, OverflowError):
+        print('CACHE: poškozený soubor, bezpečně začínám s prázdnou pamětí')
+        return {}
+
+
+def persist_catalog_cache(entries):
+    """Stable deterministic bounded cache to commit alongside events.json."""
+    ordered = sorted(entries.items(), key=lambda item: (item[1]['last_seen'], item[0]), reverse=True)
+    payload = {'version': 1, 'entries': dict(sorted(ordered[:MAX_CACHE_ITEMS]))}
+    content = json.dumps(payload, ensure_ascii=False, indent=2) + '\n'
+    if not CACHE_FILE.exists() or CACHE_FILE.read_text('utf-8') != content:
+        CACHE_FILE.write_text(content, encoding='utf-8')
 
 
 def plausible_identity(a, b):
@@ -457,56 +516,58 @@ def extract_goout_catalogue(html, url):
             for event_url, anchors in groups.items()}
 
 
-def discover_goout(events, fetcher, now=None):
-    """Discover event details from public catalogues; verify before writing.
+def discover_goout(events, fetcher, now=None, cache=None):
+    """Find candidate URLs; ALWAYS verify actual detail before assigning prices.
 
-    Catalogue coverage is partial: 8 listings cannot identify all ~200 events
-    whose prices are missing. Never treat 0 matches as 0 events on GoOut.
+    The critical v9 bug: catalogues were discarded between runs. Cache only
+    stores *hints*, never prices. Eight new pages are scanned per invocation;
+    candidates collected over weeks can thus be reused without re-fetching.
     """
     now = now or datetime.now(timezone.utc)
+    cache = cache if cache is not None else {}
     by_city = defaultdict(list)
-    for ev in events:
-        if not NEGATIVE_TITLES.search(str(ev.get('title', ''))):
-            by_city[city_key(ev.get('city'))].append(ev)
-    links = defaultdict(list)
-    stats = {'pages': 0, 'candidates': 0, 'named': 0, 'events': 0}
+    for event in events:
+        if not NEGATIVE_TITLES.search(str(event.get('title', ''))):
+            by_city[city_key(event.get('city'))].append(event)
+    stats = {'pages': 0, 'events': 0, 'named': 0}
     for city, sort, page in catalogue_plan(now)[:CATALOG_PAGES_PER_RUN]:
-        key = city_key(city)
-        candidates_in_area = events if city == 'Česko' else by_city.get(key, [])
-        if not candidates_in_area: continue
+        area = events if city == 'Česko' else by_city.get(city_key(city), [])
+        if not area:
+            continue
         url = goout_listing_url(city, sort=sort, page=page)
         html, error = fetcher.get_html(url)
         if error:
             print(f'GOOUT KATALOG: {city}, {sort} str.{page}: nedostupný ({error})')
             continue
-        stats['pages'] += 1
         entries = extract_goout_catalogue(html, url)
+        stats['pages'] += 1
         stats['events'] += len(entries)
-        stats['named'] += sum(bool(v) for v in entries.values())
-        count = 0
-        sample = []
-        for event_url, titles in entries.items():
-            if titles and len(sample) < 4:
-                sample.append(titles[0][:58])
-            if not titles:
-                continue
-            for ev in candidates_in_area:
-                if not any(plausible_identity(ev.get('title'), t)
-                           or plausible_identity(ev.get('artist'), t) for t in titles):
-                    continue
-                if event_url not in links[ev['id']]:
-                    links[ev['id']].append(event_url)
-                    count += 1
-        stats['candidates'] += count
-        print(f'GOOUT KATALOG: {city}, {sort} str.{page}: {count} kandidátů, '
-              f'{len(entries)} odkazů, {sum(bool(x) for x in entries.values())} se jménem')
+        stats['named'] += sum(bool(titles) for titles in entries.values())
+        for event_url, names in entries.items():
+            if names:
+                cache[event_url] = {'names': names[:8], 'city': city,
+                                    'last_seen': datetime.now(ZoneInfo('Europe/Prague')).date().isoformat()}
+        sample = [names[0][:58] for names in entries.values() if names][:4]
+        print(f'GOOUT KATALOG: {city}, {sort} str.{page}: {len(entries)} odkazů, '
+              f'{sum(bool(n) for n in entries.values())} se jménem')
         print('  UKÁZKA NÁZVŮ:', ' | '.join(sample) or '(bez použitelného názvu)')
-        time.sleep(.3)
-    print(f'GOOUT KATALOG CELKEM: {stats["pages"]} stran, '
-          f'{stats["events"]} odkazů, {stats["named"]} použitelných názvů, '
-          f'{stats["candidates"]} předběžných shod; '
-          'každá nalezená cena ještě vyžaduje ověření detailu')
+        time.sleep(.2)
+    # Cross-run matching against cached candidates. Venue/date are still
+    # required in same_event(), so title alone never sets a price.
+    links = defaultdict(list)
+    for url, record in cache.items():
+        names = record.get('names', [])
+        area = events if record.get('city') == 'Česko' else by_city.get(city_key(record.get('city')), [])
+        for ev in area:
+            if any(plausible_identity(ev.get('title'), n) or
+                   plausible_identity(ev.get('artist'), n) for n in names):
+                if url not in links[ev.get('id')]:
+                    links[ev.get('id')].append(url)
+    print(f'GOOUT KATALOG CELKEM: {stats["pages"]} nových stran, '
+          f'{stats["named"]} názvů, {len(cache)} URL v paměti, '
+          f'{sum(map(len, links.values()))} možných shod s UKA (detail je musí potvrdit)')
     return links
+
 
 def load_seeds():
     if not LINKS_FILE.exists():
@@ -565,13 +626,16 @@ def observed_seed_price(event, seed, today):
 def process(events, fetcher, seeds, now=None):
     now = now or datetime.now(timezone.utc)
     started = time.monotonic()
-    today = now.date().isoformat()
-    upcoming = [e for e in events if e.get('price') is None and e.get('date', '') >= today]
+    today = now.astimezone(ZoneInfo('Europe/Prague')).date().isoformat()
+    upcoming = [e for e in events if e.get('price') is None and e.get('date', '') >= today
+                and not NEGATIVE_TITLES.search(str(e.get('title','')))]
     upcoming.sort(key=lambda e: (e.get('public_price_attempt_at', ''), e.get('date', '9999')))
     report = {'unknown_before': len(upcoming), 'matched': [], 'skipped': defaultdict(int),
               'checked': 0, 'price_sources': defaultdict(int), 'seed_targets': 0}
     details_cache = {}
-    catalog_urls = discover_goout(upcoming, fetcher, now=now)
+    cache = load_catalog_cache()
+    catalog_urls = discover_goout(upcoming, fetcher, now=now, cache=cache)
+    report['catalog_cache'] = cache
     observed_by_id = defaultdict(list)
     for seed in seeds:
         if seed.get('event_id'):
@@ -580,14 +644,11 @@ def process(events, fetcher, seeds, now=None):
     for event in upcoming:
         if fetcher.count >= MAX_REQUESTS or time.monotonic() - started > MAX_SECONDS:
             break
-        old = event.get('public_price_attempt_at', '')
-        try:
-            if old and date.fromisoformat(old) + timedelta(days=MAX_AGE_DAYS) > now.date():
-                # Still allow a newly supplied verified source observation.
-                if not any(observed_seed_price(event, x, now.date()) for x in observed_by_id.get(event.get('id'), [])):
-                    continue
-        except ValueError:
-            pass
+        # Check URLs independently. A failed page must never block checking a
+        # newly found URL for the same event on a future run.
+        attempts = event.get('public_price_attempts', {})
+        if not isinstance(attempts, dict):
+            attempts = {}
         urls = []
         for key in ('price_url', 'ticket_url', 'source_url'):
             url = event.get(key, '')
@@ -601,14 +662,24 @@ def process(events, fetcher, seeds, now=None):
                 urls.append(url)
         if not urls:
             continue
-        event['public_price_attempt_at'] = today
-        for url in urls[:3]:
+        for url in urls[:4]:
+            old = attempts.get(url, '')
+            try:
+                if old and (now.astimezone(ZoneInfo('Europe/Prague')).date() - date.fromisoformat(old)).days < MAX_AGE_DAYS:
+                    continue
+            except (ValueError, TypeError):
+                pass
             seed = next((s for s in seeds if s.get('url') == url and seed_matches(event, s)), None)
             if url not in details_cache:
                 details_cache[url] = fetcher.get(url)
                 report['checked'] += 1
                 time.sleep(.1)
             detail, error = details_cache[url]
+            # Track accessible attempted links; temporary blocks retry on next
+            # run rather than suppressing this event for seven days.
+            if error not in {'robots/unavailable', 'redirect disallowed', 'ConnectionError', 'Timeout', 'HTTP 429', 'HTTP 403'}:
+                attempts[url] = today
+                event['public_price_attempts'] = dict(list(attempts.items())[-30:])
             evidence_type = None
             price = None
             if error:
@@ -646,6 +717,8 @@ def process(events, fetcher, seeds, now=None):
     report['requests'] = fetcher.count
     report['rotating_catalogues'] = len(catalogue_plan(now))
     report['index_matches'] = sum(len(v) for v in catalog_urls.values())
+    report['cached_candidates'] = len(cache)
+    report['ignored_addons'] = sum(1 for e in events if e.get('price') is None and NEGATIVE_TITLES.search(str(e.get('title',''))))
     return report
 
 
@@ -657,7 +730,7 @@ def run(dry_run=False):
     report = process(events, RespectfulFetcher(), load_seeds())
     print(f'VEŘEJNÉ CENY: {report["checked"]} detailů, {len(report["matched"])} nových cen, '
           f'{report["unknown_after"]} stále neznámých; {report["requests"]} HTML požadavků, '
-          f'{report["index_matches"]} možných shod v katalozích')
+          f'{report["index_matches"]} možných shod v katalozích; uložený index {len(report["catalog_cache"])}; přeskočené doplňky {report["ignored_addons"]}')
     print(f'SHODA S ODKAZY: {report["seed_targets"]} akcí s chybějící cenou z aktuální databáze')
     for key, num in report['price_sources'].items(): print(f'  ZDROJ: {key}: {num}')
     for key, num in report['skipped'].items(): print(f'  Přeskočeno – {key}: {num}')
@@ -666,6 +739,7 @@ def run(dry_run=False):
     if dry_run:
         print('TESTOVACÍ REŽIM: events.json zůstává beze změny.')
         return report
+    persist_catalog_cache(report['catalog_cache'])
     if json.dumps(events, sort_keys=True, ensure_ascii=False) != before:
         data['updated_at'] = datetime.now().astimezone().isoformat(timespec='seconds')
         EVENTS_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
