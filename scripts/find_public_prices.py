@@ -395,12 +395,73 @@ def plausible_identity(a, b):
                 and len(shared) / min(len(aa), len(bb)) >= .65)
 
 
-def discover_goout(events, fetcher, now=None):
-    """Discover public GoOut EVENT urls from rotated catalogue pages.
+def catalogue_title_candidates(anchors, event_url):
+    """Read a GoOut card whether the poster and title are separate links.
 
-    This is NOT a generic internet search. Public programme pages only list
-    part of GoOut's catalogue and not all events on Ticketmaster. NEVER claim
-    complete coverage. Candidate URLs must pass same_event before writing.
+    In the live catalogue the first <a> pointing at an event is often only a
+    cover image. v9.1 placed its URL in 'seen' before checking its text and
+    consequently skipped the later, text-bearing <a> with the same URL.
+
+    Collect ALL anchors for an event URL before selecting its title; use
+    explicit accessible labels/image alt text and finally its URL slug.
+    Extracted catalogue titles are ONLY hints: 'same_event' on the full
+    event detail still requires exact date, matching venue and title.
+    """
+    labels = []
+    for a in anchors:
+        values = [a.get_text(' ', strip=True), a.get('aria-label', ''),
+                  a.get('title', '')]
+        for img in a.select('img[alt]'):
+            values.append(img.get('alt', ''))
+        # A card can be a poster link followed by a heading outside that link.
+        # Only inspect nearby heading tags, never the entire page section.
+        for parent in list(a.parents)[:3]:
+            heading = parent.find(['h2', 'h3', 'h4'], recursive=True)
+            if heading is not None:
+                values.append(heading.get_text(' ', strip=True))
+                break
+        for value in values:
+            title = ' '.join(str(value or '').split())
+            if not 5 <= len(title) <= 150:
+                continue
+            if norm(title) in {'vstupenky', 'koupit vstupenky', 'tickets',
+                               'vyprodano', 'zobrazit vice', 'prodej ukoncen'}:
+                continue
+            if title not in labels:
+                labels.append(title)
+    # Some GoOut event cards only contain an <a><img alt=""></a> in the
+    # raw server response. The event slug is still a usable SEARCH HINT.
+    # It never qualifies as evidence by itself.
+    path = urlparse(event_url).path
+    m = re.fullmatch(r'/(?:cs|en)/([^/]+)/sz[a-z0-9]+/?', path, re.I)
+    if m:
+        from urllib.parse import unquote
+        slug = unquote(m.group(1)).replace('-', ' ').replace('+', ' ')
+        if 5 <= len(slug) <= 150 and slug not in labels:
+            labels.append(slug)
+    return labels
+
+
+def extract_goout_catalogue(html, url):
+    """Return {event_url: [possible event names]} with image links deduped."""
+    soup = BeautifulSoup(html, 'html.parser')
+    groups = defaultdict(list)
+    for anchor in soup.select('a[href]'):
+        event_url = urljoin(url, anchor.get('href', ''))
+        if not host_ok(event_url) or not re.fullmatch(
+            r'/(?:cs|en)/[^/]+/sz[a-z0-9]+/?', urlparse(event_url).path, re.I
+        ):
+            continue
+        groups[event_url].append(anchor)
+    return {event_url: catalogue_title_candidates(anchors, event_url)
+            for event_url, anchors in groups.items()}
+
+
+def discover_goout(events, fetcher, now=None):
+    """Discover event details from public catalogues; verify before writing.
+
+    Catalogue coverage is partial: 8 listings cannot identify all ~200 events
+    whose prices are missing. Never treat 0 matches as 0 events on GoOut.
     """
     now = now or datetime.now(timezone.utc)
     by_city = defaultdict(list)
@@ -408,7 +469,7 @@ def discover_goout(events, fetcher, now=None):
         if not NEGATIVE_TITLES.search(str(ev.get('title', ''))):
             by_city[city_key(ev.get('city'))].append(ev)
     links = defaultdict(list)
-    stats = {'pages': 0, 'candidates': 0}
+    stats = {'pages': 0, 'candidates': 0, 'named': 0, 'events': 0}
     for city, sort, page in catalogue_plan(now)[:CATALOG_PAGES_PER_RUN]:
         key = city_key(city)
         candidates_in_area = events if city == 'Česko' else by_city.get(key, [])
@@ -419,38 +480,33 @@ def discover_goout(events, fetcher, now=None):
             print(f'GOOUT KATALOG: {city}, {sort} str.{page}: nedostupný ({error})')
             continue
         stats['pages'] += 1
-        soup = BeautifulSoup(html, 'html.parser')
+        entries = extract_goout_catalogue(html, url)
+        stats['events'] += len(entries)
+        stats['named'] += sum(bool(v) for v in entries.values())
         count = 0
-        seen = set()
-        sampled_titles = []
-        for a in soup.select('a[href]'):
-            raw_link = a.get('href', '')
-            event_url = urljoin(url, raw_link)
-            # GoOut exposes event detail links as /cs/slug/szID or /en/slug/szID.
-            if not host_ok(event_url) or not re.fullmatch(
-                r'/(?:cs|en)/[^/]+/sz[a-z0-9]+/?', urlparse(event_url).path, re.I
-            ): continue
-            if event_url in seen: continue
-            seen.add(event_url)
-            page_title = a.get_text(' ', strip=True)
-            if not page_title.strip(): continue
-            if len(sampled_titles) < 3: sampled_titles.append(page_title[:55])
+        sample = []
+        for event_url, titles in entries.items():
+            if titles and len(sample) < 4:
+                sample.append(titles[0][:58])
+            if not titles:
+                continue
             for ev in candidates_in_area:
-                if not (plausible_identity(ev.get('title'), page_title)
-                        or plausible_identity(ev.get('artist'), page_title)):
+                if not any(plausible_identity(ev.get('title'), t)
+                           or plausible_identity(ev.get('artist'), t) for t in titles):
                     continue
                 if event_url not in links[ev['id']]:
                     links[ev['id']].append(event_url)
                     count += 1
         stats['candidates'] += count
         print(f'GOOUT KATALOG: {city}, {sort} str.{page}: {count} kandidátů, '
-              f'{len(seen)} odkazů na akce; detail následně ověří datum a místo')
-        if not count: print('  UKÁZKA NÁZVŮ:', ' | '.join(sampled_titles) or '(žádné odkazy s názvem)')
+              f'{len(entries)} odkazů, {sum(bool(x) for x in entries.values())} se jménem')
+        print('  UKÁZKA NÁZVŮ:', ' | '.join(sample) or '(bez použitelného názvu)')
         time.sleep(.3)
     print(f'GOOUT KATALOG CELKEM: {stats["pages"]} stran, '
-          f'{stats["candidates"]} předběžných shod (nejsou to zatím potvrzené ceny)')
+          f'{stats["events"]} odkazů, {stats["named"]} použitelných názvů, '
+          f'{stats["candidates"]} předběžných shod; '
+          'každá nalezená cena ještě vyžaduje ověření detailu')
     return links
-
 
 def load_seeds():
     if not LINKS_FILE.exists():
