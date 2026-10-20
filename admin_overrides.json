@@ -1,5 +1,17 @@
 {
   "version": 1,
-  "overrides": {},
+  "overrides": {
+    "ticketmaster-Z698xZu0Z16vbM-Fp9": {
+      "fields": {
+        "price": 591,
+        "price_note": "max 6 na osobu",
+        "price_from": false,
+        "price_source": "UKA Admin – ručně upraveno",
+        "price_checked_at": "2026-10-20"
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:20:32.149Z"
+    }
+  },
   "custom_events": []
 }
