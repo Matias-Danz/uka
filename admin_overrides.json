@@ -63,6 +63,22 @@
         "note": "",
         "verified_at": "2026-10-20T18:28:58.542Z"
       }
+    },
+    "ticketmaster-Z698xZu0Z16v7K0YFf": {
+      "fields": {
+        "price": 990,
+        "price_from": false,
+        "price_source": "UKA Admin – ručně upraveno",
+        "price_checked_at": "2026-10-20"
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:30:01.363Z",
+      "availability": {
+        "status": "low",
+        "source": "Ticketmaster",
+        "note": "poslední 3 vstupenky",
+        "verified_at": "2026-10-20T18:30:01.363Z"
+      }
     }
   },
   "custom_events": []
