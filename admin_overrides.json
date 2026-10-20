@@ -10,7 +10,13 @@
         "price_checked_at": "2026-10-20"
       },
       "hidden": false,
-      "updated_at": "2026-10-20T18:20:32.149Z"
+      "updated_at": "2026-10-20T18:23:39.133Z",
+      "availability": {
+        "status": "available",
+        "source": "ticketmaster",
+        "note": "",
+        "verified_at": "2026-10-20T18:23:39.133Z"
+      }
     }
   },
   "custom_events": []
