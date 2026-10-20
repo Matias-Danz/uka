@@ -244,20 +244,7 @@
     if(statuses.every(s=>s==='available'||s==='low'))return statuses.includes('available')?'available':'low';
     return 'unknown'; // Smíšené a neověřené skupiny nesmí být mylně červené.
   }
-  async function refreshAvailability(){
-    if(location.protocol==='file:')return;
-    try{
-      const res=await fetch('./availability_overrides.json?v='+Date.now(),{cache:'no-store'});
-      if(!res.ok)return;
-      const parsed=await res.json();
-      if(!parsed||typeof parsed.overrides!=='object'||Array.isArray(parsed.overrides)||!parsed.overrides)return;
-      const next=parsed.overrides;
-      if(JSON.stringify(next)===JSON.stringify(availabilityOverrides))return;
-      availabilityOverrides=next;
-      if(page==='mapa')renderMapListAndPins();
-      else if(page==='akce'||page==='oblibene')rerenderList();
-    }catch(err){console.warn('UKA: stav vstupenek není dostupný',err);}
-  }
+  // Dostupnost je nyní součástí events.json a načítá se v refreshEvents().
   const eventSource=e=>e.source||'Vlastní událost';
   function fmtDate(d,mode='long'){const a=String(d).split('-').map(Number); const date=new Date(a[0],a[1]-1,a[2]);return Number.isNaN(date.getTime())?'Datum neuvedeno':date.toLocaleDateString('cs-CZ',mode==='long'?{day:'numeric',month:'long',year:'numeric'}:{day:'numeric',month:'short'});}
   const dateParts=d=>{const p=fmtDate(d,'short').split(' ');return [p[0]?.replace('.','')||'',(p[1]||'').replace('.','').toUpperCase()]};
@@ -275,20 +262,7 @@
     }).filter(Boolean);
   }
   function getEvents(){const today=daysFromNow(0);return allMergedEvents().filter(e=>e.date>=today).sort((a,b)=>a.date.localeCompare(b.date));}
-  async function refreshAdminOverrides(){
-    if(location.protocol==='file:')return;
-    try{
-      const response=await fetch('./admin_overrides.json?v='+Date.now(),{cache:'no-store'});
-      if(!response.ok)return;
-      const parsed=await response.json();
-      if(!parsed||typeof parsed!=='object'||Array.isArray(parsed))return;
-      const next={overrides:parsed.overrides&&typeof parsed.overrides==='object'&&!Array.isArray(parsed.overrides)?parsed.overrides:{},custom_events:Array.isArray(parsed.custom_events)?parsed.custom_events:[]};
-      if(JSON.stringify(next)===JSON.stringify(adminOverrides))return;
-      adminOverrides=next;
-      if(page==='mapa')renderMapListAndPins();
-      else if(page==='akce'||page==='oblibene')rerenderList();
-    }catch(err){console.warn('UKA: ruční úpravy nejsou dostupné',err);}
-  }
+  // Administrační opravy jsou nyní součástí events.json.
   async function refreshEvents(){
     // On file:// the embedded data are used; a standalone HTML cannot itself run an hourly crawler.
     if(location.protocol==='file:')return;
@@ -300,6 +274,9 @@
       const validated=body.events.filter(e=>e&&e.id&&e.title&&/^\d{4}-\d{2}-\d{2}$/.test(e.date)&&e.city&&e.venue);
       if(!validated.length)throw new Error('Prázdný feed');
       officialEvents=validated;
+      const adm=body.admin_overrides||{};
+      adminOverrides={overrides:adm.overrides&&typeof adm.overrides==='object'&&!Array.isArray(adm.overrides)?adm.overrides:{},custom_events:Array.isArray(adm.custom_events)?adm.custom_events:[]};
+      availabilityOverrides=body.availability_overrides?.overrides||{};
       liveSyncLabel=body.updated_at?'Aktualizováno: '+new Date(body.updated_at).toLocaleString('cs-CZ'):'Synchronizováno';
       if(page==='mapa'){renderMapListAndPins();}
       else if(page==='akce'||page==='oblibene')rerenderList();
@@ -323,7 +300,7 @@
   function eventPoster(e,modal=false){
     const letter=(e.title.match(/[\p{L}]/u)||['U'])[0].toUpperCase();
     const image=typeof e.image_url==='string'&&/^https:\/\//.test(e.image_url)?e.image_url:'';
-    return `<div class="poster ${image?'has-image':''}" data-theme="${esc(e.category)}">${image?`<img class="poster-photo" src="${esc(image)}" alt="Plakát akce ${esc(e.title)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.querySelector('.photo-credit')?.remove();this.remove();this.parentElement.classList.remove('has-image')">`:''}<span class="poster-symbol">${esc(letter)}.</span>${modal?'':datePill(e)}${!modal&&availabilityFor(e).status==='sold_out'?'<span class="poster-sold-ribbon">VYPRODÁNO</span>':''}${image&&e.image_credit?`<span class="photo-credit">${esc(e.image_credit)}</span>`:''}${modal?'':`<button class="favorite ${favorites.has(e.id)?'active':''}" data-fav="${esc(e.id)}" aria-label="${favorites.has(e.id)?'Odebrat z oblíbených':'Uložit do oblíbených'}" title="Oblíbené">${icon('heart')}</button>`}</div>`;
+    return `<div class="poster ${image?'has-image':''}" data-theme="${esc(e.category)}">${image?`<img class="poster-photo" src="${esc(image)}" alt="Plakát akce ${esc(e.title)}" loading="lazy" referrerpolicy="no-referrer" onerror="const parent=this.parentElement;parent?.querySelector('.photo-credit')?.remove();this.remove();parent?.classList.remove('has-image')">`:''}<span class="poster-symbol">${esc(letter)}.</span>${modal?'':datePill(e)}${!modal&&availabilityFor(e).status==='sold_out'?'<span class="poster-sold-ribbon">VYPRODÁNO</span>':''}${image&&e.image_credit?`<span class="photo-credit">${esc(e.image_credit)}</span>`:''}${modal?'':`<button class="favorite ${favorites.has(e.id)?'active':''}" data-fav="${esc(e.id)}" aria-label="${favorites.has(e.id)?'Odebrat z oblíbených':'Uložit do oblíbených'}" title="Oblíbené">${icon('heart')}</button>`}</div>`;
   }
   function card(e){return `<article class="event-card av-${availabilityFor(e).status}">${eventPoster(e)}<div class="card-body"><div class="card-top"><span class="category">${esc(CAT_LABELS[e.category]||'Akce')}</span><span class="card-price">${priceLabel(e)}</span></div><div class="availability-row">${availabilityBadge(e)}</div><h3>${esc(e.title)}</h3><div class="card-line tiny">${icon('ticket','sm')} <span>${esc(eventSource(e))} ${e.verified_at?'· ověřeno '+fmtDate(e.verified_at):'· uložené lokálně'}</span></div><div class="card-line">${icon('music','sm')} <span>${esc(e.artist||'Účinkující neuvedeni')}</span></div><div class="card-line">${icon('pin','sm')} <span>${esc(e.venue)}, ${esc(e.city)}</span></div><div class="card-foot"><span>${fmtDate(e.date,'short')} · ${esc(e.time||'—')}</span><button class="text-link" data-detail="${esc(e.id)}">Detail ${icon('arrow','sm')}</button></div></div></article>`;}
   function pageHome(){const events=filterEvents({favoritesOnly:favoriteOnly,cat:category,cityFilter:city,query:search,period:when});return `
@@ -580,9 +557,9 @@
      if(e.key==='Escape')closeModal();if((e.key==='Enter'||e.key===' ')&&e.target.matches('.fallback-dot[data-detail]')){e.preventDefault();showDetails(e.target.dataset.detail);}});
   el('themeToggle').addEventListener('click',()=>setTheme(theme()==='dark'?'light':'dark'));
   window.addEventListener('hashchange',render);
-  syncThemeButton();render();refreshEvents();refreshAvailability();refreshAdminOverrides();
+  syncThemeButton();render();refreshEvents();
   // Refresh the published JSON while tab stays open, independently of background crawler.
-  setInterval(()=>{refreshEvents();refreshAvailability();refreshAdminOverrides();},15*60*1000);
+  setInterval(refreshEvents,15*60*1000);
   </script>
 </body>
 </html>
