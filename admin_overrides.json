@@ -50,6 +50,19 @@
         "note": "",
         "verified_at": "2026-10-20T18:25:11.799Z"
       }
+    },
+    "ticketmaster-Z698xZu0Z16eZ7P737": {
+      "fields": {
+        "price_from": false
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:28:58.542Z",
+      "availability": {
+        "status": "temporarily_sold_out",
+        "source": "Ticketmaster",
+        "note": "",
+        "verified_at": "2026-10-20T18:28:58.542Z"
+      }
     }
   },
   "custom_events": []
