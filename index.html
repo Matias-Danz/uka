@@ -164,7 +164,7 @@
     <div class="head-actions"><span class="theme-label" id="themeText">Noční režim</span><button id="themeToggle" class="icon-btn" aria-label="Přepnout na denní režim" title="Přepnout denní/noční režim"><svg class="icon lg"><use id="themeIcon" href="#i-sun"/></svg></button><button class="btn btn-primary btn-sm head-add" data-nav="pridat"><svg class="icon sm"><use href="#i-plus"/></svg> Přidat akci</button></div>
   </div></header>
   <main id="app" aria-live="polite"></main>
-  <footer class="footer"><div class="container foot"><div><span class="foot-brand">UKA<em>.</em></span><div style="margin-top:8px">Hudba. Všude. Teď.</div></div><span>UKA · Výběr akcí z veřejných programů · aktualizace při zveřejnění na GitHub Pages · Mapy © OpenStreetMap / OpenFreeMap · Informace se mohou měnit.</span></div></footer>
+  <footer class="footer"><div class="container foot"><div><span class="foot-brand">UKA<em>.</em></span><div style="margin-top:8px">Hudba. Všude. Teď.</div></div><span>UKA · Výběr akcí z veřejných programů · aktualizace při zveřejnění na GitHub Pages · Mapy © OpenStreetMap / OpenFreeMap · Informace se mohou měnit. · <a href="./admin.html" style="text-decoration:underline;text-underline-offset:3px">Administrace</a></span></div></footer>
   <div class="mobile-nav" aria-label="Mobilní navigace"><button data-nav="akce"><svg class="icon"><use href="#i-search"/></svg>Akce</button><button data-nav="mapa"><svg class="icon"><use href="#i-pin"/></svg>Mapa</button><button data-nav="oblibene"><svg class="icon"><use href="#i-heart"/></svg>Uložené</button><button data-nav="pridat"><svg class="icon"><use href="#i-plus"/></svg>Přidat</button></div>
   <div id="modalRoot"></div><div id="toast" class="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.8.0/dist/maplibre-gl.js"></script>
@@ -181,6 +181,7 @@
   let added=loadJson(STORE,[]), favorites=new Set(loadJson(FAVORITES,[]));
   let page='akce',search='',category='',city='',when='all',favoriteOnly=false,mapCategory='',mapCity='',mapQuery='',radius=0,userCoords=null,onlyAvailable=false;
   let availabilityOverrides={};
+  let adminOverrides={overrides:{},custom_events:[]};
   let mainMap=null,miniMap=null,mainTiles=null,miniTiles=null,mapMarkers=null,miniMarker=null,chosenCoords=null;
   let toastTimer=null,mapSearchTimer=null,pendingMapFocusId=null,mapReady=false;
   const el=id=>document.getElementById(id);
@@ -199,7 +200,8 @@
   // Bez další živé kontroly údaj časem zastará; zvlášť u „posledních míst“.
   const AV_TTL_MS={available:48*3600000,low:24*3600000,temporarily_sold_out:24*3600000,sold_out:72*3600000};
   function availabilityFor(event){
-    const o=availabilityOverrides[event.id];
+    const manual=adminOverrides.overrides?.[event.id]?.availability;
+    const o=manual&&typeof manual==='object'?manual:availabilityOverrides[event.id];
     const raw=o&&typeof o==='object'?o:{status:event.ticket_status||event.availability_status,verified_at:event.ticket_status_verified_at||event.availability_verified_at,source:event.ticket_status_source||event.availability_source,expires_at:event.ticket_status_expires_at||event.availability_expires_at,note:event.ticket_status_note||event.availability_note};
     const state=typeof raw.status==='string'&&Object.hasOwn(AV_TTL_MS,raw.status)?raw.status:'unknown';
     const checked=Date.parse(raw.verified_at||'');
@@ -261,7 +263,32 @@
   const dateParts=d=>{const p=fmtDate(d,'short').split(' ');return [p[0]?.replace('.','')||'',(p[1]||'').replace('.','').toUpperCase()]};
   let officialEvents=REAL_EVENTS;
   let liveSyncLabel='Předinstalovaný výběr · nové akce se aktualizují po zveřejnění webu';
-  function getEvents(){const today=daysFromNow(0);return [...officialEvents,...added].filter(e=>e.date>=today).sort((a,b)=>a.date.localeCompare(b.date));}
+  // Ruční administrační opravy mají přednost před automaticky obnoveným events.json.
+  // Oddělené ukládání zajišťuje, že hodinový import tyto opravy nesmaže.
+  function allMergedEvents(){
+    const edits=adminOverrides.overrides||{};
+    const extra=Array.isArray(adminOverrides.custom_events)?adminOverrides.custom_events:[];
+    return [...officialEvents,...added,...extra].map(event=>{
+      const change=edits[event.id];
+      if(change?.hidden)return null;
+      return change?.fields?{...event,...change.fields}:event;
+    }).filter(Boolean);
+  }
+  function getEvents(){const today=daysFromNow(0);return allMergedEvents().filter(e=>e.date>=today).sort((a,b)=>a.date.localeCompare(b.date));}
+  async function refreshAdminOverrides(){
+    if(location.protocol==='file:')return;
+    try{
+      const response=await fetch('./admin_overrides.json?v='+Date.now(),{cache:'no-store'});
+      if(!response.ok)return;
+      const parsed=await response.json();
+      if(!parsed||typeof parsed!=='object'||Array.isArray(parsed))return;
+      const next={overrides:parsed.overrides&&typeof parsed.overrides==='object'&&!Array.isArray(parsed.overrides)?parsed.overrides:{},custom_events:Array.isArray(parsed.custom_events)?parsed.custom_events:[]};
+      if(JSON.stringify(next)===JSON.stringify(adminOverrides))return;
+      adminOverrides=next;
+      if(page==='mapa')renderMapListAndPins();
+      else if(page==='akce'||page==='oblibene')rerenderList();
+    }catch(err){console.warn('UKA: ruční úpravy nejsou dostupné',err);}
+  }
   async function refreshEvents(){
     // On file:// the embedded data are used; a standalone HTML cannot itself run an hourly crawler.
     if(location.protocol==='file:')return;
@@ -553,9 +580,9 @@
      if(e.key==='Escape')closeModal();if((e.key==='Enter'||e.key===' ')&&e.target.matches('.fallback-dot[data-detail]')){e.preventDefault();showDetails(e.target.dataset.detail);}});
   el('themeToggle').addEventListener('click',()=>setTheme(theme()==='dark'?'light':'dark'));
   window.addEventListener('hashchange',render);
-  syncThemeButton();render();refreshEvents();refreshAvailability();
+  syncThemeButton();render();refreshEvents();refreshAvailability();refreshAdminOverrides();
   // Refresh the published JSON while tab stays open, independently of background crawler.
-  setInterval(()=>{refreshEvents();refreshAvailability();},15*60*1000);
+  setInterval(()=>{refreshEvents();refreshAvailability();refreshAdminOverrides();},15*60*1000);
   </script>
 </body>
 </html>
