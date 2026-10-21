@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-21T10:45:37+02:00",
+  "updated_at": "2026-10-21T11:42:01+02:00",
   "events": [
     {
       "id": "ticketmaster-Z698xZu0Z1kebv7CA",
@@ -6691,6 +6691,32 @@
       "sales_phase_checked_at": "2026-10-21T03:41:15Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
+    },
+    {
+      "id": "ticketmaster-Z698xZu0Z1kjOkv8U",
+      "title": "Black Marble",
+      "artist": "Black Marble",
+      "category": "koncert",
+      "venue": "Café V lese",
+      "city": "Praha 10",
+      "address": "Krymská 12",
+      "lat": 50.07141,
+      "lng": 14.44847,
+      "date": "2027-04-17",
+      "time": "20:00",
+      "price": null,
+      "price_max": null,
+      "price_source": "",
+      "ticket_url": "https://www.ticketmaster.cz/event/black-marble-tickets/720181436?language=en-us",
+      "source": "Ticketmaster Discovery API",
+      "verified_at": "2026-10-21",
+      "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
+      "image_url": "https://s1.ticketm.net/dam/a/6d0/9ddc738b-a5fc-4f82-a0f2-9cd7312ca6d0_1740881_TABLET_LANDSCAPE_16_9.jpg",
+      "image_credit": "Ticketmaster / pořadatel",
+      "tm_price_checked_at": "2026-10-21",
+      "sales_phase_checked_at": "2026-10-21T09:42:01Z",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "sales_phase": "upcoming"
     },
     {
       "id": "o2-universum-auto-in-flames-x-trivium-2027-04-20",
