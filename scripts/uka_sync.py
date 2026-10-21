@@ -2193,11 +2193,365 @@ def _build_public_prices():
     return run
 
 
+
+# ========================================================================
+# EVENTLOOK: import and verified fallbacks (same consolidated script)
+# ========================================================================
+def _build_eventlook():
+    #!/usr/bin/env python3
+    """UKA Eventlook discovery + verified fallback. No invented venues or live stock."""
+    import argparse
+    import json
+    import re
+    import unicodedata
+    from datetime import date, datetime, timedelta
+    from difflib import SequenceMatcher
+    from pathlib import Path
+    from urllib.parse import urljoin, urlparse
+    from urllib.robotparser import RobotFileParser
+    from zoneinfo import ZoneInfo
+
+    import requests
+    from bs4 import BeautifulSoup
+
+    ROOT = Path(__file__).resolve().parent.parent
+    SOURCE = 'Eventlook'
+    USER_AGENT = 'UKAEventCatalog/1.0 (+https://matias-danz.github.io/uka/; respect robots.txt)'
+    ALLOWED_DOMAIN = 'www.eventlook.cz'
+    LISTINGS = [
+        'https://www.eventlook.cz/',
+        'https://www.eventlook.cz/udalosti/?city=Praha',
+        'https://www.eventlook.cz/udalosti/?city=Brno',
+        'https://www.eventlook.cz/udalosti/?city=Plze%C5%88',
+        'https://www.eventlook.cz/udalosti/?city=Ostrava',
+        'https://www.eventlook.cz/udalosti/?city=Liberec',
+        'https://www.eventlook.cz/udalosti/?city=Olomouc',
+        'https://www.eventlook.cz/udalosti/?city=%C4%8Cesk%C3%A9%20Bud%C4%9Bjovice',
+        'https://www.eventlook.cz/udalosti/?city=Karlovy%20Vary',
+        'https://www.eventlook.cz/udalosti/?city=Pardubice',
+        'https://www.eventlook.cz/udalosti/?city=Jind%C5%99ich%C5%AFv%20Hradec',
+        'https://www.eventlook.cz/udalosti/?date=week',
+        'https://www.eventlook.cz/udalosti/?sort=hot',
+        'https://www.eventlook.cz/udalosti/?organizer=94',
+    ]
+    VENUES = {
+        ('typos music club','brno'):(49.1971964,16.6091164,'Běhounská 22, Brno'),
+        ('ox club prague','praha'):(50.0744873,14.4352169,'Francouzská 75/4, Praha'),
+        ('klub k2','ceske budejovice'):(48.9751458,14.4698178,'Sokolský ostrov 462/1, České Budějovice'),
+        ('radost fx','praha'):(50.07587,14.43199,'Bělehradská 234/120, Praha'),
+        ('roxy','praha'):(50.09072,14.42588,'Dlouhá 33, Praha'),
+        ('fuchs2','praha'):(50.09525,14.43668,'ostrov Štvanice, Praha'),
+        ('distrikt','praha'):(50.087697,14.453446,'Tachovské náměstí 290/5, Praha 3'),
+    }
+
+    def norm(s):
+        s=unicodedata.normalize('NFKD',str(s or '').casefold())
+        s=''.join(c for c in s if not unicodedata.combining(c))
+        return re.sub(r'[^a-z0-9]+',' ',s).strip()
+
+    def base_city(city):
+        c=norm(city)
+        if c.startswith('praha') or c.startswith('hlavni mesto praha'):return 'praha'
+        if c.startswith('brno'):return 'brno'
+        return c
+
+    def valid_location(lat,lng):
+        try:return 48.5<=float(lat)<=51.1 and 12.0<=float(lng)<=19.0
+        except (ValueError,TypeError):return False
+
+    def date_ok(value):
+        try:return bool(re.fullmatch(r'\d{4}-\d{2}-\d{2}',str(value))) and date.fromisoformat(value)>=date.today()-timedelta(days=1)
+        except ValueError:return False
+
+    def slug_from_url(url):
+        m=re.search(r'/(?:events|udalosti)/([^/?#]+)/?',url)
+        return m.group(1) if m else None
+
+    def safe_event_url(url):
+        p=urlparse(url)
+        return p.scheme=='https' and p.hostname==ALLOWED_DOMAIN and bool(slug_from_url(url))
+
+    def is_duplicate(new, old):
+        if new['id']==old.get('id'):return True
+        if new.get('ticket_url') and new['ticket_url']==old.get('ticket_url'):return True
+        if new['date']!=old.get('date'):return False
+        if norm(new['venue']) != norm(old.get('venue','')):return False
+        # Same headline and venue/date; do not merge unrelated parties at same venue.
+        a,b=norm(new['title']),norm(old.get('title',''))
+        return a==b or SequenceMatcher(None,a,b).ratio()>=.84
+
+    def seed_record(row):
+        slug=row.get('slug') or slug_from_url(row['ticket_url'])
+        if not slug or not safe_event_url(row['ticket_url']) or not date_ok(row['date']):return None
+        if row.get('lat') is not None and not valid_location(row.get('lat'),row.get('lng')):return None
+        price=row.get('price')
+        if price is not None and (not isinstance(price,(float,int)) or price<0):return None
+        event={**row,'id':'eventlook-'+slug,'source':SOURCE+' – ověřený detail',
+               'verified_at':'2026-10-20', 'image_url':row.get('image_url',''),
+               'image_credit':'Eventlook / pořadatel',
+               'price_source':'Eventlook – veřejný detail (ověřeno 20. 10. 2026)',
+               'price_from':True}
+        event.pop('slug',None)
+        confirmed_cta=bool(event.pop('sale_cta_verified',False))
+        if confirmed_cta:
+            event.update(sales_phase='on_sale',sales_phase_checked_at='2026-10-20',
+                         sales_phase_source='Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)')
+        # No confirmation of remaining stock! Buy button itself is not inventory.
+        return event
+
+    def robot_rules(session):
+        try:
+            r=session.get('https://www.eventlook.cz/robots.txt',timeout=12)
+            if r.status_code!=200:
+                return None, 'robots.txt nedostupný / HTTP '+str(r.status_code)
+            robots=RobotFileParser()
+            robots.parse(r.text.splitlines())
+            return robots,None
+        except requests.RequestException as ex:
+            return None,'robots.txt není dostupný: '+type(ex).__name__
+
+    def allowed(robots,url):
+        return robots is not None and robots.can_fetch(USER_AGENT,url)
+
+    def catalog_links(html,base):
+        soup=BeautifulSoup(html,'html.parser')
+        found=set()
+        for a in soup.select('a[href]'):
+            url=urljoin(base,a.get('href','')).split('#')[0]
+            if safe_event_url(url):found.add(url)
+        return sorted(found)
+
+    def jsonld_events(soup):
+        arr=[]
+        def walk(node):
+            if isinstance(node,list):
+                for x in node:walk(x)
+            elif isinstance(node,dict):
+                t=node.get('@type',[])
+                if t=='Event' or (isinstance(t,list) and 'Event' in t):arr.append(node)
+                for value in node.values():
+                    if isinstance(value,(list,dict)):walk(value)
+        for tag in soup.find_all('script',type='application/ld+json'):
+            try:walk(json.loads(tag.string or tag.get_text()))
+            except (ValueError,TypeError):pass
+        return arr
+
+    def build_venue_map(existing_events):
+        venues=dict(VENUES)
+        for event in existing_events:
+            if not event.get('venue') or not event.get('city'):
+                continue
+            if not valid_location(event.get('lat'),event.get('lng')):
+                continue
+            key=(norm(event['venue']),base_city(event['city']))
+            if key not in venues:
+                venues[key]=(float(event['lat']),float(event['lng']),str(event.get('address') or ''))
+        return venues
+
+
+    def extract_live_event(html,url,venue_map=None):
+        if venue_map is None:venue_map=VENUES
+        if not safe_event_url(url):return None
+        soup=BeautifulSoup(html,'html.parser')
+        heading=soup.find('h1')
+        if not heading:return None
+        title=heading.get_text(' ',strip=True)
+        if not title:return None
+        for e in jsonld_events(soup):
+            if norm(e.get('name'))==norm(title):
+                ld=e;break
+        else:ld={}
+        start=str(ld.get('startDate',''))
+        if re.match(r'\d{4}-\d{2}-\d{2}',start):
+            day=start[:10];tm=start[11:16] if len(start)>=16 else ''
+        else:
+            head=soup.get_text(' ',strip=True)[:1100]
+            m=re.search(r'(\d{1,2})\.\s*(\d{1,2})\.\s*(20\d{2})\s*[·\s]+(\d{1,2}):(\d{2})',head)
+            if not m:return None
+            day=f'{m.group(3)}-{int(m.group(2)):02}-{int(m.group(1)):02}'
+            tm=f'{int(m.group(4)):02}:{m.group(5)}'
+        if not date_ok(day):return None
+        text=soup.get_text(' ',strip=True)
+        header=text[:min(1000,len(text))]
+        location=ld.get('location',{}) if isinstance(ld.get('location'),dict) else {}
+        venue=location.get('name','')
+        addr=location.get('address',{})
+        city=addr.get('addressLocality','') if isinstance(addr,dict) else ''
+        # The Eventlook h1 is normally followed by a venue and city near the price.
+        if not venue or not city:
+            near=text.split(title,1)[1][:500] if title in text else header[:500]
+            nearby_norm=norm(near)
+            for (v,c) in sorted(venue_map,key=lambda row:len(row[0]),reverse=True):
+                if v and v in nearby_norm and c in nearby_norm:
+                    venue=venue or next((ev for ev in ['Typos music club','OX Club Prague','Klub K2','Radost FX','Roxy','Fuchs2','Distrikt'] if norm(ev)==v),v)
+                    city=city or ('České Budějovice' if c=='ceske budejovice' else c.capitalize())
+                    break
+        # Extract venue/city from the visible event header if structured data is absent.
+        if not venue or not city:
+            head_text = soup.get_text(' ', strip=True)[:750]
+            # Eventlook places `Venue, City` just after the date on detail pages.
+            mloc = re.search(r'\d{4}\s*[·\-]\s*\d{1,2}:\d{2}\s*[-–]\s*\d{1,2}:\d{2}\s+([^,]{2,85}),\s*([^,]{2,65})\s+(?:od\s+\d|\d[\d\s]*\s*[-–]\s*\d)',head_text, re.I)
+            if mloc:
+                venue=venue or mloc.group(1).strip()
+                city=city or mloc.group(2).strip()
+        # Skip non-CZ locations; do not mistake Bratislava for Czechia.
+        FOREIGN_CITIES = {'bratislava','kosice','banska bystrica','trnava','zilina','presov','nitra','vienna','wien','berlin'}
+        if any(base_city(city).startswith(x) for x in FOREIGN_CITIES) or not venue or not city: return None
+        key=(norm(venue),base_city(city))
+        coords=venue_map.get(key)
+
+        if coords:
+            lat,lng,address=coords
+        else:
+            # Unknown venues belong in the list; never invent coordinates for the map.
+            lat,lng,address=None,None,(addr.get('streetAddress','') if isinstance(addr,dict) else '')
+            # Source page's own navigation link can include exact coordinates.
+            from urllib.parse import parse_qs
+            for link in soup.select('a[href]'):
+                dest=parse_qs(urlparse(link.get('href','')).query).get('destination',[''])[0]
+                hit=re.fullmatch(r'\s*(-?\d{1,3}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)\s*',dest)
+                if hit and valid_location(*hit.groups()):
+                    lat,lng=map(float,hit.groups())
+                    break
+        # If the page lacks coordinates, only accept a city already seen in CZ data.
+        if lat is None and base_city(city) not in {c for _, c in venue_map}:
+            return None
+        # Price from structured offers, or from price header near the event title.
+        minimum=maximum=None
+        offers=ld.get('offers',[])
+        if isinstance(offers,dict):offers=[offers]
+        for o in offers:
+            if isinstance(o,dict) and str(o.get('priceCurrency','CZK')).upper()=='CZK':
+                try:
+                    val=float(o.get('lowPrice',o.get('price')))
+                    if 0<=val<200000:minimum=int(val) if minimum is None else min(minimum,int(val))
+                    mx=o.get('highPrice')
+                    if mx is not None and float(mx)>=val:maximum=int(float(mx))
+                except (ValueError,TypeError):pass
+        if minimum is None:
+            pm=re.search(r'(?:od|from)\s*(\d[\d\s\u00a0]{0,8})\s*Kč',header,re.I)
+            if pm:minimum=int(re.sub(r'\D','',pm.group(1)))
+            rng=re.search(r'(\d[\d\s\u00a0]{0,8})\s*[-–]\s*(\d[\d\s\u00a0]{0,8})\s*Kč',header)
+            if rng:
+                left,right=(int(re.sub(r'\D','',v)) for v in rng.groups())
+                if 0<=left<=right<200000:minimum=minimum if minimum is not None else left;maximum=right
+        if minimum is not None and not (0<=minimum<200000):minimum=maximum=None
+        meta=soup.find('meta',property='og:image')
+        photo=meta.get('content','') if meta else ''
+        if not photo.startswith('https://'):photo=''
+        result={'id':'eventlook-'+slug_from_url(url),'title':title,'artist':'DJ line-up' if re.search(r'halloween|party|rave|dj',norm(title),re.I) else title,
+            'category':'rave' if 'rave' in norm(title) else 'klub' if re.search(r'halloween|party|night',norm(title),re.I) else 'koncert',
+            'venue':venue,'city':city,'address':address,'lat':lat,'lng':lng,
+            'date':day,'time':tm,'price':minimum,'price_max':maximum,
+            'price_from':minimum is not None,'price_source':'Eventlook – veřejný detail',
+            'ticket_url':url,'source':'Eventlook','verified_at':date.today().isoformat(),
+            'description':'Událost z programu Eventlook. Před návštěvou ověř termín u pořadatele.',
+            'image_url':photo,'image_credit':'Eventlook / pořadatel'}
+        # Important: CTA means open sales process, NOT verified remaining tickets.
+        sold=re.search(r'Událost je vyprodána|VYPRODÁNO|Sold out',header[:450],re.I)
+        cta=soup.find(lambda tag:tag.name in ('a','button') and re.search(r'^(Koupit vstupenky|Zakoupit|Buy tickets)$',tag.get_text(' ',strip=True),re.I))
+        if sold:
+            result.update(availability_status='sold_out',availability_source=SOURCE+' – detail',availability_verified_at=datetime.now(ZoneInfo('Europe/Prague')).isoformat(timespec='seconds'))
+        elif cta:
+            result.update(sales_phase='on_sale',sales_phase_checked_at=datetime.now(ZoneInfo('Europe/Prague')).isoformat(timespec='seconds'),sales_phase_source=SOURCE+' – tlačítko nákupu (bez ověření volných míst)')
+        return result
+
+    def merge_events(current,new_records):
+        merged=list(current);added=0;refreshed=0
+        for n in new_records:
+            if not n or not date_ok(n['date']):continue
+            index=next((i for i,x in enumerate(merged) if is_duplicate(n,x)),None)
+            if index is None:
+                merged.append(n);added+=1
+            else:
+                old=merged[index]
+                # Do not erase manual prices; only fill when unknown.
+                updates={k:v for k,v in n.items() if k in ('sales_phase','sales_phase_checked_at','sales_phase_source','availability_status','availability_source','availability_verified_at') and v}
+                for k in ('price','price_max','image_url'):
+                    if old.get(k) in (None,'') and n.get(k) not in (None,''):updates[k]=n[k]
+                for k in ('price_source','price_from'):
+                    if 'price' in updates and n.get(k):updates[k]=n[k]
+                if updates:
+                    combined={**old,**updates}
+                    if combined!=old:merged[index]=combined;refreshed+=1
+        return merged,added,refreshed
+
+
+    EVENTLOOK_VERIFIED=[{'slug': 'halloween-typos-brno-cimhcf', 'title': 'HALLOWEEN – TYPOS BRNO', 'date': '2026-10-23', 'time': '22:00', 'venue': 'Typos music club', 'city': 'Brno', 'address': 'Běhounská 22, Brno', 'lat': 49.1971964, 'lng': 16.6091164, 'price': 189, 'price_max': 249, 'ticket_url': 'https://www.eventlook.cz/events/halloween-typos-brno-cimhcf/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Halloweenská klubová párty s DJ a tematickým programem.', 'sale_cta_verified': False}, {'slug': 'halloween-typos-brno-lzwidy', 'title': 'HALLOWEEN – TYPOS BRNO (Part 2)', 'date': '2026-10-27', 'time': '22:00', 'venue': 'Typos music club', 'city': 'Brno', 'address': 'Běhounská 22, Brno', 'lat': 49.1971964, 'lng': 16.6091164, 'price': 189, 'price_max': 249, 'ticket_url': 'https://www.eventlook.cz/events/halloween-typos-brno-lzwidy/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Halloween Brno Part 2, speciální DJ party.', 'sale_cta_verified': True}, {'slug': 'welcome-to-hawkins-ox-wrbwro', 'title': 'WELCOME TO HAWKINS HALLOWEEN – OX', 'date': '2026-10-23', 'time': '21:00', 'venue': 'OX Club Prague', 'city': 'Praha', 'address': 'Francouzská 75/4, Praha', 'lat': 50.0744873, 'lng': 14.4352169, 'price': 250, 'price_max': 550, 'ticket_url': 'https://www.eventlook.cz/events/welcome-to-hawkins-ox-wrbwro/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Halloweenská party s hip-hopem, R&B a mainstreamem.', 'sale_cta_verified': True}, {'slug': 'silly-spooky-halloween-npnfeh', 'title': 'SILLY SPOOKY HALLOWEEN – OX', 'date': '2026-10-24', 'time': '21:00', 'venue': 'OX Club Prague', 'city': 'Praha', 'address': 'Francouzská 75/4, Praha', 'lat': 50.0744873, 'lng': 14.4352169, 'price': 250, 'price_max': 550, 'ticket_url': 'https://www.eventlook.cz/udalosti/silly-spooky-halloween-npnfeh/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Studentská halloweenová party v OX Prague.', 'sale_cta_verified': False}, {'slug': 'scary-movie-halloween-brdwmc', 'title': 'SCARY MOVIE HALLOWEEN – OX', 'date': '2026-10-30', 'time': '21:00', 'venue': 'OX Club Prague', 'city': 'Praha', 'address': 'Francouzská 75/4, Praha', 'lat': 50.0744873, 'lng': 14.4352169, 'price': 250, 'price_max': 700, 'ticket_url': 'https://www.eventlook.cz/en/events/scary-movie-halloween-brdwmc/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Horror party s mainstreamem, hip-hopem a R&B.', 'sale_cta_verified': True}, {'slug': 'welcome-ox-halloween-3110-vcqsmn', 'title': 'WELCOME OX HALLOWEEN – 31. 10.', 'date': '2026-10-31', 'time': '21:00', 'venue': 'OX Club Prague', 'city': 'Praha', 'address': 'Francouzská 75/4, Praha', 'lat': 50.0744873, 'lng': 14.4352169, 'price': 299, 'price_max': 399, 'ticket_url': 'https://www.eventlook.cz/pl/events/welcome-ox-halloween-3110-vcqsmn/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Halloweenská hudební party v OX Prague.', 'sale_cta_verified': True}, {'slug': 'halloween-wjcfya', 'title': 'HALLOWEEN – Klub K2', 'date': '2026-10-30', 'time': '21:00', 'venue': 'Klub K2', 'city': 'České Budějovice', 'address': 'Sokolský ostrov 462/1, České Budějovice', 'lat': 48.9751458, 'lng': 14.4698178, 'price': 200, 'price_max': 300, 'ticket_url': 'https://www.eventlook.cz/udalosti/halloween-wjcfya/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Halloween party: mainstream, rap a techno na dvou scénách.', 'sale_cta_verified': True}, {'slug': 'onebig-halloween-qtpltb', 'title': 'ONEBIG HALLOWEEN – Radost FX', 'date': '2026-10-30', 'time': '22:00', 'venue': 'Radost FX', 'city': 'Praha', 'address': 'Bělehradská 234/120, Praha', 'lat': 50.07587, 'lng': 14.43199, 'price': 360, 'price_max': 1500, 'ticket_url': 'https://www.eventlook.cz/udalosti/onebig-halloween-qtpltb/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Halloween s hip-hopem, afrobeats, R&B a dancehallem.', 'sale_cta_verified': True}, {'slug': 'tuya-rave-x-halloween-kwecut', 'title': 'TUYA RAVE x HALLOWEEN', 'date': '2026-10-31', 'time': '22:00', 'venue': 'Distrikt', 'city': 'Praha', 'address': 'Tachovské náměstí 290/5, Praha 3', 'lat': 50.087697, 'lng': 14.453446, 'price': 450, 'price_max': 2550, 'ticket_url': 'https://www.eventlook.cz/events/tuya-rave-x-halloween-kwecut/', 'category': 'rave', 'artist': 'DJs / hard techno lineup', 'description': 'Dvě stage, hard techno, halloweenová edice.', 'sale_cta_verified': True}, {'slug': 'halloween-rave-fuchs-2-vkoiks', 'title': 'HALLOWEEN RAVE – FUCHS2', 'date': '2026-10-29', 'time': '21:00', 'venue': 'Fuchs2', 'city': 'Praha', 'address': 'ostrov Štvanice, Praha 7', 'lat': 50.09525, 'lng': 14.43668, 'price': 250, 'price_max': 350, 'ticket_url': 'https://www.eventlook.cz/udalosti/halloween-rave-fuchs-2-vkoiks/', 'category': 'rave', 'artist': 'DJ line-up', 'description': 'Halloweenský studentský rave na Štvanici.', 'sale_cta_verified': True}, {'slug': 'k-halloween-2026-trick-or-treat-vcieda', 'title': 'K-Halloween 2026 || Trick or Treat', 'date': '2026-10-31', 'time': '22:00', 'venue': 'Tabarin Club Brno', 'city': 'Brno', 'address': 'Divadelní 603/3, Brno', 'lat': 49.1948086, 'lng': 16.6142313, 'price': 150, 'price_max': 600, 'ticket_url': 'https://www.eventlook.cz/udalosti/k-halloween-2026-trick-or-treat-vcieda/', 'category': 'klub', 'artist': 'K-pop DJ night', 'description': 'Ověřená hudební událost na Eventlooku; údaje a prodej ověř před návštěvou.', 'sale_cta_verified': True}, {'slug': 'bieberchella-typos-brno-nmklpl', 'title': 'BIEBERCHELLA – TYPOS BRNO', 'date': '2026-11-06', 'time': '22:00', 'venue': 'Typos music club', 'city': 'Brno', 'address': 'Běhounská 22, Brno', 'lat': 49.1971964, 'lng': 16.6091164, 'price': 169, 'price_max': 229, 'ticket_url': 'https://www.eventlook.cz/udalosti/bieberchella-typos-brno-nmklpl/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Ověřená hudební událost na Eventlooku; údaje a prodej ověř před návštěvou.', 'sale_cta_verified': True}, {'slug': 'kiss-or-slap-typos-brno-bkjwjb', 'title': 'KISS OR SLAP – TYPOS BRNO', 'date': '2026-11-27', 'time': '22:00', 'venue': 'Typos music club', 'city': 'Brno', 'address': 'Běhounská 22, Brno', 'lat': 49.1971964, 'lng': 16.6091164, 'price': 159, 'price_max': 199, 'ticket_url': 'https://www.eventlook.cz/udalosti/kiss-or-slap-typos-brno-bkjwjb/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Ověřená hudební událost na Eventlooku; údaje a prodej ověř před návštěvou.', 'sale_cta_verified': True}, {'slug': 'hard-rico-show-typos-brno-dsjied', 'title': 'HARD RICO FOCUS TOUR – BRNO', 'date': '2026-12-05', 'time': '21:00', 'venue': 'Typos music club', 'city': 'Brno', 'address': 'Běhounská 22, Brno', 'lat': 49.1971964, 'lng': 16.6091164, 'price': 489, 'price_max': 1499, 'ticket_url': 'https://www.eventlook.cz/udalosti/hard-rico-show-typos-brno-dsjied/', 'category': 'koncert', 'artist': 'Hard Rico', 'description': 'Ověřená hudební událost na Eventlooku; údaje a prodej ověř před návštěvou.', 'sale_cta_verified': True}, {'slug': 'studentsky-halloween-roxy-wfrncy', 'title': 'NEJVĚTŠÍ STUDENTSKÝ HALLOWEEN – ROXY', 'date': '2026-10-31', 'time': '21:00', 'venue': 'ROXY', 'city': 'Praha', 'address': 'Dlouhá 33, Praha', 'lat': 50.09072, 'lng': 14.42588, 'price': 250, 'price_max': 650, 'ticket_url': 'https://www.eventlook.cz/udalosti/studentsky-halloween-roxy-wfrncy/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Ověřená hudební událost na Eventlooku; údaje a prodej ověř před návštěvou.', 'sale_cta_verified': True}]
+
+    def main(dry_run=False, no_web=False):
+        """Update the shared events.json with verified and allowed Eventlook sources."""
+        path=ROOT/'events.json'
+        payload=json.loads(path.read_text(encoding='utf-8'))
+        if not isinstance(payload.get('events'),list):raise RuntimeError('events.json nemá pole events')
+        verified=EVENTLOOK_VERIFIED
+        candidates=[x for row in verified if (x:=seed_record(row))]
+        print('EVENTLOOK: ověřených výchozích akcí:',len(candidates))
+        discovered=0;not_mapped=0;catalogues_ok=0;urls=set()
+        previous_cursor = int(payload.get('eventlook_cursor', 0) or 0)
+        next_cursor=previous_cursor
+        if not no_web:
+            with requests.Session() as sess:
+                sess.headers.update({'User-Agent':USER_AGENT,'Accept-Language':'cs-CZ,cs;q=0.9'})
+                robots,reason=robot_rules(sess)
+                if reason:print('EVENTLOOK: ONLINE import nepovolen/nelze ověřit –',reason)
+                else:
+                    for catalog in LISTINGS:
+                        if not allowed(robots,catalog):continue
+                        try:
+                            r=sess.get(catalog,timeout=9)
+                            if r.status_code==200 and 'text/html' in r.headers.get('Content-Type','text/html'):
+                                urls.update(catalog_links(r.text,catalog));catalogues_ok+=1
+                            else:print('EVENTLOOK KATALOG:',r.status_code,catalog)
+                        except requests.RequestException as exc:
+                            print('EVENTLOOK KATALOG nedostupný:',type(exc).__name__)
+                    print(f'EVENTLOOK: katalogů načteno {catalogues_ok}, unikátních URL {len(urls)}')
+                    venue_map=build_venue_map(payload['events']+candidates)
+                    # Rotate through catalog URLs across hourly runs rather than
+                    # rechecking the first 60 links forever.
+                    all_urls=sorted(urls)
+                    to_check=[]
+                    if all_urls:
+                        start=previous_cursor%len(all_urls)
+                        to_check=(all_urls[start:]+all_urls[:start])[:35]
+                        next_cursor=(start+len(to_check))%len(all_urls)
+                    for url in to_check:
+                        if not allowed(robots,url):continue
+                        try:
+                            r=sess.get(url,timeout=9)
+                            if r.status_code!=200 or 'html' not in r.headers.get('Content-Type','text/html'):continue
+                            item=extract_live_event(r.text,url,venue_map=venue_map)
+                            if item:candidates.append(item);discovered+=1
+                            else:not_mapped+=1
+                        except requests.RequestException:continue
+        merged,added,refreshed=merge_events(payload['events'],candidates)
+        print(f'EVENTLOOK: živě získáno {discovered}, nepřiřazených detailů {not_mapped}; nových {added}, aktualizovaných {refreshed}, celkem {len(merged)}')
+        if dry_run:
+            print('EVENTLOOK: TEST – data se nemění')
+        elif added or refreshed or (next_cursor!=previous_cursor):
+            payload['events']=sorted(merged,key=lambda x:(x['date'],x.get('time',''),x['title']))
+            payload['eventlook_cursor']=next_cursor
+            payload['updated_at']=datetime.now(ZoneInfo('Europe/Prague')).isoformat(timespec='seconds')
+            path.write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+            print('EVENTLOOK: změny zapsány do events.json')
+        return added,refreshed
+    main.parse_detail=extract_live_event
+    main.merge=merge_events
+    main.venues=build_venue_map
+    main.links=catalog_links
+    return main
+
+
 def main():
     p = argparse.ArgumentParser(description='UKA: jedna synchronizace místo tří skriptů')
     p.add_argument('--dry-run', action='store_true', help='Ceny z GoOutu jen ověřit, neukládat')
     p.add_argument('--offline-cleanup', action='store_true', help='Bez internetu: jen vyčistit staré akce')
+    p.add_argument('--eventlook-seed-only', action='store_true', help='Jen ověřené Eventlook akce, bez síťových požadavků a dalších importů')
+    p.add_argument('--eventlook-dry-run', action='store_true', help='Test Eventlook importu bez zápisu')
     args=p.parse_args()
+    if args.eventlook_seed_only:
+        _build_eventlook()(dry_run=args.eventlook_dry_run, no_web=True)
+        return 0
     importer=_build_importer()
     old_argv=sys.argv
     try:
@@ -2209,6 +2563,7 @@ def main():
         print('UKA: offline test dokončen.')
         return 0
     _build_tickets()()
+    _build_eventlook()(dry_run=args.eventlook_dry_run, no_web=args.offline_cleanup)
     _build_public_prices()(args.dry_run)
     return 0
 
