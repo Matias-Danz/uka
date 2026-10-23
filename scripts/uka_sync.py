@@ -2372,7 +2372,13 @@ def _build_eventlook():
             tm=f'{int(m.group(4)):02}:{m.group(5)}'
         if not date_ok(day):return None
         text=soup.get_text(' ',strip=True)
-        header=text[:min(1000,len(text))]
+        # Related events at the end of Eventlook's detail page have their own prices.
+        # Never treat those prices as the entry fee for the current event.
+        lead=text.split('Další události',1)[0]
+        header=lead[:1100]
+        free_explicit=bool(re.search(
+            r'\b(?:vstup(?:né)?\s+zdarma|vstup\s+je\s+zdarma|zdarma\s+vstup|cena\s*[:：]\s*(?:zdarma|0\s*Kč))\b',
+            header[:600],re.I))
         location=ld.get('location',{}) if isinstance(ld.get('location'),dict) else {}
         venue=location.get('name','')
         addr=location.get('address',{})
@@ -2424,17 +2430,23 @@ def _build_eventlook():
             if isinstance(o,dict) and str(o.get('priceCurrency','CZK')).upper()=='CZK':
                 try:
                     val=float(o.get('lowPrice',o.get('price')))
+                    # Eventlook may report 0 as an unset/schema placeholder.
+                    # Free admission must also be explicitly stated in the event detail.
+                    if val==0 and not free_explicit:continue
                     if 0<=val<200000:minimum=int(val) if minimum is None else min(minimum,int(val))
                     mx=o.get('highPrice')
                     if mx is not None and float(mx)>=val:maximum=int(float(mx))
                 except (ValueError,TypeError):pass
         if minimum is None:
-            pm=re.search(r'(?:od|from)\s*(\d[\d\s\u00a0]{0,8})\s*Kč',header,re.I)
+            # Only read the event's own heading, never the description or recommended listings.
+            near_title=header.split(title,1)[-1][:230] if title in header else header[:230]
+            pm=re.search(r'(?:od|from)\s*(\d[\d\s\u00a0]{0,8})\s*Kč',near_title,re.I)
             if pm:minimum=int(re.sub(r'\D','',pm.group(1)))
-            rng=re.search(r'(\d[\d\s\u00a0]{0,8})\s*[-–]\s*(\d[\d\s\u00a0]{0,8})\s*Kč',header)
+            rng=re.search(r'(\d[\d\s\u00a0]{0,8})\s*[-–]\s*(\d[\d\s\u00a0]{0,8})\s*Kč',near_title)
             if rng:
                 left,right=(int(re.sub(r'\D','',v)) for v in rng.groups())
                 if 0<=left<=right<200000:minimum=minimum if minimum is not None else left;maximum=right
+            if minimum is None and free_explicit:minimum=0
         if minimum is not None and not (0<=minimum<200000):minimum=maximum=None
         meta=soup.find('meta',property='og:image')
         photo=meta.get('content','') if meta else ''
@@ -2443,7 +2455,9 @@ def _build_eventlook():
             'category':'rave' if 'rave' in norm(title) else 'klub' if re.search(r'halloween|party|night',norm(title),re.I) else 'koncert',
             'venue':venue,'city':city,'address':address,'lat':lat,'lng':lng,
             'date':day,'time':tm,'price':minimum,'price_max':maximum,
-            'price_from':minimum is not None,'price_source':'Eventlook – veřejný detail',
+            'price_from':minimum is not None and minimum>0,
+            'price_free_verified':bool(minimum==0 and free_explicit),
+            'price_source':'Eventlook – veřejný detail' if minimum is not None else '',
             'ticket_url':url,'source':'Eventlook','verified_at':date.today().isoformat(),
             'description':'Událost z programu Eventlook. Před návštěvou ověř termín u pořadatele.',
             'image_url':photo,'image_credit':'Eventlook / pořadatel'}
@@ -2469,8 +2483,8 @@ def _build_eventlook():
                 updates={k:v for k,v in n.items() if k in ('sales_phase','sales_phase_checked_at','sales_phase_source','availability_status','availability_source','availability_verified_at') and v}
                 for k in ('price','price_max','image_url'):
                     if old.get(k) in (None,'') and n.get(k) not in (None,''):updates[k]=n[k]
-                for k in ('price_source','price_from'):
-                    if 'price' in updates and n.get(k):updates[k]=n[k]
+                for k in ('price_source','price_from','price_free_verified'):
+                    if 'price' in updates and n.get(k) is not None:updates[k]=n[k]
                 if updates:
                     combined={**old,**updates}
                     if combined!=old:merged[index]=combined;refreshed+=1
@@ -2478,6 +2492,30 @@ def _build_eventlook():
 
 
     EVENTLOOK_VERIFIED=[{'slug': 'halloween-typos-brno-cimhcf', 'title': 'HALLOWEEN – TYPOS BRNO', 'date': '2026-10-23', 'time': '22:00', 'venue': 'Typos music club', 'city': 'Brno', 'address': 'Běhounská 22, Brno', 'lat': 49.1971964, 'lng': 16.6091164, 'price': 189, 'price_max': 249, 'ticket_url': 'https://www.eventlook.cz/events/halloween-typos-brno-cimhcf/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Halloweenská klubová párty s DJ a tematickým programem.', 'sale_cta_verified': False}, {'slug': 'halloween-typos-brno-lzwidy', 'title': 'HALLOWEEN – TYPOS BRNO (Part 2)', 'date': '2026-10-27', 'time': '22:00', 'venue': 'Typos music club', 'city': 'Brno', 'address': 'Běhounská 22, Brno', 'lat': 49.1971964, 'lng': 16.6091164, 'price': 189, 'price_max': 249, 'ticket_url': 'https://www.eventlook.cz/events/halloween-typos-brno-lzwidy/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Halloween Brno Part 2, speciální DJ party.', 'sale_cta_verified': True}, {'slug': 'welcome-to-hawkins-ox-wrbwro', 'title': 'WELCOME TO HAWKINS HALLOWEEN – OX', 'date': '2026-10-23', 'time': '21:00', 'venue': 'OX Club Prague', 'city': 'Praha', 'address': 'Francouzská 75/4, Praha', 'lat': 50.0744873, 'lng': 14.4352169, 'price': 250, 'price_max': 550, 'ticket_url': 'https://www.eventlook.cz/events/welcome-to-hawkins-ox-wrbwro/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Halloweenská party s hip-hopem, R&B a mainstreamem.', 'sale_cta_verified': True}, {'slug': 'silly-spooky-halloween-npnfeh', 'title': 'SILLY SPOOKY HALLOWEEN – OX', 'date': '2026-10-24', 'time': '21:00', 'venue': 'OX Club Prague', 'city': 'Praha', 'address': 'Francouzská 75/4, Praha', 'lat': 50.0744873, 'lng': 14.4352169, 'price': 250, 'price_max': 550, 'ticket_url': 'https://www.eventlook.cz/udalosti/silly-spooky-halloween-npnfeh/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Studentská halloweenová party v OX Prague.', 'sale_cta_verified': False}, {'slug': 'scary-movie-halloween-brdwmc', 'title': 'SCARY MOVIE HALLOWEEN – OX', 'date': '2026-10-30', 'time': '21:00', 'venue': 'OX Club Prague', 'city': 'Praha', 'address': 'Francouzská 75/4, Praha', 'lat': 50.0744873, 'lng': 14.4352169, 'price': 250, 'price_max': 700, 'ticket_url': 'https://www.eventlook.cz/en/events/scary-movie-halloween-brdwmc/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Horror party s mainstreamem, hip-hopem a R&B.', 'sale_cta_verified': True}, {'slug': 'welcome-ox-halloween-3110-vcqsmn', 'title': 'WELCOME OX HALLOWEEN – 31. 10.', 'date': '2026-10-31', 'time': '21:00', 'venue': 'OX Club Prague', 'city': 'Praha', 'address': 'Francouzská 75/4, Praha', 'lat': 50.0744873, 'lng': 14.4352169, 'price': 299, 'price_max': 399, 'ticket_url': 'https://www.eventlook.cz/pl/events/welcome-ox-halloween-3110-vcqsmn/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Halloweenská hudební party v OX Prague.', 'sale_cta_verified': True}, {'slug': 'halloween-wjcfya', 'title': 'HALLOWEEN – Klub K2', 'date': '2026-10-30', 'time': '21:00', 'venue': 'Klub K2', 'city': 'České Budějovice', 'address': 'Sokolský ostrov 462/1, České Budějovice', 'lat': 48.9751458, 'lng': 14.4698178, 'price': 200, 'price_max': 300, 'ticket_url': 'https://www.eventlook.cz/udalosti/halloween-wjcfya/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Halloween party: mainstream, rap a techno na dvou scénách.', 'sale_cta_verified': True}, {'slug': 'onebig-halloween-qtpltb', 'title': 'ONEBIG HALLOWEEN – Radost FX', 'date': '2026-10-30', 'time': '22:00', 'venue': 'Radost FX', 'city': 'Praha', 'address': 'Bělehradská 234/120, Praha', 'lat': 50.07587, 'lng': 14.43199, 'price': 360, 'price_max': 1500, 'ticket_url': 'https://www.eventlook.cz/udalosti/onebig-halloween-qtpltb/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Halloween s hip-hopem, afrobeats, R&B a dancehallem.', 'sale_cta_verified': True}, {'slug': 'tuya-rave-x-halloween-kwecut', 'title': 'TUYA RAVE x HALLOWEEN', 'date': '2026-10-31', 'time': '22:00', 'venue': 'Distrikt', 'city': 'Praha', 'address': 'Tachovské náměstí 290/5, Praha 3', 'lat': 50.087697, 'lng': 14.453446, 'price': 450, 'price_max': 2550, 'ticket_url': 'https://www.eventlook.cz/events/tuya-rave-x-halloween-kwecut/', 'category': 'rave', 'artist': 'DJs / hard techno lineup', 'description': 'Dvě stage, hard techno, halloweenová edice.', 'sale_cta_verified': True}, {'slug': 'halloween-rave-fuchs-2-vkoiks', 'title': 'HALLOWEEN RAVE – FUCHS2', 'date': '2026-10-29', 'time': '21:00', 'venue': 'Fuchs2', 'city': 'Praha', 'address': 'ostrov Štvanice, Praha 7', 'lat': 50.09525, 'lng': 14.43668, 'price': 250, 'price_max': 350, 'ticket_url': 'https://www.eventlook.cz/udalosti/halloween-rave-fuchs-2-vkoiks/', 'category': 'rave', 'artist': 'DJ line-up', 'description': 'Halloweenský studentský rave na Štvanici.', 'sale_cta_verified': True}, {'slug': 'k-halloween-2026-trick-or-treat-vcieda', 'title': 'K-Halloween 2026 || Trick or Treat', 'date': '2026-10-31', 'time': '22:00', 'venue': 'Tabarin Club Brno', 'city': 'Brno', 'address': 'Divadelní 603/3, Brno', 'lat': 49.1948086, 'lng': 16.6142313, 'price': 150, 'price_max': 600, 'ticket_url': 'https://www.eventlook.cz/udalosti/k-halloween-2026-trick-or-treat-vcieda/', 'category': 'klub', 'artist': 'K-pop DJ night', 'description': 'Ověřená hudební událost na Eventlooku; údaje a prodej ověř před návštěvou.', 'sale_cta_verified': True}, {'slug': 'bieberchella-typos-brno-nmklpl', 'title': 'BIEBERCHELLA – TYPOS BRNO', 'date': '2026-11-06', 'time': '22:00', 'venue': 'Typos music club', 'city': 'Brno', 'address': 'Běhounská 22, Brno', 'lat': 49.1971964, 'lng': 16.6091164, 'price': 169, 'price_max': 229, 'ticket_url': 'https://www.eventlook.cz/udalosti/bieberchella-typos-brno-nmklpl/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Ověřená hudební událost na Eventlooku; údaje a prodej ověř před návštěvou.', 'sale_cta_verified': True}, {'slug': 'kiss-or-slap-typos-brno-bkjwjb', 'title': 'KISS OR SLAP – TYPOS BRNO', 'date': '2026-11-27', 'time': '22:00', 'venue': 'Typos music club', 'city': 'Brno', 'address': 'Běhounská 22, Brno', 'lat': 49.1971964, 'lng': 16.6091164, 'price': 159, 'price_max': 199, 'ticket_url': 'https://www.eventlook.cz/udalosti/kiss-or-slap-typos-brno-bkjwjb/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Ověřená hudební událost na Eventlooku; údaje a prodej ověř před návštěvou.', 'sale_cta_verified': True}, {'slug': 'hard-rico-show-typos-brno-dsjied', 'title': 'HARD RICO FOCUS TOUR – BRNO', 'date': '2026-12-05', 'time': '21:00', 'venue': 'Typos music club', 'city': 'Brno', 'address': 'Běhounská 22, Brno', 'lat': 49.1971964, 'lng': 16.6091164, 'price': 489, 'price_max': 1499, 'ticket_url': 'https://www.eventlook.cz/udalosti/hard-rico-show-typos-brno-dsjied/', 'category': 'koncert', 'artist': 'Hard Rico', 'description': 'Ověřená hudební událost na Eventlooku; údaje a prodej ověř před návštěvou.', 'sale_cta_verified': True}, {'slug': 'studentsky-halloween-roxy-wfrncy', 'title': 'NEJVĚTŠÍ STUDENTSKÝ HALLOWEEN – ROXY', 'date': '2026-10-31', 'time': '21:00', 'venue': 'ROXY', 'city': 'Praha', 'address': 'Dlouhá 33, Praha', 'lat': 50.09072, 'lng': 14.42588, 'price': 250, 'price_max': 650, 'ticket_url': 'https://www.eventlook.cz/udalosti/studentsky-halloween-roxy-wfrncy/', 'category': 'klub', 'artist': 'DJ line-up', 'description': 'Ověřená hudební událost na Eventlooku; údaje a prodej ověř před návštěvou.', 'sale_cta_verified': True}]
+
+    def correct_known_blowup_price(events):
+        """Correct the reported wrong free entry for the uniquely identified Blowup #05."""
+        changed=0
+        for event in events:
+            url=str(event.get('ticket_url') or '').lower()
+            exact_url=slug_from_url(url)=='blowup-05-lolaiv'
+            # Also handle event records imported earlier under a different source id.
+            exact_event=(event.get('date')=='2026-10-23' and
+                         norm(event.get('title')) in ('blowup 05','blowup 5','blowup 5 robin zoot') and
+                         'sasazu' in norm(event.get('venue')) and
+                         base_city(event.get('city'))=='praha')
+            if not (exact_url or exact_event):continue
+            if (event.get('price')==450 and event.get('price_from') is True and
+                    event.get('price_max') is None):continue
+            # Reported directly by the UKA administrator, not scraped/independently
+            # verified from a public price list. Keep that provenance visible.
+            event['price']=450
+            event['price_max']=None
+            event['price_from']=True
+            event['price_source']='Oprava ceny sdělená správcem UKA (23. 10. 2026)'
+            event['price_checked_at']='2026-10-23'
+            changed+=1
+        return changed
 
     def main(dry_run=False, no_web=False):
         """Update the shared events.json with verified and allowed Eventlook sources."""
@@ -2525,6 +2563,26 @@ def _build_eventlook():
                             else:not_mapped+=1
                         except requests.RequestException:continue
         merged,added,refreshed=merge_events(payload['events'],candidates)
+        # A narrowly targeted correction for Blowup #05, not a generic price guess.
+        # Manual changes stored in admin_overrides take precedence in index.html.
+        corrected=correct_known_blowup_price(merged)
+        refreshed+=corrected
+        if corrected:print(f'EVENTLOOK CENY: Blowup #05 opraven na od 450 Kč ({corrected} záznamů)')
+        # Clean legacy false 'free' labels originating from unconfirmed 0 offers.
+        # An explicit free entry has price_free_verified=True. Admin overrides
+        # are separate and continue to override the base price at render time.
+        uncertain_free=0
+        for ev in merged:
+            if (ev.get('price')==0 and 'eventlook' in str(ev.get('source','')).lower()
+                    and not ev.get('price_free_verified')):
+                ev['price']=None
+                ev['price_max']=None
+                ev['price_from']=False
+                ev['price_source']=''
+                uncertain_free+=1
+        if uncertain_free:
+            refreshed+=uncertain_free
+            print(f'EVENTLOOK CENY: {uncertain_free} neověřených nulových cen změněno na Cena neuvedena')
         print(f'EVENTLOOK: živě získáno {discovered}, nepřiřazených detailů {not_mapped}; nových {added}, aktualizovaných {refreshed}, celkem {len(merged)}')
         if dry_run:
             print('EVENTLOOK: TEST – data se nemění')
