@@ -140,7 +140,14 @@
     html.uka-theme-css *, html.uka-theme-css *::before,
     html.uka-theme-css *::after { transition: none !important; }
   }
-    .search-hint{display:flex;align-items:center;flex-wrap:wrap;gap:5px 7px;padding:10px 13px;margin:0 0 12px;border:1px solid var(--stroke);background:var(--surface);border-radius:12px;color:var(--muted);font-size:13px}
+    .smart-suggestions{display:grid;gap:4px;padding:6px;border:1px solid var(--stroke);border-radius:14px;background:var(--surface);margin:-1px 0 17px;box-shadow:0 8px 25px rgba(0,0,0,.09)}
+  .smart-suggestion{display:flex;align-items:center;gap:10px;text-align:left;width:100%;border:0;background:transparent;color:var(--text);border-radius:9px;padding:10px 11px;min-height:40px}
+  .smart-suggestion:hover,.smart-suggestion:focus-visible{background:var(--gold-soft)}
+  .smart-suggestion-type{min-width:76px;font-size:11px;color:var(--muted);font-weight:650}
+  .smart-suggestion strong{font-size:13px;font-weight:800;overflow-wrap:anywhere}
+  .smart-suggestion-arrow{margin-left:auto;color:var(--gold);font-size:16px}
+  @media(max-width:550px){.smart-suggestion-type{min-width:64px}.smart-suggestion{gap:7px;padding:10px}}
+  .search-hint{display:flex;align-items:center;flex-wrap:wrap;gap:5px 7px;padding:10px 13px;margin:0 0 12px;border:1px solid var(--stroke);background:var(--surface);border-radius:12px;color:var(--muted);font-size:13px}
   .search-suggestion{padding:0;background:none;border:0;color:var(--text);font:inherit;font-weight:850;text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;cursor:pointer}
   .search-suggestion:hover{color:var(--gold)}
   .search-hint span{font-size:12px;color:var(--muted)}
@@ -292,82 +299,117 @@
       const status=el('syncStatus');if(status)status.textContent=liveSyncLabel;
     }catch(e){console.warn('UKA: live feed není k dispozici; použiji vloženou zálohu',e);}
   }
-  // Chytré vyhledávání v2.1: diakritika, překlepy, prohozená písmena,
-  // více slov a hledání v názvu, interpretovi, místě i městě.
+  // Chytré hledání v3.0 — našeptávač, začátky slov, vyhledávání i s překlepy.
+  // Vše probíhá lokálně nad akcemi ve skutečné databázi, bez cizího API.
   const searchNormalize=value=>String(value??'').normalize('NFD')
     .replace(/[\u0300-\u036f]/g,'').toLowerCase()
     .replace(/[^a-z0-9]+/g,' ').trim();
   const searchWords=value=>searchNormalize(value).split(/\s+/).filter(Boolean);
-  const searchTolerance=word=>word.length<3?0:word.length<6?1:word.length<12?2:3;
-  // Damerau-Levenshtein (včetně prohození sousedních písmen).
+  const searchTokenCache=new Map();
+  function indexedWords(event){
+    const raw=[event.title,event.artist,event.venue,event.city,event.address];
+    const fingerprint=raw.join('\u0001');
+    const cached=searchTokenCache.get(event.id);
+    if(cached?.fingerprint===fingerprint)return cached.words;
+    const words=[];
+    const weights=[130,128,104,85,55];
+    raw.forEach((value,i)=>{
+      const found=String(value??'').match(/[\p{L}\p{N}]+/gu)||[];
+      for(const display of found){
+        const norm=searchNormalize(display);
+        if(norm&&(!words.some(t=>t.norm===norm&&t.weight>=weights[i])))words.push({norm,display,weight:weights[i]});
+      }
+    });
+    if(searchTokenCache.size>1200)searchTokenCache.clear();
+    searchTokenCache.set(event.id,{fingerprint,words});
+    return words;
+  }
+  // Omezená Damerau-Levenshteinova vzdálenost (umí i dvě prohozená písmena).
   function searchDistance(a,b,max){
     if(Math.abs(a.length-b.length)>max)return max+1;
     let prev2=null,prev=Array.from({length:b.length+1},(_,i)=>i);
     for(let i=1;i<=a.length;i++){
-      const cur=[i];let rowMin=cur[0];
+      const cur=[i];let min=cur[0];
       for(let j=1;j<=b.length;j++){
-        let cost=a[i-1]===b[j-1]?0:1;
-        let v=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+cost);
+        let v=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
         if(prev2&&i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1])
           v=Math.min(v,prev2[j-2]+1);
-        cur[j]=v;rowMin=Math.min(rowMin,v);
+        cur[j]=v;min=Math.min(min,v);
       }
-      if(rowMin>max)return max+1;
+      if(min>max)return max+1;
       prev2=prev;prev=cur;
     }
     return prev[b.length];
   }
-  function searchText(event){return [event.title,event.artist,event.venue,event.city,event.address].filter(Boolean).join(' ');}
-  function searchAnalysis(query,events){
-    const typed=searchWords(query);
-    if(!typed.length)return {words:[],suggestion:''};
-    const frequency=new Map();
-    for(const event of events){
-      for(const w of new Set(searchWords(searchText(event)))){
-        if(w.length>=3)frequency.set(w,(frequency.get(w)||0)+1);
-      }
+  function matchSearchWord(q,token,fuzzy){
+    const w=token.norm;
+    if(w===q)return {score:190+token.weight,corrected:token.display,kind:'exact'};
+    if(w.startsWith(q))return {score:148+token.weight-Math.min(24,(w.length-q.length)*2),corrected:token.display,kind:'prefix'};
+    if(q.length>=3&&w.includes(q))return {score:72+token.weight,corrected:token.display,kind:'contains'};
+    if(!fuzzy||q.length<3)return null;
+    const tol=q.length<7?1:q.length<12?2:3;
+    if(Math.abs(w.length-q.length)<=tol){
+      const distance=searchDistance(q,w,tol);
+      if(distance<=tol)return {score:92+token.weight-distance*22,corrected:token.display,kind:'typo'};
     }
-    const words=typed.map(word=>{
-      // Hotové slovo ponecháme; rozepsaný začátek slova také.
-      if(word.length<3||frequency.has(word)||[...frequency.keys()].some(w=>w.startsWith(word)))return word;
-      const max=searchTolerance(word);
-      let best='',bestDist=max+1,bestFreq=-1;
-      for(const [candidate,count] of frequency){
-        if(Math.abs(candidate.length-word.length)>max)continue;
-        const dist=searchDistance(word,candidate,max);
-        if(dist>max)continue;
-        // Nejdřív nejmenší vzdálenost, potom četnost v akcích.
-        if(dist<bestDist||(dist===bestDist&&count>bestFreq)){
-          best=candidate;bestDist=dist;bestFreq=count;
-        }
+    // Neúplné slovo s překlepem: smae -> smack, halowe -> halloween.
+    if(w.length>=q.length-1){
+      let best=tol+1;
+      for(let size=Math.max(1,q.length-tol);size<=Math.min(w.length,q.length+tol);size++){
+        best=Math.min(best,searchDistance(q,w.slice(0,size),tol));
       }
-      return best||word;
-    });
-    const suggestion=words.some((w,i)=>w!==typed[i])
-      ?words.join(' ').replace(/^./,c=>c.toUpperCase()):'';
-    return {words,suggestion};
+      if(best<=tol)return {score:73+token.weight-best*22,corrected:token.display,kind:'typo-prefix'};
+    }
+    return null;
+  }
+  function rankSearchEvent(event,queryWords,fuzzy){
+    if(!queryWords.length)return {score:0,corrected:[]};
+    const tokens=indexedWords(event);let total=0;const corrected=[];
+    for(const q of queryWords){
+      let best=null;
+      for(const token of tokens){
+        const match=matchSearchWord(q,token,fuzzy);
+        if(match&&(!best||match.score>best.score))best=match;
+      }
+      if(!best)return null;
+      total+=best.score;corrected.push(best.corrected);
+    }
+    return {score:total,corrected};
+  }
+  function searchRankedEvents(events,query){
+    const terms=searchWords(query);
+    if(!terms.length)return events.map(event=>({event,score:0,corrected:[]}));
+    const exact=events.map(event=>({event,match:rankSearchEvent(event,terms,false)}))
+      .filter(row=>row.match);
+    // Fuzzy výsledky pouze pokud nenašla žádná běžná shoda. Nehromadíme nerelevantní podobnosti.
+    const matched=exact.length?exact:events.map(event=>({event,match:rankSearchEvent(event,terms,true)})).filter(row=>row.match);
+    return matched.map(({event,match})=>({event,score:match.score,corrected:match.corrected}))
+      .sort((a,b)=>b.score-a.score||a.event.date.localeCompare(b.event.date));
   }
   function searchSuggestionMarkup(query,events,where){
-    const {suggestion}=searchAnalysis(query,events);
-    return suggestion?`<div class="search-hint">Myslel jsi: <button type="button" class="search-suggestion" data-search-correction="${where}" data-corrected="${esc(suggestion)}">${esc(suggestion)}?</button> <span>Odpovídající akce se už zobrazují.</span></div>`:'';
-  }
-  function searchWordMatch(word,haystack,tokens){
-    if(haystack.includes(word))return true;
-    const max=searchTolerance(word);
-    if(!max)return false;
-    return tokens.some(candidate=>Math.abs(candidate.length-word.length)<=max
-      &&searchDistance(word,candidate,max)<=max);
+    const terms=searchWords(query);
+    if(!terms.length||searchNormalize(query).length<2)return '';
+    const ranked=searchRankedEvents(events,query);
+    const options=new Map();
+    for(const row of ranked.slice(0,100)){
+      const display=row.corrected.join(' ');
+      const normalized=searchNormalize(display);
+      if(!display||normalized===terms.join(' ')||display.length>58)continue;
+      const prev=options.get(normalized);
+      if(prev){prev.count++;prev.score=Math.max(prev.score,row.score);}
+      else options.set(normalized,{display,count:1,score:row.score});
+    }
+    const top=[...options.values()].sort((a,b)=>b.count-a.count||b.score-a.score).slice(0,4);
+    if(!top.length)return '';
+    return `<div class="smart-suggestions" role="group" aria-label="Návrhy vyhledávání">${top.map(option=>{
+      const completed=terms.every((term,i)=>searchWords(option.display)[i]?.startsWith(term));
+      return `<button type="button" class="smart-suggestion" data-search-correction="${where}" data-corrected="${esc(option.display)}"><span class="smart-suggestion-type">${completed?'Doplnit':'Myslel jsi'}</span><strong>${esc(option.display)}</strong><span class="smart-suggestion-arrow" aria-hidden="true">↗</span></button>`;
+    }).join('')}</div>`;
   }
   function filterEvents({favoritesOnly=false,cat='',cityFilter='',query='',period='all',loc=null,maxRadius=0,availableOnly=onlyAvailable}={}){
     const now=daysFromNow(0);const dt=new Date();const end=new Date(dt.getFullYear(),dt.getMonth()+1,0);const monthEnd=`${end.getFullYear()}-${String(end.getMonth()+1).padStart(2,'0')}-${String(end.getDate()).padStart(2,'0')}`;
-    const events=getEvents();
-    const words=searchAnalysis(query,events).words;
-    return events.filter(e=>{
-      if(e.date<now || (favoritesOnly&&!favorites.has(e.id)) || (cat&&e.category!==cat) || (cityFilter&&e.city!==cityFilter))return false;
-      if(words.length){
-        const haystack=searchNormalize(searchText(e));const tokens=haystack.split(' ').filter(Boolean);
-        if(!words.every(word=>searchWordMatch(word,haystack,tokens)))return false;
-      }
+    const eligible=getEvents().filter(e=>{
+      if(e.date<now||(favoritesOnly&&!favorites.has(e.id))||(cat&&e.category!==cat)||(cityFilter&&e.city!==cityFilter))return false;
       if(period==='week'&&e.date>daysFromNow(7))return false;
       if(period==='month'&&e.date>monthEnd)return false;
       if(period==='free'&&(e.price==null||Number(e.price)!==0))return false;
@@ -375,6 +417,7 @@
       if(loc&&maxRadius>0&&distance(loc,[e.lat,e.lng])>maxRadius)return false;
       return true;
     });
+    return searchRankedEvents(eligible,query).map(row=>row.event);
   }
   const datePill=e=>{const [day,month]=dateParts(e.date);return `<div class="poster-date"><strong>${esc(day)}</strong><small>${esc(month)}</small></div>`};
   function eventPoster(e,modal=false){
@@ -387,14 +430,15 @@
     ${favoriteOnly?'':`<section class="hero"><div class="container hero-wrap"><div><div class="eyebrow">✦ České hudební události na jednom místě</div><h1>Hudba.<br>Všude. <span>Teď.</span></h1><p class="hero-desc">Koncerty, ravy, festivaly nebo opera? Objev, co se děje kolem tebe. Kdo hraje, kde, kdy a za kolik — všechno přehledně na jednom místě.</p><div class="hero-actions"><button class="btn btn-primary" data-nav="mapa">${icon('pin')} Prozkoumat mapu ${icon('arrow')}</button><button class="btn btn-outline" data-jump="events">Prohlédnout akce</button></div><div class="hero-note"><span class="signal"></span> Bez registrace · Akce z GoOut, Eventlook a O2 arena</div></div><div class="art-panel" aria-label="Grafická hudební ilustrace"><span class="art-number">UKA / 001 — SOUND IS EVERYWHERE</span><div class="art-eq"><i></i><i></i><i></i><i></i><i></i></div><div class="art-caption"><b>YOUR CITY.<br>YOUR SOUND.</b><p>Najdi si svůj další zážitek.</p></div></div></div></section><div class="strip"><div class="container"><div class="strip-left">${icon('music')} <span><strong>Skutečné hudební akce.</strong> Akce z GoOutu, Eventlooku a O2 areny · rozšířeno 15. 10. 2026.</span></div><span class="strip-pill">BEZ BASE44 · ZDARMA</span></div></div>`}
     <section id="events" class="container section"><div class="section-head"><div><div class="eyebrow">${favoriteOnly?'TVŮJ VÝBĚR':'OBJEVUJ NOVOU HUDBU'}</div><h2>${favoriteOnly?'Uložené akce':'Kam vyrazíš příště?'}</h2><div id="syncStatus" class="muted tiny" style="margin:8px 0 0">${esc(liveSyncLabel)}</div><div class="section-sub">${favoriteOnly?'Akce, které sis označil srdíčkem.':'Koncerty a párty z veřejných programů · před cestou si ověř aktuální stav u pořadatele.'}</div></div><span class="muted tiny">Česko · ${getEvents().length} akcí v databázi</span></div>
     <div class="toolbar"><label class="field-wrap">${icon('search')}<input id="searchInput" autocomplete="off" placeholder="Interpret, akce, místo..." value="${esc(search)}" aria-label="Hledat akci"></label><select id="cityFilter" class="select" aria-label="Město"><option value="">Všechna města</option>${['Praha','Brno','Ostrava','Plzeň','Olomouc','Liberec','Pardubice'].map(c=>`<option value="${c}" ${city===c?'selected':''}>${c}</option>`).join('')}</select><select id="whenFilter" class="select" aria-label="Termín"><option value="all" ${when==='all'?'selected':''}>Kdykoliv</option><option value="week" ${when==='week'?'selected':''}>Do 7 dní</option><option value="month" ${when==='month'?'selected':''}>Tento měsíc</option><option value="free" ${when==='free'?'selected':''}>Vstup zdarma</option></select><button class="btn btn-outline btn-sm" id="clearFilters">Vymazat filtry</button></div>
+    <div id="searchSuggestion" aria-live="polite">${searchSuggestionMarkup(search,filterEvents({favoritesOnly:favoriteOnly,cat:category,cityFilter:city,period:when}),'list')}</div>
     <div class="home-av-wrap"><label class="filter-availability ${onlyAvailable?'is-active':''}"><input id="homeAvailableOnly" type="checkbox" ${onlyAvailable?'checked':''}> Pouze dostupné vstupenky <small>(ověřené)</small></label></div>
-    <div class="search-build" style="font-size:11px;color:var(--faint);margin:-7px 0 13px">Chytré hledání v2.1 · toleruje překlepy</div>
-    <div class="filter-pills">${CATS.map(([value,label])=>`<button class="pill ${category===value?'active':''}" data-category="${esc(value)}">${label}</button>`).join('')}</div><div id="searchSuggestion" aria-live="polite">${searchSuggestionMarkup(search,getEvents(),'list')}</div><div class="results"><span>Našli jsme <b style="color:var(--text)">${events.length}</b> akcí</span><span>Seřazeno podle nejbližšího termínu</span></div>
+    <div class="search-build" style="font-size:11px;color:var(--faint);margin:-7px 0 13px">Chytré hledání v3.0 · našeptává už při psaní</div>
+    <div class="filter-pills">${CATS.map(([value,label])=>`<button class="pill ${category===value?'active':''}" data-category="${esc(value)}">${label}</button>`).join('')}</div><div class="results"><span>Našli jsme <b style="color:var(--text)">${events.length}</b> akcí</span><span>Seřazeno podle nejbližšího termínu</span></div>
     <div id="eventCards" class="cards" ${events.length?'':'style="display:none"'}>${events.map(card).join('')}</div>
     <div id="searchEmpty" class="empty" ${events.length?'style="display:none"':''}><div class="empty-icon">♫</div><h3>${search?'Nic jsme nenašli':'Zatím tady nic není'}</h3><p>Vyzkoušej jiné hledání nebo filtry.</p><button class="btn btn-primary" data-nav="pridat">Přidat akci</button></div></section>`;}
   function hasVerifiedCoords(e){return e.lat!==null&&e.lng!==null&&e.lat!==undefined&&e.lng!==undefined&&Number.isFinite(Number(e.lat))&&Number.isFinite(Number(e.lng))&&Number(e.lat)>48.3&&Number(e.lat)<51.2&&Number(e.lng)>12&&Number(e.lng)<19.2;}
   function mapEvents(){return filterEvents({cat:mapCategory,cityFilter:mapCity,query:mapQuery,loc:userCoords,maxRadius:radius}).filter(hasVerifiedCoords);}
-  function mapPage(){const list=mapEvents();return `<div class="container"><div class="page-top"><div><div class="eyebrow">AKCE VE TVÉM OKOLÍ</div><h1 class="page-title">Mapa hudebních akcí</h1><div class="section-sub">Barevná mapa ve dne, příjemně tmavá v noci. Přiblížení až do úrovně 22 · na jednom místě může být více akcí.</div></div><button class="btn btn-outline btn-sm" id="locateMe">${icon('locate')} Moje poloha</button></div><div class="map-layout"><div id="mainMap" class="map-box"><div class="map-loading">${icon('pin')} Načítám mapu…</div></div><aside class="map-side"><div class="map-tools"><h3>${list.length} akcí na mapě</h3><div class="muted tiny">Klikni na značku nebo na akci v seznamu. Číslo u značky = počet akcí na místě.</div><div class="map-selects"><select class="select" id="mapCity"><option value="">Všechna města</option>${['Praha','Brno','Ostrava','Plzeň','Olomouc','Liberec','Pardubice'].map(c=>`<option ${mapCity===c?'selected':''}>${c}</option>`).join('')}</select><select class="select" id="mapCat">${CATS.map(([v,l])=>`<option value="${v}" ${mapCategory===v?'selected':''}>${l}</option>`).join('')}</select></div><label class="field-wrap map-search-field" for="mapSearch">${icon('search')}<input id="mapSearch" type="search" autocomplete="off" enterkeyhint="search" placeholder="Hledat koncert, interpreta, místo…" aria-label="Hledat akci na mapě" value="${esc(mapQuery)}"></label><div class="map-search-help">Chytré hledání v2.1 · toleruje překlepy. Vyber akci nebo stiskni Enter.</div><div id="mapSuggestion" aria-live="polite">${searchSuggestionMarkup(mapQuery,getEvents(),'map')}</div><div class="map-av-wrap"><label class="filter-availability ${onlyAvailable?'is-active':''}"><input id="mapAvailableOnly" type="checkbox" ${onlyAvailable?'checked':''}> Pouze dostupné vstupenky <small>(ověřené)</small></label></div><div class="status-legend">${['available','low','sold_out','unknown'].map(st=>`<span class="availability-badge av-${st}">${AV_STATES[st].label}</span>`).join('')}</div>${userCoords?`<div class="radius-row"><button data-radius="0" class="pill ${radius===0?'active':''}">Vše</button>${[5,10,25,50,100].map(n=>`<button data-radius="${n}" class="pill ${radius===n?'active':''}">${n} km</button>`).join('')}</div>`:''}</div><div class="map-event-list">${list.length?list.map(e=>`<button class="map-event av-${availabilityFor(e).status}" data-focus="${esc(e.id)}"><span class="map-e-top"><span class="category">${esc(CAT_LABELS[e.category]||e.category)}</span><b>${priceLabel(e)}</b></span><strong>${esc(e.title)}</strong><small>${icon('pin','sm')} ${esc(e.city)} · ${fmtDate(e.date,'short')} · ${esc(e.time||'—')}${userCoords?' · '+Math.round(distance(userCoords,[e.lat,e.lng]))+' km':''}</small><span class="availability-row">${availabilityBadge(e)}</span></button>`).join(''):'<div class="empty">Žádné akce ve výběru.</div>'}</div></aside></div></div>`;}
+  function mapPage(){const list=mapEvents();return `<div class="container"><div class="page-top"><div><div class="eyebrow">AKCE VE TVÉM OKOLÍ</div><h1 class="page-title">Mapa hudebních akcí</h1><div class="section-sub">Barevná mapa ve dne, příjemně tmavá v noci. Přiblížení až do úrovně 22 · na jednom místě může být více akcí.</div></div><button class="btn btn-outline btn-sm" id="locateMe">${icon('locate')} Moje poloha</button></div><div class="map-layout"><div id="mainMap" class="map-box"><div class="map-loading">${icon('pin')} Načítám mapu…</div></div><aside class="map-side"><div class="map-tools"><h3>${list.length} akcí na mapě</h3><div class="muted tiny">Klikni na značku nebo na akci v seznamu. Číslo u značky = počet akcí na místě.</div><div class="map-selects"><select class="select" id="mapCity"><option value="">Všechna města</option>${['Praha','Brno','Ostrava','Plzeň','Olomouc','Liberec','Pardubice'].map(c=>`<option ${mapCity===c?'selected':''}>${c}</option>`).join('')}</select><select class="select" id="mapCat">${CATS.map(([v,l])=>`<option value="${v}" ${mapCategory===v?'selected':''}>${l}</option>`).join('')}</select></div><label class="field-wrap map-search-field" for="mapSearch">${icon('search')}<input id="mapSearch" type="search" autocomplete="off" enterkeyhint="search" placeholder="Hledat koncert, interpreta, místo…" aria-label="Hledat akci na mapě" value="${esc(mapQuery)}"></label><div class="map-search-help">Chytré hledání v3.0 · našeptává už při psaní. Vyber akci nebo stiskni Enter.</div><div id="mapSuggestion" aria-live="polite">${searchSuggestionMarkup(mapQuery,filterEvents({cat:mapCategory,cityFilter:mapCity,loc:userCoords,maxRadius:radius}),'map')}</div><div class="map-av-wrap"><label class="filter-availability ${onlyAvailable?'is-active':''}"><input id="mapAvailableOnly" type="checkbox" ${onlyAvailable?'checked':''}> Pouze dostupné vstupenky <small>(ověřené)</small></label></div><div class="status-legend">${['available','low','sold_out','unknown'].map(st=>`<span class="availability-badge av-${st}">${AV_STATES[st].label}</span>`).join('')}</div>${userCoords?`<div class="radius-row"><button data-radius="0" class="pill ${radius===0?'active':''}">Vše</button>${[5,10,25,50,100].map(n=>`<button data-radius="${n}" class="pill ${radius===n?'active':''}">${n} km</button>`).join('')}</div>`:''}</div><div class="map-event-list">${list.length?list.map(e=>`<button class="map-event av-${availabilityFor(e).status}" data-focus="${esc(e.id)}"><span class="map-e-top"><span class="category">${esc(CAT_LABELS[e.category]||e.category)}</span><b>${priceLabel(e)}</b></span><strong>${esc(e.title)}</strong><small>${icon('pin','sm')} ${esc(e.city)} · ${fmtDate(e.date,'short')} · ${esc(e.time||'—')}${userCoords?' · '+Math.round(distance(userCoords,[e.lat,e.lng]))+' km':''}</small><span class="availability-row">${availabilityBadge(e)}</span></button>`).join(''):'<div class="empty">Žádné akce ve výběru.</div>'}</div></aside></div></div>`;}
   function addPage(){return `<div class="form-shell"><div class="eyebrow">STAŇ SE SOUČÁSTÍ SCÉNY</div><h1>Přidat hudební akci</h1><p class="form-intro">Vyzkoušej formulář jako v opravdové UKA. Tvoje přidané akce se uloží <strong>jen do tvého prohlížeče</strong> a hned se zobrazí v seznamu i na mapě.</p><form id="eventForm">
     <div class="form-card"><h2><span>01</span> Co se bude dít?</h2><div class="form-grid"><div class="form-group wide"><label for="eTitle">Název akce *</label><input id="eTitle" required maxlength="130" placeholder="Např. Páteční Techno Night"></div><div class="form-group"><label for="eArtist">Interpret / line-up</label><input id="eArtist" maxlength="130" placeholder="Kdo vystupuje"></div><div class="form-group"><label for="eCat">Kategorie</label><select id="eCat">${CATS.filter(([v])=>v).map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}</select></div><div class="form-group wide"><label for="eDesc">Popis akce</label><textarea id="eDesc" maxlength="1200" placeholder="Co návštěvníci zažijí..."></textarea></div></div></div>
     <div class="form-card"><h2><span>02</span> Kde se potkáme?</h2><div class="form-grid"><div class="form-group"><label for="eVenue">Místo konání *</label><input id="eVenue" required maxlength="120" placeholder="Např. klub, hala, park"></div><div class="form-group"><label for="eCity">Město *</label><select required id="eCity">${Object.keys(CITIES).map(c=>`<option value="${c.replaceAll('_',' ')}">${c.replaceAll('_',' ')}</option>`).join('')}</select></div><div class="form-group wide"><label>Poloha na mapě</label><small>Kliknutím na mapu umísti značku. Jinak použijeme centrum města.</small><div id="formMap" class="form-map"></div><div class="form-status" id="coordsText">Vybrána poloha podle města: Praha.</div></div></div></div>
@@ -646,7 +690,7 @@
        const counter=document.querySelector('.results span');
        if(counter)counter.innerHTML=`Našli jsme <b style="color:var(--text)">${list.length}</b> akcí`;
        const hint=el('searchSuggestion');
-       if(hint)hint.innerHTML=searchSuggestionMarkup(search,getEvents(),'list');
+       if(hint)hint.innerHTML=searchSuggestionMarkup(search,filterEvents({favoritesOnly:favoriteOnly,cat:category,cityFilter:city,period:when}),'list');
      }
   });
   document.addEventListener('change',e=>{if(e.target.id==='homeAvailableOnly'||e.target.id==='mapAvailableOnly'){onlyAvailable=!!e.target.checked;if(page==='mapa')renderMapListAndPins();else rerenderList();return;}if(e.target.id==='cityFilter'){city=e.target.value;rerenderList()}if(e.target.id==='whenFilter'){when=e.target.value;rerenderList()}if(e.target.id==='mapCity'){mapCity=e.target.value;renderMapListAndPins()}if(e.target.id==='mapCat'){mapCategory=e.target.value;renderMapListAndPins()}if(e.target.id==='eCity')updateFormCity();});
