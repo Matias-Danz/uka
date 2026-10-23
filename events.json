@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-23T16:48:27+02:00",
+  "updated_at": "2026-10-23T17:46:20+02:00",
   "events": [
     {
       "id": "eventlook-slavicek-jindrichuv-hradec-uajvcb",
@@ -54,7 +54,7 @@
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)",
       "availability_status": "sold_out",
       "availability_source": "Eventlook – detail",
-      "availability_verified_at": "2026-10-23T14:49:29+02:00"
+      "availability_verified_at": "2026-10-23T17:46:05+02:00"
     },
     {
       "id": "o2-universum-auto-dymytry-arakain-2026-10-23",
@@ -78,7 +78,7 @@
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-23",
       "price_source": "O2 universum",
-      "sales_phase_checked_at": "2026-10-22T23:39:18Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -153,7 +153,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/865/47db65a9-e0a9-4b44-b116-40e942b79865_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-22",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "closed"
     },
@@ -179,7 +179,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/5dd/2c222369-7901-42c0-823f-4ece9b3dc5dd_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-22",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -205,9 +205,9 @@
       "image_url": "https://s1.ticketm.net/dam/a/1ce/7f1e9720-b87f-4e84-8753-b62314a2b1ce_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-16",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "sales_phase": "on_sale",
+      "sales_phase": "closed",
       "public_price_attempt_at": "2026-10-18",
       "price_checked_at": "2026-10-18",
       "price_from": false,
@@ -236,7 +236,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/eventlook-aamhov.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:25+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:03+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -262,7 +262,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/sem-pc-varna-otilsv.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:40+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:15+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -286,7 +286,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/event-lookplzen-dgwzxq.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:21+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:00+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -366,7 +366,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/ae4/0901129e-dd58-4567-aa4b-ff4252bc3ae4_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-16",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "closed",
       "public_price_attempt_at": "2026-10-18",
@@ -422,7 +422,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/ecb/3697b706-4f3f-4422-93e0-731d584c2ecb_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-22",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -472,7 +472,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/3-6-jpg-hhssdg.jpeg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:16+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:45:56+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -497,7 +497,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/865/47db65a9-e0a9-4b44-b116-40e942b79865_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-22",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -523,7 +523,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/d4e/94cb6ee1-68b6-4ec1-8bb4-06c906759d4e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-22",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -597,7 +597,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/event-lookbrno-ismdez.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:19+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:45:59+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -623,7 +623,7 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T15:49:01+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:20+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -667,7 +667,7 @@
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-23",
       "price_source": "O2 universum",
-      "sales_phase_checked_at": "2026-10-22T23:39:18Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -693,7 +693,7 @@
       "image_credit": "O2 arena / pořadatel",
       "price_checked_at": "2026-10-23",
       "price_source": "O2 arena",
-      "sales_phase_checked_at": "2026-10-22T23:39:18Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -719,7 +719,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/72e/d2c447a0-af6c-455b-8536-7a514db2672e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-22",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -745,7 +745,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a14/d4f1127b-63ad-4980-a6a8-f9358b7eaa14_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-16",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempt_at": "2026-10-18",
@@ -774,7 +774,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/nemzzz-16-x-9-prague-whngzz.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:26+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:04+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -801,7 +801,7 @@
       "image_credit": "Eventlook / pořadatel",
       "availability_status": "sold_out",
       "availability_source": "Eventlook – detail",
-      "availability_verified_at": "2026-10-23T14:49:38+02:00"
+      "availability_verified_at": "2026-10-23T17:46:14+02:00"
     },
     {
       "id": "o2-universum-auto-rock-in-symphony-legends-live-forever-2026-10-27",
@@ -825,7 +825,7 @@
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-23",
       "price_source": "O2 universum",
-      "sales_phase_checked_at": "2026-10-22T23:39:18Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -851,7 +851,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/dfa/4fd00720-0d2c-4ca8-80c7-6b210b46cdfa_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-22",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -902,8 +902,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T16:48:10+02:00",
-      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
+      "sales_phase_checked_at": "2026-10-20",
+      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
     },
     {
       "id": "eventlook-refew-birthday-party-kctcmc",
@@ -929,7 +929,7 @@
       "image_credit": "Eventlook / pořadatel",
       "availability_status": "sold_out",
       "availability_source": "Eventlook – detail",
-      "availability_verified_at": "2026-10-23T14:49:33+02:00"
+      "availability_verified_at": "2026-10-23T17:46:09+02:00"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16vjVFfu6",
@@ -953,7 +953,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/b2b/7910ade1-9e90-440e-8b5d-8ced8d3f4b2b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-16",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempt_at": "2026-10-18",
@@ -1010,8 +1010,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T16:48:08+02:00",
-      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
+      "sales_phase_checked_at": "2026-10-20",
+      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
     },
     {
       "id": "eventlook-halloween-olomouc-bpewnr",
@@ -1107,7 +1107,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/dsfb-header-event-new-tbdarv.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:37+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:13+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -1132,7 +1132,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-22",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -1158,7 +1158,7 @@
       "image_credit": "O2 arena / pořadatel",
       "price_checked_at": "2026-10-23",
       "price_source": "O2 arena",
-      "sales_phase_checked_at": "2026-10-22T23:39:18Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -1184,7 +1184,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/5a2/a2f23925-469e-4c84-a708-a525b18db5a2_1342101_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-22",
-      "sales_phase_checked_at": "2026-10-22T21:39:15Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -1290,7 +1290,7 @@
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-23",
       "price_source": "O2 universum",
-      "sales_phase_checked_at": "2026-10-22T23:39:18Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -1343,8 +1343,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T16:48:11+02:00",
-      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
+      "sales_phase_checked_at": "2026-10-20",
+      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
     },
     {
       "id": "eventlook-let-it-roll-tantrum-desire-bjapgu",
@@ -1369,7 +1369,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/3010-event-gnacrt.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:17+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:45:58+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -1395,8 +1395,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-20",
-      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
+      "sales_phase_checked_at": "2026-10-23T17:46:15+02:00",
+      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
       "title": "ONEBIG HALLOWEEN – Radost FX",
@@ -1421,8 +1421,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-20",
-      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
+      "sales_phase_checked_at": "2026-10-23T17:46:05+02:00",
+      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
       "id": "eventlook-g-mma-samhain-hra-zacina-otttqy",
@@ -1524,7 +1524,7 @@
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-23",
       "price_source": "O2 universum",
-      "sales_phase_checked_at": "2026-10-22T23:39:18Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -1731,7 +1731,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/dsfb-header-event-new-sytrmb.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:36+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:12+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -1829,8 +1829,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T16:48:24+02:00",
-      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
+      "sales_phase_checked_at": "2026-10-20",
+      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
     },
     {
       "title": "TUYA RAVE x HALLOWEEN",
@@ -1956,7 +1956,7 @@
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-23",
       "price_source": "O2 universum",
-      "sales_phase_checked_at": "2026-10-22T23:39:18Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -2081,7 +2081,7 @@
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-23",
       "price_source": "O2 universum",
-      "sales_phase_checked_at": "2026-10-22T23:39:18Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -2223,7 +2223,7 @@
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-23",
       "price_source": "O2 universum",
-      "sales_phase_checked_at": "2026-10-22T23:39:18Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -2328,7 +2328,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/a-76-a-825-f-8-de-2-4107-8052-071-ff-5-b-9-d-39-d-dwtctr.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:22+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:01+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -2492,7 +2492,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/event-look-shimmi-liberec-grgqkl.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T15:48:57+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:18+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -2595,7 +2595,7 @@
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-10-23",
       "price_source": "O2 universum",
-      "sales_phase_checked_at": "2026-10-22T23:39:18Z",
+      "sales_phase_checked_at": "2026-10-23T15:45:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -3116,7 +3116,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/event-look-shimmi-pl-zen-wybokr.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T15:49:00+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:19+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -3194,7 +3194,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/518310848101629967272990446757124316548178804-n-persct.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:30+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:06+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -3270,7 +3270,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/event-lookliberec-glznih.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:20+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:45:59+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -3322,7 +3322,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/rap-night-pc-plz-qpvfju.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:33+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:09+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -3556,7 +3556,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/rap-night-pc-olo-rqbypi.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:32+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:08+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -3686,7 +3686,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/event-look-shimmi-ceske-budejovice-gprhbx.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T15:48:56+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:17+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -3842,7 +3842,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/rap-night-pc-lib-cpjqul.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:31+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:07+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -4024,7 +4024,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/drogstar-sfrontfinal-500-px-1-bwnbxe.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:35+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:11+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -4917,8 +4917,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T16:48:26+02:00",
-      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
+      "sales_phase_checked_at": "2026-10-20",
+      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
     },
     {
       "id": "eventlook-shimmi-cz-yolo-tour-olomouc-hlnfyw",
@@ -4944,7 +4944,7 @@
       "image_credit": "Eventlook / pořadatel",
       "availability_status": "sold_out",
       "availability_source": "Eventlook – detail",
-      "availability_verified_at": "2026-10-23T15:48:58+02:00"
+      "availability_verified_at": "2026-10-23T17:46:18+02:00"
     },
     {
       "id": "eventlook-posse-ostrava-leicxt",
@@ -4969,7 +4969,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/countdowndoubl-epng-muyrdg-exhora-nhkbtr-mjvvfh-wakkjs.octet-stream",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:28+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:05+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -5456,7 +5456,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/event-look-shimmi-pardubice-dcmosa.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T15:48:59+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:19+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -5534,7 +5534,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/event-tour-navrhova-plocha-18-jpg-vcrgrv.jpeg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:35+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:10+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -5742,7 +5742,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/3-19-ohqlwh.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:17+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:45:57+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -5768,8 +5768,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T16:48:17+02:00",
-      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
+      "sales_phase_checked_at": "2026-10-20",
+      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16eZVaFPy",
@@ -6876,7 +6876,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/b-822-aa-2-e-ea-8-e-47-f-7-a-42-a-69812151-afc-4-hgquzc.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:23+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:02+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -7970,7 +7970,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/chat-gpt-image-oct-20-2026-014715-am-xoivsw.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:24+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:02+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -8274,7 +8274,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/separ-3-png-mgnwko.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-23T14:49:41+02:00",
+      "sales_phase_checked_at": "2026-10-23T17:46:16+02:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -11397,5 +11397,5 @@
     "version": 1,
     "entries": {}
   },
-  "eventlook_cursor": 39
+  "eventlook_cursor": 74
 }
