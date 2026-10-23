@@ -2452,7 +2452,7 @@ def _build_eventlook():
         photo=meta.get('content','') if meta else ''
         if not photo.startswith('https://'):photo=''
         result={'id':'eventlook-'+slug_from_url(url),'title':title,'artist':'DJ line-up' if re.search(r'halloween|party|rave|dj',norm(title),re.I) else title,
-            'category':'rave' if 'rave' in norm(title) else 'klub' if re.search(r'halloween|party|night',norm(title),re.I) else 'koncert',
+            'category':'klub' if re.search(r'\bkiss (?:or |and )?slap\b',norm(title)) else 'rave' if 'rave' in norm(title) else 'klub' if re.search(r'halloween|party|night',norm(title),re.I) else 'koncert',
             'venue':venue,'city':city,'address':address,'lat':lat,'lng':lng,
             'date':day,'time':tm,'price':minimum,'price_max':maximum,
             'price_from':minimum is not None and minimum>0,
@@ -2563,6 +2563,16 @@ def _build_eventlook():
                             else:not_mapped+=1
                         except requests.RequestException:continue
         merged,added,refreshed=merge_events(payload['events'],candidates)
+        # Correct imported and legacy KISS OR SLAP events in every city, including Znojmo.
+        categorized=0
+        for ev in merged:
+            if (re.search(r'\bkiss (?:or |and )?slap\b',norm(ev.get('title')))
+                    and ev.get('category')!='klub'):
+                ev['category']='klub'
+                categorized+=1
+        if categorized:
+            refreshed+=categorized
+            print(f'EVENTLOOK KATEGORIE: {categorized} akcí Kiss or Slap změněno na Kluby')
         # A narrowly targeted correction for Blowup #05, not a generic price guess.
         # Manual changes stored in admin_overrides take precedence in index.html.
         corrected=correct_known_blowup_price(merged)
