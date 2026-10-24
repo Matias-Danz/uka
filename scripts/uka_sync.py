@@ -2709,17 +2709,57 @@ def _build_eventlook():
     return main
 
 
+def _check_local_project():
+    """Read-only preflight: fail early with an actionable error, no web requests."""
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    source = root / 'events.json'
+    try:
+        data = json.loads(source.read_text(encoding='utf-8'))
+    except FileNotFoundError:
+        print('UKA CHYBA: events.json chybí v kořeni projektu.', file=sys.stderr)
+        return 1
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f'UKA CHYBA: nelze přečíst events.json: {exc}', file=sys.stderr)
+        return 1
+    if not isinstance(data, dict) or not isinstance(data.get('events'), list):
+        print('UKA CHYBA: events.json musí být objekt s polem events.', file=sys.stderr)
+        return 1
+    items = data['events']
+    if any(not isinstance(event, dict) for event in items):
+        print('UKA CHYBA: všechny položky events musí být objekty.', file=sys.stderr)
+        return 1
+    try:
+        import requests
+        import bs4
+    except ImportError as exc:
+        print(f'UKA CHYBA: chybí knihovna {exc.name}; zkontroluj requirements.txt.', file=sys.stderr)
+        return 1
+    unknown = sum(event.get('price') is None for event in items)
+    tm_unknown = sum(str(event.get('id', '')).startswith('ticketmaster-')
+                     and event.get('price') is None for event in items)
+    print('UKA KONTROLA: JSON v pořádku; requests a beautifulsoup4 nainstalované.')
+    print(f'UKA KONTROLA: akcí {len(items)}, cen neuvedeno {unknown}, z toho Ticketmaster {tm_unknown}.')
+    print('UKA KONTROLA: neprovádí síťové požadavky ani nemění soubory.')
+    return 0
+
+
 def main():
     p = argparse.ArgumentParser(description='UKA: jedna synchronizace místo tří skriptů')
-    p.add_argument('--dry-run', action='store_true', help='Ceny z GoOutu jen ověřit, neukládat')
+    p.add_argument('--dry-run', action='store_true', help='NEUKLÁDÁ jen veřejné ceny; import ostatních zdrojů může zapisovat (nepoužívat v automatizaci)')
+    p.add_argument('--check', action='store_true', help='Ověřit soubory a knihovny bez přístupu na internet a bez zápisu')
     p.add_argument('--offline-cleanup', action='store_true', help='Bez internetu: jen vyčistit staré akce')
     p.add_argument('--eventlook-seed-only', action='store_true', help='Jen ověřené Eventlook akce, bez síťových požadavků a dalších importů')
     p.add_argument('--eventlook-dry-run', action='store_true', help='Test Eventlook importu bez zápisu')
     args=p.parse_args()
+    if args.check:
+        return _check_local_project()
     if args.eventlook_seed_only:
         _build_eventlook()(dry_run=args.eventlook_dry_run, no_web=True)
         return 0
-    print('UKA CENY V5: spousti se sjednoceny skript scripts/uka_sync.py')
+    print('UKA CENY V6: spousti se sjednoceny skript scripts/uka_sync.py')
     importer=_build_importer()
     old_argv=sys.argv
     try:
