@@ -542,7 +542,7 @@ def _build_importer():
         pattern = re.compile(
             rf"(?<!\d)({amount})\s*(?:Kč|CZK)"
             rf"(?:\s*[–—-]\s*({amount})\s*(?:Kč|CZK))?"
-            r"\s*(?:za kus|per ticket|each)\b", re.IGNORECASE)
+            r"\s*(?:za\s+kus|za\s+vstupenku|per\s+ticket|each|/\s*ks|/\s*ticket)\b", re.IGNORECASE)
 
         def number(s: str) -> float:
             clean = s.replace(" ", "")
@@ -615,66 +615,94 @@ def _build_importer():
         return None, None
 
 
-    def tm_web_price(event_url: str, robots_cache: dict) -> tuple[int | None, int | None]:
-        """Optional public ticket page fallback, strictly robots-guarded and rate-limited.
+    def tm_web_price(event_url: str, robots_cache: dict, stats: dict) -> tuple[int | None, int | None]:
+        """Read public visible per-ticket CZK price data when this is permitted.
 
-        No scripted checkout, dynamic APIs, CAPTCHA, cookie or bot-block bypass.
+        Browsing the event page is not a replacement for access to restricted
+        seat inventory or a logged-in checkout. Never bypass anti-bot controls.
         """
         parsed = urlparse(event_url)
-        if parsed.scheme != "https" or parsed.netloc.lower() not in TM_ALLOWED_PAGE_HOSTS or not parsed.path.startswith("/event/"):
-            return None, None
-        if not parsed.path.startswith("/event/") or len(event_url) > 1000:
+        if (parsed.scheme != "https" or parsed.netloc.lower() not in TM_ALLOWED_PAGE_HOSTS
+                or not parsed.path.startswith("/event/") or len(event_url) > 1000):
+            stats['invalid_event_url'] += 1
             return None, None
         origin = f"{parsed.scheme}://{parsed.netloc.lower()}"
         if origin not in robots_cache:
             robots_cache[origin] = get_robots(event_url)
         rp = robots_cache[origin]
-        if rp is None or not rp.can_fetch(UA, event_url):
+        if rp is None:
+            stats['robots_unavailable'] += 1
+            return None, None
+        if not rp.can_fetch(UA, event_url):
+            stats['robots_disallowed'] += 1
             return None, None
         try:
             response = SESSION.get(event_url, timeout=18, allow_redirects=False)
-            if response.status_code != 200 or len(response.content) > 3_000_000:
-                print(f"TM public price page unavailable (HTTP {response.status_code})")
+            if response.status_code != 200:
+                stats['http_unavailable'] += 1
                 return None, None
-            return tm_page_price(response.text)
+            if len(response.content) > 3_000_000:
+                stats['too_large'] += 1
+                return None, None
+            if 'html' not in response.headers.get('Content-Type', 'text/html').lower():
+                stats['not_html'] += 1
+                return None, None
+            low, high = tm_page_price(response.text)
+            if low is None:
+                stats['html_without_ticket_price'] += 1
+            else:
+                stats['public_page_price_found'] += 1
+            return low, high
         except requests.RequestException as exc:
-            print(f"TM public page fetch failed: {type(exc).__name__}")
+            stats['http_request_error'] += 1
+            print(f"TM stránka: nelze načíst ({type(exc).__name__})")
             return None, None
 
 
     def tm_enrich_prices(events: list[dict], today: str, api_key: str) -> None:
-        """Backfill already-imported events, no duplicates or overwrites of manual prices."""
+        """Fill missing Ticketmaster prices and explain *why* a price stayed empty."""
+        from collections import Counter
         candidates = [e for e in events
                       if (str(e.get("id", "")).startswith("ticketmaster-")
                           and e.get("date", "") >= today
                           and tm_price_check_due(e, today))]
-        # Give priority to unknown prices and closest concerts.
         candidates.sort(key=lambda e: (e.get("price") is not None, e.get("date", "9999")))
-        checked = filled = page_filled = 0
+        checked = filled = page_filled = api_filled = 0
         robots_cache: dict = {}
+        diagnostics = Counter()
         for e in candidates[:TM_MAX_PRICE_CHECKS_PER_RUN]:
             eid = str(e["id"])[len("ticketmaster-"):]
             low, high = tm_detail_price(eid, api_key)
             method = "Ticketmaster"
             if low is None:
-                # Some public pages expose actual per-ticket prices absent from API.
-                # Only read if the site explicitly permits robots access.
-                low, high = tm_web_price(str(e.get("ticket_url") or ""), robots_cache)
+                diagnostics['discovery_detail_without_price'] += 1
+                low, high = tm_web_price(str(e.get("ticket_url") or ""), robots_cache, diagnostics)
                 method = "Ticketmaster (stránka)"
                 if low is not None:
                     page_filled += 1
+            else:
+                api_filled += 1
             e["tm_price_checked_at"] = today
             checked += 1
             if low is not None:
                 if e.get("price") is None or e.get("price_source") in ("Ticketmaster", "Ticketmaster (stránka)"):
                     was_missing = e.get("price") is None
                     e["price"], e["price_max"], e["price_source"] = low, high, method
+                    e["price_checked_at"] = today
+                    e["price_from"] = True
                     if was_missing:
                         filled += 1
             time.sleep(0.25)
         missing_total = sum(1 for e in events if str(e.get("id", "")).startswith("ticketmaster-") and e.get("price") is None)
         print(f"TM CENY: prověřeno {checked}, nově doplněno {filled}, z veřejné stránky {page_filled}, "
               f"zbývá bez ceny {missing_total}, celkem čeká na další kontrolu {max(0,len(candidates)-checked)}")
+        # Public log contains no keys, full event URLs, cookies, or private data.
+        print("TM DIAGNOSTIKA: " + ", ".join(f"{k}={diagnostics[k]}" for k in (
+            'discovery_detail_without_price', 'public_page_price_found',
+            'robots_disallowed', 'robots_unavailable', 'http_unavailable',
+            'html_without_ticket_price', 'invalid_event_url', 'too_large',
+            'not_html', 'http_request_error')))
+        print(f"TM ZDROJE: API={api_filled}, veřejná stránka={page_filled}")
 
 
     def tm_image(item: dict) -> str:
@@ -2691,6 +2719,7 @@ def main():
     if args.eventlook_seed_only:
         _build_eventlook()(dry_run=args.eventlook_dry_run, no_web=True)
         return 0
+    print('UKA CENY V5: spousti se sjednoceny skript scripts/uka_sync.py')
     importer=_build_importer()
     old_argv=sys.argv
     try:
