@@ -392,12 +392,58 @@ def _build_importer():
     # Ticketmaster: dokumentované Discovery API (pouze se soukromým klíčem z GitHub Secrets).
     TICKETMASTER_URL = "https://app.ticketmaster.com/discovery/v2/events.json"
     TM_MAX_PAGES_PER_CLASS = 8  # omezení dotazů i počtu stránek v jedné aktualizaci
-    TM_MAX_PRICE_CHECKS_PER_RUN = 24  # postupné doplňování cen starších koncertů
-    TM_PRICE_RETRY_DAYS = 3  # chybějící cenu zkusíme znovu až za 3 dny
+    TM_MAX_PRICE_CHECKS_PER_RUN = 35  # postupně doplňovat chybějící ceny, bez přetížení prodejce
+    TM_PRICE_RETRY_DAYS = 2  # chybějící cenu zkusíme znovu za 2 dny
     TM_PRICE_REFRESH_DAYS = 7  # ceny získané automaticky po týdnu ověříme
     TM_DETAIL_URL = "https://app.ticketmaster.com/discovery/v2/events/{event_id}.json"
     TM_ALLOWED_PAGE_HOSTS = frozenset({"www.ticketmaster.cz", "ticketmaster.cz"})
 
+
+    def tm_sale_phase(item: dict, at=None) -> str | None:
+        """Official *sales window*, not verified inventory. Called from Discovery listings.
+
+        Never infer that 'Buy tickets' / 'onsale' guarantees remaining seats.
+        """
+        now = at or now_cz()
+        code = str((item.get('dates', {}).get('status') or {}).get('code', '')).casefold()
+        if code in ('canceled', 'cancelled', 'postponed', 'rescheduled'):
+            return 'paused'
+        public = (item.get('sales') or {}).get('public') or {}
+        def at_time(value):
+            try:
+                dt = datetime.fromisoformat(str(value).replace('Z', '+00:00'))
+                return dt if dt.tzinfo else None
+            except (ValueError, TypeError):
+                return None
+        begins = at_time(public.get('startDateTime'))
+        ends = at_time(public.get('endDateTime'))
+        if begins and now < begins:
+            return 'upcoming'
+        if ends and now >= ends:
+            return 'closed'
+        if code == 'onsale' and (not begins or begins <= now) and (not ends or now < ends):
+            return 'on_sale'
+        return None
+
+    def tm_set_sale_phase(event: dict, item: dict, at=None) -> None:
+        """Refresh sales phase once per 18h, or immediately when the phase changes."""
+        now = at or now_cz()
+        phase = tm_sale_phase(item, now)
+        if not phase:
+            return
+        last = event.get('sales_phase_checked_at')
+        age_hours = 10_000
+        if isinstance(last, str):
+            try:
+                checked = datetime.fromisoformat(last.replace('Z', '+00:00'))
+                if checked.tzinfo:
+                    age_hours = (now-checked).total_seconds()/3600
+            except ValueError:
+                pass
+        if event.get('sales_phase') != phase or age_hours >= 18:
+            event['sales_phase'] = phase
+            event['sales_phase_checked_at'] = now.isoformat(timespec='seconds')
+            event['sales_phase_source'] = 'Ticketmaster Discovery API'
 
     def tm_category(item: dict) -> str:
         if item.get("_uka_classification") == "opera":
@@ -429,7 +475,7 @@ def _build_importer():
                 high = float(row.get("max", low))
             except (KeyError, ValueError, TypeError):
                 continue
-            if all(map(math.isfinite, (low, high))) and 0 <= low <= high <= 200_000:
+            if all(map(math.isfinite, (low, high))) and 0 < low <= high <= 200_000:
                 prices.append((low, high))
         if not prices:
             return None, None
@@ -475,7 +521,7 @@ def _build_importer():
                         try:
                             lo = to_number(offer.get("lowPrice", offer.get("price")))
                             hi = to_number(offer.get("highPrice", offer.get("price", lo)))
-                            if all(map(math.isfinite, (lo, hi))) and 0 <= lo <= hi <= 200_000:
+                            if all(map(math.isfinite, (lo, hi))) and 0 < lo <= hi <= 200_000:
                                 structured.append((lo, hi))
                         except (ValueError, TypeError, OverflowError):
                             continue
@@ -510,14 +556,28 @@ def _build_importer():
                 clean = clean.replace(".", "")
             return float(clean)
 
+        # Ticketmaster often renders ticket categories as "Plocha 890,00 Kč za kus".
+        # Restrict extraction to the current event's purchase region, *before* the
+        # cart/FAQ/related-events footer. Related concerts must never supply a price.
+        start_candidates = [plain.find(x) for x in ('Všechny ceny', 'All prices', 'Vyberte vstupenky', 'Select Tickets') if plain.find(x) >= 0]
+        stop_candidates = [plain.find(x) for x in ('Vstupenek v košíku:', 'Tickets in your cart:', 'Limit vstupenek na akci:',
+                                                 'Otevřít detailní informace o místě', 'Informace o místě konání',
+                                                 'Zahájení prodeje vstupenek', '## Často kladené otázky') if plain.find(x) >= 0]
+        start = min(start_candidates) if start_candidates else 0
+        stop = min([pos for pos in stop_candidates if pos > start], default=len(plain))
+        section = plain[start:stop]
+        # Keep scope narrow when the public detail has no purchase widget yet.
+        # Unscoped source text can contain ticket prices for entirely other events.
+        if not start_candidates:
+            section = plain[:min(stop, 15000)]
         found: list[tuple[float, float]] = []
-        for m in pattern.finditer(plain):
+        for m in pattern.finditer(section):
             try:
                 low = number(m.group(1))
                 high = number(m.group(2)) if m.group(2) else low
             except ValueError:
                 continue
-            if all(map(math.isfinite, (low, high))) and 0 <= low <= high <= 200_000:
+            if all(map(math.isfinite, (low, high))) and 0 < low <= high <= 200_000:
                 found.append((low, high))
         # Prefer visible ticket prices when present; fall back to schema.org Offers.
         found = found or structured
@@ -590,7 +650,7 @@ def _build_importer():
                           and tm_price_check_due(e, today))]
         # Give priority to unknown prices and closest concerts.
         candidates.sort(key=lambda e: (e.get("price") is not None, e.get("date", "9999")))
-        checked = filled = 0
+        checked = filled = page_filled = 0
         robots_cache: dict = {}
         for e in candidates[:TM_MAX_PRICE_CHECKS_PER_RUN]:
             eid = str(e["id"])[len("ticketmaster-"):]
@@ -601,6 +661,8 @@ def _build_importer():
                 # Only read if the site explicitly permits robots access.
                 low, high = tm_web_price(str(e.get("ticket_url") or ""), robots_cache)
                 method = "Ticketmaster (stránka)"
+                if low is not None:
+                    page_filled += 1
             e["tm_price_checked_at"] = today
             checked += 1
             if low is not None:
@@ -611,7 +673,8 @@ def _build_importer():
                         filled += 1
             time.sleep(0.25)
         missing_total = sum(1 for e in events if str(e.get("id", "")).startswith("ticketmaster-") and e.get("price") is None)
-        print(f"TM prices: {checked} checked this run, {filled} newly filled, {missing_total} still unknown")
+        print(f"TM CENY: prověřeno {checked}, nově doplněno {filled}, z veřejné stránky {page_filled}, "
+              f"zbývá bez ceny {missing_total}, celkem čeká na další kontrolu {max(0,len(candidates)-checked)}")
 
 
     def tm_image(item: dict) -> str:
@@ -740,6 +803,7 @@ def _build_importer():
                     if previous is None:
                         previous = next((e for e in events if likely_same_show(e, candidate)), None)
                     if previous is not None:
+                        tm_set_sale_phase(previous, item)
                         # Never overwrite hand-edited prices and images; fill missing fields.
                         if previous.get("price") is None and candidate["price"] is not None:
                             previous["price"] = candidate["price"]
@@ -755,6 +819,7 @@ def _build_importer():
                             previous["image_url"] = candidate["image_url"]
                             previous["image_credit"] = candidate["image_credit"]
                         continue
+                    tm_set_sale_phase(candidate, item)
                     events.append(candidate)
                     existing_by_id[candidate["id"]] = candidate
                     existing_by_show[match_key] = candidate
@@ -931,7 +996,8 @@ def _build_importer():
             events, new_count = update_from_sources(events, today)
             events, new_tm = update_ticketmaster(events, today)
             new_count += new_tm
-            tm_inventory_enrich(events, today, os.environ.get('TICKETMASTER_INVENTORY_API_KEY', '').strip())
+            # Inventory pricing/status is handled in _build_tickets() after import,
+            # avoiding a duplicate API request for the same event IDs.
         apply_price_overrides(events)
         events.sort(key=lambda e: (e["date"], e.get("title", "")))
         unique = {}
@@ -946,6 +1012,11 @@ def _build_importer():
         else:
             print(f"NO CHANGES: {len(events)} upcoming events")
         return 0
+    # Small pure helpers are exposed for offline regression testing.
+    main.tm_page_price = tm_page_price
+    main.tm_sale_phase = tm_sale_phase
+    main.tm_price = tm_price
+    main.tm_set_sale_phase = tm_set_sale_phase
     return main
 
 # ========================================================================
@@ -1315,7 +1386,7 @@ def _build_tickets():
 
     def enrich_inventory(events, key, checked, now):
         if not key:
-            print('TM Inventory: NENÍ PŘIPOJENO – nutný schválený klíč pro stav míst a skutečné ceny')
+            print('TM Inventory: schválený API klíč CHYBÍ; ceny zbývajících kategorií a dostupnost nelze ověřit.')
             return 0
         valid = [e for e in events if str(e.get('id', '')).startswith('ticketmaster-')
                  and (e.get('ticket_status_source') not in AUTO_SOURCES or
