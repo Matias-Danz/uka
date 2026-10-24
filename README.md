@@ -1,43 +1,54 @@
-# UKA v5 — jak ji zdarma zapnout na GitHubu
+# UKA — kompletní společná verze V7 (24. 10. 2026)
 
-## Nejprve jen vyzkoušej aplikaci
+Tento ZIP obsahuje **celý kořen repozitáře**, nikoli jen opravu. Rozbal a nakopíruj **OBSAH** složky do kořene `Matias-Danz/uka` (větev `main`). V ZIPu není žádná další nadřazená složka.
 
-Stáhni samostatný soubor `UKA_v5_otevri.html` a na počítači jej otevři dvojklikem. Zobrazí se 74 připravených akcí; 58 má URL na plakát.
-Tohle je lokální kopie: při zavření ani po opětovném otevření nedostane automaticky nové akce.
+## Přesný seznam souborů
 
-## Jak vytvořit živý web (bez programování a bez Base44)
+```
+uka/
+├── .github/
+│   └── workflows/
+│       └── update-events.yml
+├── scripts/
+│   └── uka_sync.py
+├── .gitignore
+├── .nojekyll
+├── README.md
+├── index.html
+├── admin.html
+├── events.json
+├── admin_overrides.json
+├── availability_overrides.json
+├── price_overrides.json
+├── price_links.json
+└── requirements.txt
+```
 
-**Potřebuješ jen bezplatný účet na GitHub.com a počítač.**
+**Přesně jeden `index.html`, v kořeni repozitáře.** Nemusí existovat `docs/index.html` ani další zanořené indexy.
 
-1. Otevři `https://github.com` a založ účet nebo se přihlas.
-2. Otevři `https://github.com/new`.
-3. Do `Repository name` napiš `uka` a nastav `Public` (Github Pages zdarma pro veřejné repo).
-4. Klikni `Create repository`.
-5. Na počítači rozbal ZIP. V rozbalené složce jsou `index.html`, `events.json`, `requirements.txt`, `README.md`, `scripts/`, `.github/` a `.nojekyll`.
-6. Na GitHubu v repozitáři klikni `Add file` -> `Upload files`. Do plochy přetáhni **obsah rozbalené složky** (včetně složek `scripts` a `.github`; ne ZIP samotný). GitHub podporuje přetažení složky. **Na Macu je `.github` skrytá složka:** v otevřeném Finderu zmáčkni `Command + Shift + .` (tečka), aby byla vidět, pak vyber všechny položky a přetáhni je.
-7. Dole klikni `Commit changes` (někdy `Propose changes`) a potvrď vložení do větve `main`.
-8. Zkontroluj, že v seznamu vidíš `index.html`, `events.json` a adresáře `scripts` a `.github`. Když `.github` chybí, nepoběží automatizace.
-9. Otevři `Settings` -> v levém menu `Pages` -> sekci `Build and deployment`, u `Source` vyber **`GitHub Actions`**. **NEVYBÍREJ `Deploy from a branch`**, protože tato verze vydává stránku stejným workflow, které aktualizuje akce.
-10. Klikni `Actions` -> `UKA — aktualizovat akce a zveřejnit web` -> `Run workflow` -> znovu `Run workflow`. Počkej na zelenou fajfku (může to trvat několik minut).
-11. Otevři `Settings` -> `Pages` -> `Visit site`. Adresa bude `https://TVEJMENO.github.io/uka/`.
+**Jediný používaný synchronizátor je `scripts/uka_sync.py`.** Dřívější pomocné `scripts/update_events.py`, `scripts/sync_ticket_info.py` a `scripts/find_public_prices.py` v této verzi nejsou potřeba a workflow je nevolá. Staré `UKA_...` ZIPy a vícenásobné kopie HTML také v repozitáři nenechávej.
 
-## Co se bude dít
+## Nejbezpečnější instalace přes GitHub Desktop
 
-- GitHub Actions může přibližně každou hodinu spustit skript a aktualizovat `events.json`, potom **rovnou publikuje nový web**. GitHub může plánované spuštění opozdit.
-- Automatický zdroj je zatím jen **oficiální program O2 areny**, pokud je přístup povolen. Když import nemá co přidat nebo mu zdroj blokuje přístup, nic nového nepřibude. Ověř v záložce Actions / logs, co importer napsal.
-- Stávající ručně doložené akce z GoOutu a Eventlooku se uchovají, **neimportují se odtamtud automaticky nové**. K tomu potřebujeme dohodnout autorizovaný feed/API.
-- Proběhlé akce se z aplikace skryjí automaticky podle data v ČR; pravidelná úloha je následně smaže i ze souboru dat.
-- Pokud celý web jen stáhneš jako HTML soubor na disk, automatizace na tvém počítači nepoběží. Aktualizuje se pouze stránka na GitHub Pages.
-- GitHub může v neaktivním veřejném repozitáři po 60 dnech zastavit plánované workflow; lze ho obnovit v `Actions`.
-- Fotky jsou zobrazené jako odkazy na obrazové servery pořadatelů, neuložené kopie. Pro komerční zveřejnění vyřeš práva a souhlasy. Pokud server obrázek zablokuje, UKA zobrazí náhradní grafiku.
+1. Na GitHubu si pro jistotu stáhni zálohu současného repozitáře (Code > Download ZIP), zejména pokud jsi nedávno měnil akce v administraci.
+2. V GitHub Desktop otevři lokální klon projektu `uka` na větvi `main` (případně repozitář nejprve naklonuj).
+3. V klonu vymaž **staré pracovní soubory projektu**, ale ponech skrytou složku `.git` (ta obsahuje historii!). Pozor na vlastní přidané obrázky ve `media/`: pokud existují, uchovej je, protože nejsou součástí této zálohy.
+4. Do klonu nakopíruj **obsah** rozbaleného tohoto ZIPu (ne celý ZIP a ne další podsložku). Ve Finderu na Macu skryté soubory zobrazíš `Cmd + Shift + .`.
+5. V GitHub Desktop zkontroluj změny, zadej `UKA V7 – jednotná kompletní verze`, klikni na **Commit to main** a následně **Push origin**.
+6. GitHub > Settings > Pages > Build and deployment: Source musí být **GitHub Actions**. V GitHub > Settings > Secrets and variables > Actions musí být uložen `TICKETMASTER_API_KEY`, pokud chceš Discovery API (nemusí být vyplněn pro samotné spuštění).
+7. V GitHub > Actions > UKA — aktualizovat akce a zveřejnit web > Run workflow sleduj jednotlivé kroky. Když běh selže, otevři **první červený krok**; souhrnná hláška `exit code 1` sama neříká proč.
 
-## Pokud GitHub automatizaci nenabízí
+## Při nahrání pouze přes web GitHubu
 
-Zkontroluj, zda existuje `.github/workflows/update-events.yml` (v seznamu souborů klikni `.github` > `workflows`). Pokud ne, vytvoř ho přes `Add file` -> `Create new file`, do názvu zapiš `.github/workflows/update-events.yml` a vlož obsah z ZIPu. Zkontroluj také složku `scripts/`, tam musí být `update_events.py`. Pokud automatizace hlásí chybu `403` při ukládání `events.json`, zkontroluj v `Settings` -> `Actions` -> `General` -> `Workflow permissions`, zda oprávnění repozitáře umožňují zápis (organizace to může omezit).
+`Add file > Upload files` doplní nebo nahradí soubory, ale **neodstraní** staré nepotřebné soubory. Ty je nutné odstranit samostatně. Na Macu je `.github` skrytá, zapni `Cmd + Shift + .`.
 
-## Technické detaily pro později
+## Jaká data ZIP obsahuje
 
-- Frontend: jediný HTML soubor bez Base44.
-- Data: `events.json`, v HTML je offline záložní seznam se stejnými událostmi.
-- Automatizace: `.github/workflows/update-events.yml` (každou hodinu, také při přidání souborů a ručně).
-- Importér: `scripts/update_events.py` (zdroje respektují robots.txt; datum a místo musí být ověřené).
+- `index.html`: poslední z dostupných plných verzí (Ticketmaster V4, chytré hledání V3).
+- `scripts/uka_sync.py` a `.github/workflows/update-events.yml`: poslední oprava synchronizace V6, už bez `--dry-run` v hodinové aktualizaci.
+- `events.json`: lokálně dostupný stav **343 akcí** z 24. 10. 2026, ne ověřený živý stav dnešního GitHubu. **Pokud máš na GitHubu novější data nebo ruční úpravy, nejprve je zazálohuj a podle potřeby je vrať**. Totéž platí pro `admin_overrides.json`, `price_overrides.json`, `availability_overrides.json`, `price_links.json` a obrázky v `media/`.
+- Žádné API klíče nejsou v ZIPu. Klíče zadávej do GitHub Secrets, nikoli do souborů.
+
+## Co bylo vyzkoušeno
+
+Kontrola syntaxe Pythonu, syntaktická kontrola inline JavaScriptu, JSON, struktura ZIPu, běh `scripts/uka_sync.py --check` a běh offline testu bez přístupu k internetu. Nemáme zaručený úspěch vzdáleného běhu GitHub Actions ani přístup k neveřejnému Ticketmaster inventáři.

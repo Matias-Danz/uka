@@ -1,0 +1,9 @@
+# Python artefakty a dočasné soubory
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.DS_Store
+# Lokální logy a reporty (neobsahují zdrojové údaje aplikace)
+*.log

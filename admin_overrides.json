@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "overrides": {
+    "ticketmaster-Z698xZu0Z16vbM-Fp9": {
+      "fields": {
+        "price": 591,
+        "price_note": "max 6 na osobu",
+        "price_from": false,
+        "price_source": "UKA Admin – ručně upraveno",
+        "price_checked_at": "2026-10-20"
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:23:39.133Z",
+      "availability": {
+        "status": "available",
+        "source": "ticketmaster",
+        "note": "",
+        "verified_at": "2026-10-20T18:23:39.133Z"
+      }
+    },
+    "ticketmaster-Z698xZu0Z16v0409Z4": {
+      "fields": {
+        "price": 990,
+        "price_max": 3690,
+        "price_from": false,
+        "price_source": "UKA Admin – ručně upraveno",
+        "price_checked_at": "2026-10-20"
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:24:00.745Z",
+      "availability": {
+        "status": "available",
+        "source": "Ticketmaster",
+        "note": "",
+        "verified_at": "2026-10-20T18:24:00.745Z"
+      }
+    },
+    "ticketmaster-Z698xZu0Z1kk_ee4g": {
+      "fields": {
+        "price": 839,
+        "price_from": false,
+        "price_source": "UKA Admin – ručně upraveno",
+        "price_checked_at": "2026-10-20"
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:25:11.799Z",
+      "availability": {
+        "status": "available",
+        "source": "Ticketmaster",
+        "note": "",
+        "verified_at": "2026-10-20T18:25:11.799Z"
+      }
+    },
+    "ticketmaster-Z698xZu0Z16eZ7P737": {
+      "fields": {
+        "price_from": false
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:28:58.542Z",
+      "availability": {
+        "status": "temporarily_sold_out",
+        "source": "Ticketmaster",
+        "note": "",
+        "verified_at": "2026-10-20T18:28:58.542Z"
+      }
+    },
+    "ticketmaster-Z698xZu0Z16v7K0YFf": {
+      "fields": {
+        "price": 990,
+        "price_from": false,
+        "price_source": "UKA Admin – ručně upraveno",
+        "price_checked_at": "2026-10-20"
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:30:01.363Z",
+      "availability": {
+        "status": "low",
+        "source": "Ticketmaster",
+        "note": "poslední 3 vstupenky",
+        "verified_at": "2026-10-20T18:30:01.363Z"
+      }
+    },
+    "ticketmaster-Z698xZu0Z1k-V-8bK": {
+      "fields": {
+        "price": 917,
+        "price_from": false,
+        "price_source": "UKA Admin – ručně upraveno",
+        "price_checked_at": "2026-10-20"
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:31:07.903Z",
+      "availability": {
+        "status": "available",
+        "source": "Ticketmaster",
+        "note": "",
+        "verified_at": "2026-10-20T18:31:07.903Z"
+      }
+    },
+    "uka-brn-loudz-1024": {
+      "fields": {
+        "price_from": false
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:31:42.287Z",
+      "availability": {
+        "status": "available",
+        "source": "Ticketmaster",
+        "note": "",
+        "verified_at": "2026-10-20T18:31:42.287Z"
+      }
+    },
+    "uka-plz-loudz-1023": {
+      "fields": {
+        "price_from": false
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:31:47.664Z",
+      "availability": {
+        "status": "available",
+        "source": "T",
+        "note": "",
+        "verified_at": "2026-10-20T18:31:47.664Z"
+      }
+    },
+    "ticketmaster-Z698xZu0Z1k040vq3": {
+      "fields": {},
+      "hidden": false,
+      "updated_at": "2026-10-20T18:32:11.374Z",
+      "availability": {
+        "status": "temporarily_sold_out",
+        "source": "T",
+        "note": "",
+        "verified_at": "2026-10-20T18:32:11.374Z"
+      }
+    },
+    "ticketmaster-Z698xZu0Z1kfyq4FZ": {
+      "fields": {
+        "price": 1028,
+        "price_from": false,
+        "price_source": "UKA Admin – ručně upraveno",
+        "price_checked_at": "2026-10-20"
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:32:35.449Z",
+      "availability": {
+        "status": "available",
+        "source": "T",
+        "note": "",
+        "verified_at": "2026-10-20T18:32:35.449Z"
+      }
+    },
+    "o2-universum-auto-kpop-all-stars-2026-10-25": {
+      "fields": {
+        "price_from": false
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:32:53.112Z",
+      "availability": {
+        "status": "available",
+        "source": "Ja",
+        "note": "",
+        "verified_at": "2026-10-20T18:32:53.112Z"
+      }
+    },
+    "ticketmaster-Z698xZu0Z1kfevvuA": {
+      "fields": {
+        "price": 556,
+        "price_from": false,
+        "price_source": "UKA Admin – ručně upraveno",
+        "price_checked_at": "2026-10-20"
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:33:14.162Z",
+      "availability": {
+        "status": "available",
+        "source": "T",
+        "note": "",
+        "verified_at": "2026-10-20T18:33:14.162Z"
+      }
+    },
+    "ticketmaster-Z698xZu0Z1kOd7Fjd": {
+      "fields": {
+        "price": 650,
+        "price_from": false,
+        "price_source": "UKA Admin – ručně upraveno",
+        "price_checked_at": "2026-10-20"
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:33:34.209Z",
+      "availability": {
+        "status": "available",
+        "source": "T",
+        "note": "",
+        "verified_at": "2026-10-20T18:33:34.209Z"
+      }
+    },
+    "ticketmaster-Z698xZu0Z16v_Oj3f4": {
+      "fields": {
+        "price": 290,
+        "price_from": false,
+        "price_source": "UKA Admin – ručně upraveno",
+        "price_checked_at": "2026-10-20"
+      },
+      "hidden": false,
+      "updated_at": "2026-10-20T18:33:59.877Z",
+      "availability": {
+        "status": "available",
+        "source": "T",
+        "note": "",
+        "verified_at": "2026-10-20T18:33:59.877Z"
+      }
+    }
+  },
+  "custom_events": []
+}
