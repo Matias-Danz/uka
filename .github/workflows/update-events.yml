@@ -67,7 +67,8 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          python -m py_compile scripts/uka_sync.py
+          python -m py_compile scripts/uka_sync.py scripts/tm_browser_prices.py
+          python -m unittest discover -s tests -p 'test_tm_browser_prices.py' -v
           python -u scripts/uka_sync.py --check
 
       - name: Aktualizovat akce a ceny
@@ -78,11 +79,25 @@ jobs:
           # Bez --dry-run: jinak se veřejně ověřené ceny z GoOutu neuloží.
           python -u scripts/uka_sync.py
 
+      - name: Připravit Chromium pro veřejné ceny Ticketmasteru
+        # Prohlížeč je doplněk; jeho instalace nesmí zastavit publikování UKA.
+        continue-on-error: true
+        run: python -m playwright install --with-deps chromium
+
+      - name: Zkusit ceny z běžných stránek Ticketmasteru
+        continue-on-error: true
+        run: |
+          # Max. čtyři veřejné stránky za běh; bez CAPTCHA / proxy bypassu.
+          python -u scripts/tm_browser_prices.py --limit 4
+
       - name: Uložit změny do repozitáře
         shell: bash
         run: |
           set -Eeuo pipefail
           git add -- events.json
+          if [ -f tm_browser_state.json ]; then
+            git add -- tm_browser_state.json
+          fi
           if git diff --cached --quiet; then
             echo 'Žádné změny k uložení.'
           else
