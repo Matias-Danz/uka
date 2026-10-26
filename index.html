@@ -177,6 +177,16 @@ body{letter-spacing:-.005em} header{height:70px}.head{gap:22px}.brand-mark{width
 .card-foot span .icon{width:14px;height:14px}
 @media(max-width:760px){.toolbar{grid-template-columns:1fr 1fr}.toolbar .field-wrap{grid-column:1/-1}}
 
+
+/* UKA – kontaktní informace: klidná, nepřeplněná patička. */
+.footer-rights{display:flex;align-items:center;justify-content:space-between;gap:32px;margin-top:23px;padding-top:20px;border-top:1px solid var(--stroke)}
+.footer-rights-copy{min-width:0;max-width:690px}
+.footer-rights-copy strong{display:block;color:var(--text);font-size:12px;font-weight:700;margin-bottom:6px}
+.footer-rights-copy p{margin:0;color:var(--faint);font-size:11px;line-height:1.7}
+.footer-contact{flex-shrink:0;color:var(--text);font-size:12px;font-weight:650;text-decoration:none;white-space:nowrap;overflow-wrap:anywhere;border-bottom:1px solid var(--stroke);padding:4px 0;transition:color .2s,border-color .2s}
+.footer-contact:hover,.footer-contact:focus-visible{color:var(--gold);border-color:var(--gold)}
+.footer-contact span{font-size:12px;color:var(--faint)}
+@media(max-width:760px){.footer{padding-bottom:96px}.foot{align-items:flex-start;flex-direction:column;gap:12px;padding-bottom:0}.footer-rights{align-items:flex-start;flex-direction:column;gap:10px;margin-top:18px;padding-top:17px}.footer-rights-copy p{font-size:11px}.footer-contact{font-size:12px;white-space:normal}}
 </style>
 </head>
 <body>
@@ -201,7 +211,18 @@ body{letter-spacing:-.005em} header{height:70px}.head{gap:22px}.brand-mark{width
     <div class="head-actions"><span class="theme-label" id="themeText">Noční režim</span><button id="themeToggle" class="icon-btn" aria-label="Přepnout na denní režim" title="Přepnout denní/noční režim"><svg class="icon lg"><use id="themeIcon" href="#i-sun"/></svg></button><button class="btn btn-primary btn-sm head-add" data-nav="pridat"><svg class="icon sm"><use href="#i-plus"/></svg> Přidat</button></div>
   </div></header>
   <main id="app" aria-live="polite"></main>
-  <footer class="footer"><div class="container foot"><div><span class="foot-brand">UKA<em>.</em></span><div style="margin-top:8px">Hudba kolem tebe.</div></div><span>Informace a dostupnost ověř u pořadatele. · Mapová data © OpenStreetMap · <a href="./admin.html" style="text-decoration:underline;text-underline-offset:3px">Administrace</a></span></div></footer>
+  <footer class="footer">
+    <div class="container">
+      <div class="foot"><div><span class="foot-brand">UKA<em>.</em></span><div style="margin-top:8px">Hudba kolem tebe.</div></div><span>Informace a dostupnost ověř u pořadatele. · Mapová data © OpenStreetMap · <a href="./admin.html" style="text-decoration:underline;text-underline-offset:3px">Administrace</a></span></div>
+      <div class="footer-rights">
+        <div class="footer-rights-copy">
+          <strong>Nahlášení obsahu</strong>
+          <p>Domníváte se, že některý obsah v UKA zasahuje do vašich autorských práv? Napište nám a uveďte odkaz na dotčený obsah a důvod žádosti. Každý podnět prověříme a v odůvodněných případech obsah bez zbytečného odkladu odstraníme.</p>
+        </div>
+        <a class="footer-contact" href="mailto:kontakt.uka@gmail.com?subject=UKA%20%E2%80%93%20nahl%C3%A1%C5%A1en%C3%AD%20obsahu" aria-label="Napsat na kontakt.uka@gmail.com">kontakt.uka@gmail.com <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </footer>
   <div class="mobile-nav" aria-label="Mobilní navigace"><button data-nav="akce"><svg class="icon"><use href="#i-search"/></svg>Akce</button><button data-nav="mapa"><svg class="icon"><use href="#i-pin"/></svg>Mapa</button><button data-nav="oblibene"><svg class="icon"><use href="#i-heart"/></svg>Uložené</button><button data-nav="pridat"><svg class="icon"><use href="#i-plus"/></svg>Přidat</button></div>
   <div id="modalRoot"></div><div id="toast" class="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.8.0/dist/maplibre-gl.js"></script>
