@@ -1,6 +1,30 @@
 {
-  "updated_at": "2026-10-27T23:41:23+00:00",
+  "updated_at": "2026-10-28T01:06:06+00:00",
   "events": [
+    {
+      "id": "eventlook-studentsky-halloween-plzen-ezbbqz",
+      "title": "STUDENTSKÝ HALLOWEEN - PLZEŇ",
+      "artist": "DJ line-up",
+      "category": "klub",
+      "venue": "Bílej Medvěd",
+      "city": "Plzeň",
+      "address": "Prokopova 336/30",
+      "lat": 49.7416584,
+      "lng": 13.3792319,
+      "date": "2026-10-27",
+      "time": "20:00",
+      "price": 1,
+      "price_max": null,
+      "price_from": true,
+      "price_free_verified": false,
+      "price_source": "Eventlook – veřejný detail",
+      "ticket_url": "https://www.eventlook.cz/udalosti/studentsky-halloween-plzen-ezbbqz/",
+      "source": "Eventlook",
+      "verified_at": "2026-10-28",
+      "description": "Událost z programu Eventlook. Před návštěvou ověř termín u pořadatele.",
+      "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/halloween-pc-plz-jwciqo.png",
+      "image_credit": "Eventlook / pořadatel"
+    },
     {
       "title": "HALLOWEEN – TYPOS BRNO (Part 2)",
       "date": "2026-10-27",
@@ -78,7 +102,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/halloween-trencin-pc-znqhpp.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:14+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:14+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)",
       "public_price_attempts": {
         "https://www.eventlook.cz/udalosti/xperience-vksblv/": "2026-10-24"
@@ -138,7 +162,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/halloween-pc-lib-otvzrs.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:02+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:02+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -268,6 +292,33 @@
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
+      "id": "eventlook-chomutov-haloween-lboy-show-ybkstj",
+      "title": "CHOMUTOV HALOWEEN + LBOY SHOW",
+      "artist": "CHOMUTOV HALOWEEN + LBOY SHOW",
+      "category": "koncert",
+      "venue": "Městské divadlo Chomutov",
+      "city": "Chomutov",
+      "address": "B. Němcové 552/32",
+      "lat": 50.4640759,
+      "lng": 13.41363,
+      "date": "2026-10-30",
+      "time": "20:00",
+      "price": 399,
+      "price_max": null,
+      "price_from": true,
+      "price_free_verified": false,
+      "price_source": "Eventlook – veřejný detail",
+      "ticket_url": "https://www.eventlook.cz/udalosti/chomutov-haloween-lboy-show-ybkstj/",
+      "source": "Eventlook",
+      "verified_at": "2026-10-28",
+      "description": "Událost z programu Eventlook. Před návštěvou ověř termín u pořadatele.",
+      "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/hlw-30-bl-eventlook-1-hbemvc.jpg",
+      "image_credit": "Eventlook / pořadatel",
+      "sales_phase": "on_sale",
+      "sales_phase_checked_at": "2026-10-28T02:05:19+01:00",
+      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
+    },
+    {
       "id": "ticketmaster-Z698xZu0Z16v_Oj3f4",
       "title": "DON TOLIVER: NITROUS - OCTANE WORLD TOUR LEG 2 | Fast Track",
       "artist": "Fast Track - O2 arena, Don Toliver",
@@ -346,6 +397,36 @@
       "sales_phase": "on_sale",
       "public_price_attempts": {
         "https://goout.net/cs/fontaines-dc+support-chalk/szgywly/": "2026-10-25"
+      }
+    },
+    {
+      "id": "eventlook-xperience-ymewkf",
+      "title": "HALLOWEEN NIGHT - PÚCHOV+okolie",
+      "artist": "DJ line-up",
+      "category": "klub",
+      "venue": "Kultúrny Dom, Streženice",
+      "city": "Púchov",
+      "address": "Školská 152/1",
+      "lat": 49.1098246,
+      "lng": 18.3052725,
+      "date": "2026-10-30",
+      "time": "20:00",
+      "price": null,
+      "price_max": null,
+      "price_from": false,
+      "price_free_verified": false,
+      "price_source": "",
+      "ticket_url": "https://www.eventlook.cz/udalosti/xperience-ymewkf/",
+      "source": "Eventlook",
+      "verified_at": "2026-10-28",
+      "description": "Událost z programu Eventlook. Před návštěvou ověř termín u pořadatele.",
+      "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/halloween-strezenice-pc-niepis.png",
+      "image_credit": "Eventlook / pořadatel",
+      "sales_phase": "on_sale",
+      "sales_phase_checked_at": "2026-10-28T02:05:15+01:00",
+      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)",
+      "public_price_attempts": {
+        "https://www.eventlook.cz/udalosti/xperience-ymewkf/": "2026-10-28"
       }
     },
     {
@@ -453,7 +534,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/1-b-0-a-7-eff-7009-4-f-7-a-9-a-17-4-a-03-e-3-bd-04-c-3-cnqbdd.jpeg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:04+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:05+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -644,8 +725,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-28T00:40:48+01:00",
-      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)",
+      "sales_phase_checked_at": "2026-10-20",
+      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)",
       "availability_status": "sold_out",
       "availability_source": "Eventlook – detail",
       "availability_verified_at": "2026-10-26T18:46:11+01:00"
@@ -673,8 +754,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-28T00:40:37+01:00",
-      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
+      "sales_phase_checked_at": "2026-10-20",
+      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
     },
     {
       "id": "eventlook-g-mma-samhain-hra-zacina-otttqy",
@@ -1072,7 +1153,7 @@
       "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)",
       "availability_status": "sold_out",
       "availability_source": "Eventlook – detail",
-      "availability_verified_at": "2026-10-27T22:43:03+01:00"
+      "availability_verified_at": "2026-10-28T02:05:04+01:00"
     },
     {
       "title": "WELCOME OX HALLOWEEN – 31. 10.",
@@ -1097,8 +1178,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-20",
-      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
+      "sales_phase_checked_at": "2026-10-28T02:05:11+01:00",
+      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
       "title": "K-Halloween 2026 || Trick or Treat",
@@ -1149,8 +1230,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-20",
-      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
+      "sales_phase_checked_at": "2026-10-28T02:05:09+01:00",
+      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
       "id": "eventlook-zizkostel-pasmo-pohadek-umzeea",
@@ -1176,7 +1257,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/banner-zizkostel-2627-nizsi-kalita-1-kvgjnr.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:14+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:16+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -1307,7 +1388,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/ondrej-drizhal-foks-gameta-kaktus-verde-dj-twenty-modexd.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:42:59+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:00+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -1604,7 +1685,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/miss-26-udalost-nybfhj.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T23:43:24+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:23+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -1687,7 +1768,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/img-3282-png-ssrpdj.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:01+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:02+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -1802,8 +1883,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-20",
-      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
+      "sales_phase_checked_at": "2026-10-28T02:05:18+01:00",
+      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
       "id": "eventlook-shimmi-cz-yolo-tour-liberec-nwbpwv",
@@ -1856,7 +1937,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/fml-213-ehtrdk.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T23:43:25+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:24+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -2568,7 +2649,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/charity-night-5-uvodka-fb-rzslrd.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:17+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:18+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -2619,7 +2700,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/sasazu-13-eventlook-swsens.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T23:43:22+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:21+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -2866,7 +2947,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/biebr-leventlook-eoioiy.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:16+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:17+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -3400,7 +3481,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/9c9/2a71f720-96f4-462f-a940-1aa1a4cdf9c9_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "closed"
@@ -3426,7 +3507,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/865/3dd295d1-4b3a-4bff-9333-4c9318fd0865_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -3550,7 +3631,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/812/69dd09a4-a677-45dc-a7d5-612156454812_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
@@ -3583,7 +3664,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/predpredaj-4-nysfft.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:07+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:08+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)",
       "public_price_attempts": {
         "https://www.eventlook.cz/udalosti/trezor-tour-2026-brno-orpjnp/": "2026-10-24"
@@ -3664,7 +3745,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/51-df-8-c-67-4231-4-b-90-b-57-e-fa-2178-cce-72-f-chmhty.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:09+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:10+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -3688,7 +3769,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/47e/d532f689-dc81-43ac-9fb8-8e2ea364e47e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -3767,7 +3848,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -3793,7 +3874,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/af6/54ac539b-c85e-49b9-be30-fc18a05a3af6_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -3819,7 +3900,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/e87/7cbadcb9-92fd-49ed-ba9a-fe6039f0de87_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
@@ -3902,7 +3983,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4108,7 +4189,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4160,7 +4241,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/0c8/0ae93ac0-5c69-4994-87ab-af0f81c600c8_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4214,7 +4295,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4266,7 +4347,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/2bb/e6973f9c-eaa1-487e-9a8f-e2ef1230a2bb_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4343,7 +4424,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/3-13-tqhgep.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T23:43:24+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:23+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -4369,8 +4450,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-28T00:40:23+01:00",
-      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
+      "sales_phase_checked_at": "2026-10-20",
+      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
     },
     {
       "id": "eventlook-shimmi-cz-yolo-tour-olomouc-hlnfyw",
@@ -4474,7 +4555,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/61b/b433b799-f911-416f-afa8-df6f5653261b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4503,7 +4584,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/whats-app-image-2026-09-15-at-151536-jtjzkd.jpeg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:09+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:10+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -4611,7 +4692,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/c55/42b02a59-02f8-41ae-9d2f-6dc004011c55_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4637,7 +4718,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/e13/8650ff17-86e1-4982-9069-261ef3805e13_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4714,7 +4795,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/313/6de3ff37-028f-462b-b8dc-abcc41a76313_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4740,7 +4821,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/48b/8b218b4f-bb36-46c2-b7d6-3295b301848b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4798,7 +4879,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/2c1/e1cc6a5c-ce65-4626-b899-d5ec1b2812c1_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4824,7 +4905,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/24b/fad0ee1f-ee07-4079-a961-05f7982f424b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4850,7 +4931,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4902,7 +4983,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/322/7000c133-11ed-40da-a08d-6d23d1a84322_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -4955,7 +5036,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -5034,7 +5115,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/c1b/5c2d2507-6cda-4481-abfb-1f5a5390fc1b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -5060,7 +5141,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/f52/7be9d9e0-7d83-497d-98bb-31ff52ba7f52_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -5086,7 +5167,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -5138,7 +5219,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/ecc/a2421b4f-49bd-4487-8fa8-846093161ecc_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -5164,7 +5245,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/2b1/d1850a94-98c5-43e6-b5cc-c0c9059562b1_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
@@ -5196,7 +5277,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/3-18-iqwhuy.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T23:43:23+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:22+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -5273,7 +5354,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/e3a/e77c6064-6cdf-4035-8174-98c9a01e6e3a_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -5318,7 +5399,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/396/c965a493-fdd3-4d72-876b-833ad0992396_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -5344,7 +5425,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/aaf/a7241cde-84c4-49dc-a7a2-d37a50876aaf_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
@@ -5375,7 +5456,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/1d3/ac79f90c-ae89-4352-8d36-4d7c299921d3_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -5405,7 +5486,7 @@
       "image_credit": "Eventlook / pořadatel",
       "availability_status": "sold_out",
       "availability_source": "Eventlook – detail",
-      "availability_verified_at": "2026-10-27T22:43:18+01:00"
+      "availability_verified_at": "2026-10-28T02:05:20+01:00"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1k46JavS",
@@ -5428,7 +5509,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/0b7/0993fb35-9a1b-4fd6-9dc1-f6c90eba30b7_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -5533,7 +5614,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -5585,7 +5666,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
@@ -5637,7 +5718,7 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/43b/ab9317bd-ccde-4daa-a75b-09f4bf21a43b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-10-26",
+      "tm_price_checked_at": "2026-10-28",
       "sales_phase_checked_at": "2026-10-27T22:42:40+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
@@ -5696,7 +5777,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/ledovy-festival-pod-hvezdami-xaqugj.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:15+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:16+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -7551,7 +7632,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/bbe/300cd83c-5df9-451e-99ee-c654c646cbbe_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "upcoming",
-      "sales_phase_checked_at": "2026-10-27T06:40:51+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:04:32+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-10-26"
     },
@@ -7718,7 +7799,10 @@
       "sales_phase": "upcoming",
       "sales_phase_checked_at": "2026-10-27T10:47:39+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-10-27"
+      "tm_price_checked_at": "2026-10-27",
+      "public_price_attempts": {
+        "https://goout.net/cs/klangphonics-the-zest-tour/szylcoy/": "2026-10-28"
+      }
     },
     {
       "id": "ticketmaster-Z698xZu0Z1k-ajVap",
@@ -7820,7 +7904,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/d-2934-dc-7-553-d-4132-bb-12-882-a-499-cc-928-dtjuor.jpeg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:00+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:01+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -9873,7 +9957,7 @@
       "price_checked_at": "2026-10-26",
       "price_source": "O2 arena",
       "sales_phase": "upcoming",
-      "sales_phase_checked_at": "2026-10-27T07:53:02Z",
+      "sales_phase_checked_at": "2026-10-28T01:04:48Z",
       "sales_phase_source": "O2 official"
     },
     {
@@ -10136,7 +10220,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/the-culture-27-fb-cb-mljerc.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:04+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:05+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -10190,7 +10274,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/7de/a99b2387-9054-4e19-a4d9-55c6164c37de_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "upcoming",
-      "sales_phase_checked_at": "2026-10-27T07:50:23+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:04:32+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-10-26"
     },
@@ -10244,7 +10328,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/the-culture-27-fb-olo-pjnink.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:06+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:07+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -10271,7 +10355,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/the-culture-27-fb-lib-kmckst.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:05+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:06+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -10298,7 +10382,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/the-culture-17-fb-plz-pnfqgd.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-27T22:43:06+01:00",
+      "sales_phase_checked_at": "2026-10-28T02:05:08+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -10867,7 +10951,7 @@
       "price_checked_at": "2026-10-26",
       "price_source": "O2 arena",
       "sales_phase": "upcoming",
-      "sales_phase_checked_at": "2026-10-27T07:53:02Z",
+      "sales_phase_checked_at": "2026-10-28T01:04:48Z",
       "sales_phase_source": "O2 official"
     },
     {
@@ -11153,7 +11237,7 @@
       "sales_phase": "paused"
     }
   ],
-  "eventlook_cursor": 76,
+  "eventlook_cursor": 12,
   "price_catalog_cache": {
     "version": 1,
     "entries": {
@@ -11499,7 +11583,7 @@
           "anisound"
         ],
         "city": "Praha",
-        "last_seen": "2026-10-26"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/anna-cecrdlova-jazzove-vanoce/szejtny/": {
         "names": [
@@ -11626,8 +11710,8 @@
           "Astro Zombies + Kungpao Cowboys",
           "astro zombies kungpao cowboys"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/atomic-fruit-and-vylla/szyqsny/": {
         "names": [
@@ -11658,8 +11742,8 @@
           "August Ocean & Idea: Medzi mnou a zajtrajškom album release party",
           "august ocean and idea medzi mnou a zajtrajskom album release party"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/avulsed+fleshcrawl+violentor/szoaajy/": {
         "names": [
@@ -11707,7 +11791,7 @@
           "balkan bashavel ostrava"
         ],
         "city": "Česko",
-        "last_seen": "2026-10-27"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/band-of-heysek/szpuomy/": {
         "names": [
@@ -11762,16 +11846,16 @@
           "Barokní mistři ve staré Praze",
           "barokni mistri ve stare praze"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/barokni-mistri-ve-stare-praze/szbrtny/": {
         "names": [
           "Barokní mistři ve staré Praze",
           "barokni mistri ve stare praze"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/barokni-mistri-ve-stare-praze/szhjmly/": {
         "names": [
@@ -11794,8 +11878,8 @@
           "Barokní mistři ve staré Praze",
           "barokni mistri ve stare praze"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/bbbbbbb+yarrdesh/szvecmy/": {
         "names": [
@@ -12355,7 +12439,7 @@
           "bullet for my valentine special guest pendulum"
         ],
         "city": "Praha",
-        "last_seen": "2026-10-26"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/buty-40-let/szgymjy/": {
         "names": [
@@ -12523,7 +12607,7 @@
           "ceske dvouplatkove sympozium 2026 sobota"
         ],
         "city": "Praha",
-        "last_seen": "2026-10-27"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/cesky-mejdan-s-impulsem-2027/szasvny/": {
         "names": [
@@ -12594,8 +12678,8 @@
           "Classic Spectacular – Beethoven, Vivaldi, Smetana",
           "classic spectacular beethoven vivaldi smetana"
         ],
-        "city": "Česko",
-        "last_seen": "2026-10-27"
+        "city": "Praha",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/classic-spectacular-beethoven-vivaldi-smetana/szgcnny/": {
         "names": [
@@ -12658,8 +12742,8 @@
           "Classic Spectacular s varhany – Vivaldi, Mozart, Bach",
           "classic spectacular s varhany vivaldi mozart bach"
         ],
-        "city": "Česko",
-        "last_seen": "2026-10-27"
+        "city": "Praha",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/clawfinger+atari-terror+sickret/szrngey/": {
         "names": [
@@ -12906,8 +12990,8 @@
           "Dasha – Vánoční koncert v Praze",
           "dasha vanocni koncert v praze"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/david-binney-and-louis-cole/szookky/": {
         "names": [
@@ -13531,8 +13615,8 @@
           "Epydemye",
           "epydemye"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/epydemye/sztwcoy/": {
         "names": [
@@ -13730,8 +13814,8 @@
           "Fagot jinak: Ole Kristian Dahl & guests",
           "fagot jinak ole kristian dahl and guests"
         ],
-        "city": "Česko",
-        "last_seen": "2026-10-27"
+        "city": "Praha",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/fanfan-tulipan/szhypmy/": {
         "names": [
@@ -13794,8 +13878,8 @@
           "Festival Spectaculare 2027",
           "festival spectaculare 2027"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/festival-spectaculare-emika-live-av-show/szwtvny/": {
         "names": [
@@ -13826,8 +13910,8 @@
           "Festival Spectaculare: Janus Rasmussen live",
           "festival spectaculare janus rasmussen live"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/festival-spectaculare-modeselektor-live+philipp-johann-thimm/szdpsny/": {
         "names": [
@@ -13874,7 +13958,7 @@
           "Filharmoniště: Best of Baroque (s dětmi od 0 do 3 let)",
           "filharmoniste best of baroque s detmi od 0 do 3 let"
         ],
-        "city": "Praha",
+        "city": "Česko",
         "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/filharmoniste-best-of-baroque-s-detmi-od-0-do-3-let/sznotny/": {
@@ -13882,8 +13966,8 @@
           "Filharmoniště: Best of Baroque (s dětmi od 0 do 3 let)",
           "filharmoniste best of baroque s detmi od 0 do 3 let"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/filharmoniste-karneval-zvirat-s-detmi-od-0-do-3-let/szkeuny/": {
         "names": [
@@ -13908,6 +13992,14 @@
         ],
         "city": "Česko",
         "last_seen": "2026-10-27"
+      },
+      "https://goout.net/cs/filharmoniste-vanocni-pribeh-pro-deti-od-3-do-8-let/szagroy/": {
+        "names": [
+          "Filharmoniště: Vánoční příběh (pro děti od 3 do 8 let)",
+          "filharmoniste vanocni pribeh pro deti od 3 do 8 let"
+        ],
+        "city": "Praha",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/filharmoniste-vanocni-pribeh-pro-deti-od-3-do-8-let/szyfroy/": {
         "names": [
@@ -13938,8 +14030,8 @@
           "fish narc + support: Toner",
           "fish narc support toner"
         ],
-        "city": "Česko",
-        "last_seen": "2026-10-26"
+        "city": "Praha",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/fish-narc+toner/szbxaoy/": {
         "names": [
@@ -14090,8 +14182,8 @@
           "František Skála & Třaskavá směs",
           "frantisek skala and traskava smes"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/fred-frith-presents-fremakajo/sztivny/": {
         "names": [
@@ -14739,7 +14831,7 @@
           "hollywood undead euuk 2027"
         ],
         "city": "Praha",
-        "last_seen": "2026-10-26"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/holy-fawn+outlander/szjndky/": {
         "names": [
@@ -14851,7 +14943,7 @@
           "hvezdy z albionu adele a coldplay"
         ],
         "city": "Praha",
-        "last_seen": "2026-10-27"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/hvezdy-z-albionu-adele-a-coldplay/szmwamy/": {
         "names": [
@@ -14946,8 +15038,8 @@
           "Igor Orozovič & Co: V Ženském Obležení",
           "igor orozovic and co v zenskem oblezeni"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/igorrr+secret-chiefs-3+fange/szidjny/": {
         "names": [
@@ -15797,6 +15889,14 @@
         "city": "Česko",
         "last_seen": "2026-10-26"
       },
+      "https://goout.net/cs/klangphonics-the-zest-tour/szylcoy/": {
+        "names": [
+          "Klangphonics: The ZEST Tour",
+          "klangphonics the zest tour"
+        ],
+        "city": "Praha",
+        "last_seen": "2026-10-28"
+      },
       "https://goout.net/cs/klara-havelkova-trojanova-55/szvmdny/": {
         "names": [
           "Klára Havelková (Trojanová): 55",
@@ -16155,8 +16255,8 @@
           "Křest alba Cotatcha Orchestra & Lenka Dusilová",
           "krest alba cotatcha orchestra and lenka dusilova"
         ],
-        "city": "Brno",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/kriskros-a-cappella-and-light-art-by-dowis/szioqoy/": {
         "names": [
@@ -16459,7 +16559,7 @@
           "Leftfield",
           "leftfield"
         ],
-        "city": "Česko",
+        "city": "Praha",
         "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/legendary-pop-icons-in-jazz-adele-lady-gaga-amy-winehouse/szaugly/": {
@@ -17580,7 +17680,7 @@
           "molotov party 301 johnny curbes"
         ],
         "city": "Praha",
-        "last_seen": "2026-10-27"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/monika-absolonova-a-vlastni-band--novorocni-koncert/szktvmy/": {
         "names": [
@@ -17724,7 +17824,7 @@
           "moondance orchestra 20 let"
         ],
         "city": "Česko",
-        "last_seen": "2026-10-27"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/moondance-orchestra-20-let/szlndny/": {
         "names": [
@@ -18289,8 +18389,8 @@
           "Nokia Angel + support: 3Eden & Lilostar",
           "nokia angel support 3eden and lilostar"
         ],
-        "city": "Česko",
-        "last_seen": "2026-10-27"
+        "city": "Praha",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/november-2nd/szpunny/": {
         "names": [
@@ -18369,16 +18469,16 @@
           "Od klasiky k filmové hudbě a jazzu",
           "od klasiky k filmove hudbe a jazzu"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/od-klasiky-k-filmove-hudbe-a-jazzu/szfrtny/": {
         "names": [
           "Od klasiky k filmové hudbě a jazzu",
           "od klasiky k filmove hudbe a jazzu"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/oh-wonder/szbqsny/": {
         "names": [
@@ -19267,7 +19367,7 @@
           "prague cello quartet"
         ],
         "city": "Česko",
-        "last_seen": "2026-10-25"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/prague-cello-quartet/szhuwmy/": {
         "names": [
@@ -19802,8 +19902,8 @@
           "Remembering Sinatra: A Timeless Tribute",
           "remembering sinatra a timeless tribute"
         ],
-        "city": "Česko",
-        "last_seen": "2026-10-27"
+        "city": "Praha",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/retro-party-na-kine-80-s90-s-and-milenium/szqnmmy/": {
         "names": [
@@ -20082,7 +20182,7 @@
           "Rock’n’Roll Halloween: The Bones + Murphy’s Law + Booze & Glory + další",
           "rocknroll halloween the bones murphys law booze and glory dalsi"
         ],
-        "city": "Česko",
+        "city": "Praha",
         "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/rockove-vanoce-na-barce-2026/szuhrey/": {
@@ -20979,16 +21079,16 @@
           "Slavná varhanní díla a duety pro soprán a trubku",
           "slavna varhanni dila a duety pro sopran a trubku"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/slavna-varhanni-dila-a-duety-pro-sopran-a-trubku/szhrtny/": {
         "names": [
           "Slavná varhanní díla a duety pro soprán a trubku",
           "slavna varhanni dila a duety pro sopran a trubku"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/slavna-varhanni-dila-a-duety-pro-sopran-a-trubku/szqovny/": {
         "names": [
@@ -21043,8 +21143,8 @@
           "Slavné árie, varhanní skladby a duchovní hudba",
           "slavne arie varhanni skladby a duchovni hudba"
         ],
-        "city": "Praha",
-        "last_seen": "2026-10-27"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/slavne-arie-varhanni-skladby-a-duchovni-hudba/szlroly/": {
         "names": [
@@ -21236,7 +21336,7 @@
           "soft loft"
         ],
         "city": "Praha",
-        "last_seen": "2026-10-26"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/soiree-a-vienne-lotz-trio-and-collegium-vocale-1704/szsgcdy/": {
         "names": [
@@ -21292,7 +21392,7 @@
           "souboj klaviru"
         ],
         "city": "Česko",
-        "last_seen": "2026-10-27"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/souboj-klaviru/szokvny/": {
         "names": [
@@ -21340,7 +21440,7 @@
           "special new year evening with lee andrew davison and his band"
         ],
         "city": "Praha",
-        "last_seen": "2026-10-26"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/spectral3+klapper-and-koctar/szbqtmy/": {
         "names": [
@@ -21643,8 +21743,8 @@
           "Ta malá, to jsem já – Magda Malá 60",
           "ta mala to jsem ja magda mala 60"
         ],
-        "city": "Česko",
-        "last_seen": "2026-10-27"
+        "city": "Praha",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/takin-off/szuswky/": {
         "names": [
@@ -21980,7 +22080,7 @@
           "the nina simone experience an unforgettable jazz tribute"
         ],
         "city": "Praha",
-        "last_seen": "2026-10-27"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/the-pineapple-thief-far-and-wide-european-tour-2027/szshimy/": {
         "names": [
@@ -22715,7 +22815,7 @@
           "uptone sturle dagsland"
         ],
         "city": "Praha",
-        "last_seen": "2026-10-27"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/uredda/sznnnny/": {
         "names": [
@@ -22818,8 +22918,8 @@
           "Vánoce s muzikály",
           "vanoce s muzikaly"
         ],
-        "city": "Česko",
-        "last_seen": "2026-10-27"
+        "city": "Praha",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/vanocni-a-beat+band-od-heysek/szisemy/": {
         "names": [
@@ -23267,7 +23367,7 @@
           "vecer pro stropoffku bara basikova bara brodnickova"
         ],
         "city": "Praha",
-        "last_seen": "2026-10-26"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/vecer-s-mozartem/szrsyly/": {
         "names": [
@@ -23763,7 +23863,7 @@
           "william valerian and nadnarodni divadlo indiga muse"
         ],
         "city": "Praha",
-        "last_seen": "2026-10-27"
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/wilt+support-thistle/szqnliy/": {
         "names": [
@@ -23925,6 +24025,14 @@
         "city": "Praha",
         "last_seen": "2026-10-27"
       },
+      "https://goout.net/cs/z-chramovych-vysin/szvtbey/": {
+        "names": [
+          "Z chrámových výšin",
+          "z chramovych vysin"
+        ],
+        "city": "Praha",
+        "last_seen": "2026-10-28"
+      },
       "https://goout.net/cs/zakazanyovoce+konflikt-10-let-diky-vam-tour-2026/szgxjly/": {
         "names": [
           "zakázanÝovoce + Konflikt: 10 let Díky vám! tour 2026",
@@ -23986,8 +24094,8 @@
           "Zigi SC – Alterego Tour",
           "zigi sc alterego tour"
         ],
-        "city": "Plzeň",
-        "last_seen": "2026-10-26"
+        "city": "Česko",
+        "last_seen": "2026-10-28"
       },
       "https://goout.net/cs/zimmer90+support-ceci/sztmdey/": {
         "names": [
