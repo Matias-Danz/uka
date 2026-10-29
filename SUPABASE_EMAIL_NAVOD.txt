@@ -1,0 +1,21 @@
+UKA – změna potvrzovacího e-mailu
+
+1. Supabase Dashboard > Authentication > Email Templates > Confirm signup.
+2. Subject: UKA – Potvrď svou registraci
+3. Body (HTML):
+<h2>Vítej v UKA!</h2>
+<p>Potvrď svůj e-mail a začni objevovat hudební akce.</p>
+<p><a href="{{ .ConfirmationURL }}">Potvrdit e-mail</a></p>
+<p>Pokud ses neregistroval/a, tuto zprávu ignoruj.</p>
+
+DŮLEŽITÉ: Zachovej přesně {{ .ConfirmationURL }}.
+Změna zobrazovaného jména odesílatele (např. UKA místo Supabase Auth)
+vyžaduje vlastní SMTP nastavení v Supabase > Authentication > SMTP Settings.
+
+Uživatelské jméno se ukládá do Supabase Auth user_metadata.username.
+Je viditelné po přihlášení. V této verzi není zaručena unikátnost jmen
+a uživatel si ho zatím nemůže změnit. Pro unikátní jména je potřeba
+databázová tabulka profilů s unikátním indexem a RLS.
+
+Na GitHub nahraj index.html, uka-auth.js a scripts/build_public.py.
+Pro tento upgrade stačí nahradit pouze uka-auth.js.

@@ -16,6 +16,7 @@ function safeMessage(err){
  if(/rate limit/i.test(msg))return 'Příliš mnoho pokusů. Zkus to později.';
  return msg;
 }
+function displayName(){return user?.user_metadata?.username||user?.email?.split('@')[0]||'Uživatel'}
 function overlay(){return document.getElementById('ukaAuthOverlay')}
 function close(){overlay()?.remove();document.removeEventListener('keydown',escapeHandler)}
 function escapeHandler(e){if(e.key==='Escape')close()}
@@ -29,16 +30,22 @@ function render(){
  const form=document.createElement('form');form.noValidate=true;
  function field(name,label,type,auto){const lab=document.createElement('label');lab.htmlFor='uka-auth-'+name;lab.textContent=label;const input=document.createElement('input');input.id=lab.htmlFor;input.name=name;input.type=type;input.autocomplete=auto;input.required=true;if(type==='password')input.minLength=8;form.append(lab,input);return input}
  if(mode==='account'){
+  const name=document.createElement('p');name.style.fontWeight='800';name.textContent='@'+displayName();form.append(name);
   const em=document.createElement('p');em.textContent=user?.email||'';form.append(em);
  }else{
+  if(mode==='signup'){const username=field('username','Uživatelské jméno','text','username');username.minLength=3;username.maxLength=24;username.pattern='[A-Za-z0-9_]{3,24}';username.placeholder='např. matias23';}
   if(mode!=='reset')field('email','E-mail','email','email');
-  if(!['forgot'].includes(mode))field('password',mode==='reset'?'Nové heslo (min. 8 znaků)':'Heslo (min. 8 znaků)','password',mode==='signup'?'new-password':mode==='reset'?'new-password':'current-password');
+  if(mode!=='forgot')field('password',mode==='reset'?'Nové heslo (min. 8 znaků)':'Heslo (min. 8 znaků)','password',mode==='signup'||mode==='reset'?'new-password':'current-password');
+  if(mode==='signup')field('confirmPassword','Potvrď heslo','password','new-password');
  }
  const submit=document.createElement('button');submit.type='submit';submit.className='uka-auth-submit';submit.textContent=mode==='login'?'Přihlásit se':mode==='signup'?'Vytvořit účet':mode==='forgot'?'Poslat odkaz':mode==='reset'?'Změnit heslo':'Odhlásit se';form.append(submit);
- form.addEventListener('submit',async e=>{e.preventDefault();if(busy)return;const email=form.elements.email?.value.trim(),password=form.elements.password?.value;busy=true;submit.disabled=true;message('');try{
+ form.addEventListener('submit',async e=>{e.preventDefault();if(busy)return;const email=form.elements.email?.value.trim(),password=form.elements.password?.value;
+  if(mode==='signup'){const username=form.elements.username.value.trim();if(!/^[A-Za-z0-9_]{3,24}$/.test(username)){message('Uživatelské jméno musí mít 3–24 znaků: písmena bez diakritiky, čísla nebo podtržítko.');return;}if(password!==form.elements.confirmPassword.value){message('Hesla se neshodují.');return;}}
+  if(mode==='signup'||mode==='reset'){if(!password||password.length<8){message('Heslo musí mít alespoň 8 znaků.');return;}}
+  busy=true;submit.disabled=true;message('');try{
   let result;
   if(mode==='login')result=await client.auth.signInWithPassword({email,password});
-  else if(mode==='signup')result=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});
+  else if(mode==='signup')result=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname,data:{username:form.elements.username.value.trim()}}});
   else if(mode==='forgot')result=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
   else if(mode==='reset')result=await client.auth.updateUser({password});
   else result=await client.auth.signOut();
@@ -55,8 +62,8 @@ function render(){
  const msg=document.createElement('div');msg.id='ukaAuthMessage';msg.className='uka-auth-msg';msg.setAttribute('role','status');msg.setAttribute('aria-live','polite');panel.append(msg);
  root.append(panel);root.addEventListener('click',e=>{if(e.target===root)close()});document.body.append(root);document.addEventListener('keydown',escapeHandler);panel.querySelector('input')?.focus();
 }
-async function refreshUser(){const {data,error}=await client.auth.getUser();user=error?null:data.user;btn.textContent=user?'Můj účet':'Přihlásit se';btn.title=user?.email||'Přihlásit se';}
+async function refreshUser(){const {data,error}=await client.auth.getUser();user=error?null:data.user;btn.textContent=user?'@'+displayName():'Přihlásit se';btn.title=user?.email||'Přihlásit se';}
 btn.addEventListener('click',()=>{mode=user?'account':'login';render()});
-client.auth.onAuthStateChange((event,session)=>{user=session?.user||null;btn.textContent=user?'Můj účet':'Přihlásit se';if(event==='PASSWORD_RECOVERY'){mode='reset';render()}});
+client.auth.onAuthStateChange((event,session)=>{user=session?.user||null;btn.textContent=user?'@'+displayName():'Přihlásit se';if(event==='PASSWORD_RECOVERY'){mode='reset';render()}});
 refreshUser();
 })();
