@@ -46,6 +46,7 @@ def main():
         shutil.rmtree(OUT)
     OUT.mkdir()
     (OUT / "index.html").write_text(index, encoding="utf-8")
+    shutil.copy2(ROOT / "uka-auth.js", OUT / "uka-auth.js")
     (OUT / "events.json").write_text(
         json.dumps(public_data, ensure_ascii=False, separators=(",", ":")) + "\n",
         encoding="utf-8")
@@ -55,7 +56,7 @@ def main():
         if any(p.is_symlink() for p in media.rglob("*")):
             raise ValueError("Symlinks in media/ are not allowed")
         shutil.copytree(media, OUT / "media")
-    allowed = {"index.html", "events.json", ".nojekyll", "media"}
+    allowed = {"index.html", "events.json", "uka-auth.js", ".nojekyll", "media"}
     got = {p.name for p in OUT.iterdir()}
     if got - allowed:
         raise AssertionError(f"Unexpected published file(s): {got - allowed}")

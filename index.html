@@ -188,6 +188,19 @@ body{letter-spacing:-.005em} header{height:70px}.head{gap:22px}.brand-mark{width
 .footer-contact span{font-size:12px;color:var(--faint)}
 @media(max-width:760px){.footer{padding-bottom:96px}.foot{align-items:flex-start;flex-direction:column;gap:12px;padding-bottom:0}.footer-rights{align-items:flex-start;flex-direction:column;gap:10px;margin-top:18px;padding-top:17px}.footer-rights-copy p{font-size:11px}.footer-contact{font-size:12px;white-space:normal}}
 </style>
+
+<style id="uka-auth-styles">
+.uka-auth-button{border:1px solid var(--stroke);background:var(--surface);color:var(--text);border-radius:11px;padding:10px 13px;font-size:12px;font-weight:750;cursor:pointer;max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.uka-auth-button:hover{border-color:var(--gold)}
+.uka-auth-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.76);display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(7px)}
+.uka-auth-panel{position:relative;width:min(100%,410px);max-height:95vh;overflow-y:auto;background:var(--surface);border:1px solid var(--stroke);border-radius:20px;padding:30px;box-shadow:0 30px 80px rgba(0,0,0,.4);color:var(--text)}
+.uka-auth-panel h2{font-size:28px;margin:0 0 7px;font-weight:800}.uka-auth-panel p{font-size:13px;color:var(--muted);margin:0 0 20px;line-height:1.5}
+.uka-auth-panel label{display:block;font-size:12px;font-weight:700;margin:14px 0 7px}.uka-auth-panel input{width:100%;padding:13px;border-radius:10px;border:1px solid var(--stroke);background:var(--bg);color:var(--text);font:inherit;box-sizing:border-box}
+.uka-auth-submit{width:100%;padding:13px;margin-top:20px;border:0;border-radius:10px;background:var(--gold);color:var(--gold-text);font-weight:800;cursor:pointer}.uka-auth-submit:disabled{opacity:.5;cursor:wait}
+.uka-auth-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:18px}.uka-auth-links button{background:none;border:0;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline}
+.uka-auth-close{position:absolute;right:16px;top:12px;background:none;border:0;color:var(--text);font-size:26px;cursor:pointer}.uka-auth-msg{font-size:13px;line-height:1.5;margin-top:12px;min-height:0}.uka-auth-msg.error{color:#ff9c9c}.uka-auth-msg.ok{color:var(--mint)}
+@media(max-width:760px){.uka-auth-button{padding:9px 10px;max-width:96px}.uka-auth-panel{padding:24px}}
+</style>
 </head>
 <body>
   <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
@@ -208,7 +221,7 @@ body{letter-spacing:-.005em} header{height:70px}.head{gap:22px}.brand-mark{width
   <header><div class="container head">
     <a href="#akce" class="brand" data-nav="akce" aria-label="UKA — zpět na hlavní stránku"><span class="brand-mark">U</span><span class="brand-name">UKA<span class="brand-dot">.</span></span></a>
     <nav class="nav" aria-label="Hlavní navigace"><button type="button" data-nav="akce" class="active">Objevovat</button><button type="button" data-nav="mapa">Mapa</button><button type="button" data-nav="oblibene">Uložené</button></nav>
-    <div class="head-actions"><span class="theme-label" id="themeText">Noční režim</span><button id="themeToggle" class="icon-btn" aria-label="Přepnout na denní režim" title="Přepnout denní/noční režim"><svg class="icon lg"><use id="themeIcon" href="#i-sun"/></svg></button><button class="btn btn-primary btn-sm head-add" data-nav="pridat"><svg class="icon sm"><use href="#i-plus"/></svg> Přidat</button></div>
+    <div class="head-actions"><button type="button" id="ukaAuthButton" class="uka-auth-button" aria-label="Přihlášení">Přihlásit se</button><span class="theme-label" id="themeText">Noční režim</span><button id="themeToggle" class="icon-btn" aria-label="Přepnout na denní režim" title="Přepnout denní/noční režim"><svg class="icon lg"><use id="themeIcon" href="#i-sun"/></svg></button><button class="btn btn-primary btn-sm head-add" data-nav="pridat"><svg class="icon sm"><use href="#i-plus"/></svg> Přidat</button></div>
   </div></header>
   <main id="app" aria-live="polite"></main>
   <footer class="footer">
@@ -825,5 +838,7 @@ function showDetails(id){
   // Refresh the published JSON while tab stays open, independently of background crawler.
   setInterval(refreshEvents,15*60*1000);
   </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js" defer></script>
+<script src="./uka-auth.js" defer></script>
 </body>
 </html>
