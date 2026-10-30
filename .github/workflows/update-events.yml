@@ -5,6 +5,11 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'uka-auth.js'
+      - 'uka-app.js'
+      - 'uka-theme.js'
+      - 'uka.css'
+      - '_headers'
       - 'media/**'
       - 'events.json'
       - 'scripts/**'
@@ -64,6 +69,9 @@ jobs:
         run: |
           python -m py_compile scripts/uka_sync.py scripts/build_public.py
           python -u scripts/uka_sync.py --check
+
+      - name: Testy před publikací
+        run: python -m unittest discover -s tests -v
 
       - name: Aktualizovat akce a ceny
         env:
