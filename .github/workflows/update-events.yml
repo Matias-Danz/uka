@@ -13,6 +13,8 @@ on:
       - 'media/**'
       - 'events.json'
       - 'scripts/**'
+      - 'tests/**'
+      - 'admin.html'
       - '.github/workflows/update-events.yml'
       - 'requirements.txt'
       - 'admin_overrides.json'
@@ -70,6 +72,9 @@ jobs:
           python -m py_compile scripts/uka_sync.py scripts/build_public.py
           python -u scripts/uka_sync.py --check
 
+      - name: Ověřit JSON před aktualizací
+        run: python scripts/validate_data.py
+
       - name: Testy před publikací
         run: python -m unittest discover -s tests -v
 
@@ -81,6 +86,22 @@ jobs:
 
       # Ticketmaster Chromium browser scraping is deliberately disabled after HTTP 403.
       # Use approved API access and other permitted public sources instead.
+
+      - name: Ověřit JSON po aktualizaci
+        run: python scripts/validate_data.py
+
+      - name: Záloha JSON před publikací
+        uses: actions/upload-artifact@v4
+        with:
+          name: uka-json-snapshot-${{ github.run_id }}
+          path: |
+            events.json
+            admin_overrides.json
+            availability_overrides.json
+            price_overrides.json
+            price_links.json
+          retention-days: 30
+          if-no-files-found: error
 
       - name: Uložit změny akcí do repozitáře
         shell: bash

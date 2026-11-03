@@ -74,6 +74,8 @@ def sanitize_availability(raw):
 
 
 def main():
+    from validate_data import validate
+    validate()
     data = json.loads((ROOT / "events.json").read_text(encoding="utf-8"))
     if not isinstance(data, dict) or not isinstance(data.get("events"), list):
         raise ValueError("events.json must contain an events array")
