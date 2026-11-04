@@ -7,6 +7,7 @@ const btn=document.getElementById('ukaAuthButton');
 if(!btn)return;
 if(!window.supabase?.createClient){btn.textContent='Přihlášení nedostupné';btn.disabled=true;return;}
 const client=window.supabase.createClient(PROJECT_URL,PUBLISHABLE_KEY,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}});
+window.ukaSupabaseClient=client;
 let user=null, mode='login',busy=false,recoveryMode=false;
 const labels={login:'Vítej zpátky.',signup:'Vytvoř si účet.',forgot:'Obnovit heslo',reset:'Nové heslo',account:'Můj účet'};
 // Client-side feedback is only UX; Supabase must enforce the same rule server-side.
