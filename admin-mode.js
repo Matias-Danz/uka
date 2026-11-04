@@ -1,6 +1,6 @@
 (()=>{'use strict';
 // This is a public publishable key. Authorization is enforced by Supabase RLS.
-const client=supabase.createClient('https://epssmmsrnewjshfkfqqu.supabase.co','sb_publishable_0kIE7B6XO3RDBxPzXh5qlQ_5jDeLfuc');
+const client=supabase.createClient('https://orofwgbqlqyvfndvdxrk.supabase.co','sb_publishable_gZqr_a9ExZpbObLyHN_sTw_jeszsism');
 const $=id=>document.getElementById(id),say=t=>{$('status').textContent=t};
 let own=[],imported=[],approved=[],edits={};
 const values=['title','artist','category','venue','city','event_date','event_time','price','ticket_url','description','lat','lng'];
