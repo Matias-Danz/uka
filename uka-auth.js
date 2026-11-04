@@ -1,21 +1,34 @@
 /* UKA login v1: Supabase Auth. No secret/service_role key in browser. */
 (()=>{
 'use strict';
-const PROJECT_URL='https://orofwgbqlqyvfndvdxrk.supabase.co';
-const PUBLISHABLE_KEY='sb_publishable_gZqr_a9ExZpbObLyHN_sTw_jeszsism';
+const PROJECT_URL='https://epssmmsrnewjshfkfqqu.supabase.co';
+const PUBLISHABLE_KEY='sb_publishable_0kIE7B6XO3RDBxPzXh5qlQ_5jDeLfuc';
 const btn=document.getElementById('ukaAuthButton');
 if(!btn)return;
 if(!window.supabase?.createClient){btn.textContent='Přihlášení nedostupné';btn.disabled=true;return;}
 const client=window.supabase.createClient(PROJECT_URL,PUBLISHABLE_KEY,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}});
+window.ukaSupabaseClient=client;
 let user=null, mode='login',busy=false,recoveryMode=false;
 const labels={login:'Vítej zpátky.',signup:'Vytvoř si účet.',forgot:'Obnovit heslo',reset:'Nové heslo',account:'Můj účet'};
+// Client-side feedback is only UX; Supabase must enforce the same rule server-side.
+function usernameProblem(value){
+ const name=String(value||'').trim();
+ if(!/^[A-Za-z0-9_]{3,24}$/.test(name))return 'Uživatelské jméno musí mít 3–24 znaků: písmena bez diakritiky, čísla nebo podtržítko.';
+ const normalized=name.toLowerCase().replace(/0/g,'o').replace(/1/g,'i').replace(/3/g,'e').replace(/4/g,'a').replace(/5/g,'s').replace(/7/g,'t').replace(/8/g,'b').replace(/9/g,'g').replace(/_/g,'');
+ if(/nigg|n1gg|fagg|kike|spic|chink|retard|nazi|hitler/.test(normalized))return 'Toto uživatelské jméno není povolené. Zvol jiné.';
+ return '';
+}
 function safeMessage(err){
- const msg=(err?.message||'Něco se nepodařilo. Zkus to prosím znovu.');
+ const msg=String(err?.message||'');const code=String(err?.code||'');
+ if(/username_not_allowed|username not allowed|username is not allowed/i.test(msg+' '+code))return 'Toto uživatelské jméno není povolené. Zvol jiné.';
+ if(/username_taken|username already exists|username unavailable/i.test(msg+' '+code))return 'Toto uživatelské jméno je již obsazené.';
  if(/invalid login credentials/i.test(msg))return 'Nesprávný e-mail nebo heslo.';
  if(/email not confirmed/i.test(msg))return 'Přihlášení se nezdařilo. Zkontroluj údaje a potvrzení e-mailu.';
- if(/rate limit/i.test(msg))return 'Příliš mnoho pokusů. Zkus to později.';
+ if(/rate limit|too many requests|over_email_send_rate_limit|over_request_rate_limit|email rate limit/i.test(msg+' '+code))return 'Supabase teď dočasně omezuje registrace nebo odesílání e-mailů. Počkej chvíli a zkus to znovu. Neznamená to, že máš špatné uživatelské jméno.';
+ if(/invalid email|email address is invalid|email_address_invalid/i.test(msg+' '+code))return 'Zadej platnou e-mailovou adresu.';
  if(/password should|weak password|at least/i.test(msg))return 'Zvol silnější heslo (alespoň 12 znaků).';
- return 'Operace se nepodařila. Zkus to později.';
+ if(/failed to fetch|network/i.test(msg))return 'Nepodařilo se připojit k serveru. Zkontroluj internet a zkus to znovu.';
+ return 'Registraci se nepodařilo dokončit. Zkontroluj údaje a zkus to znovu.';
 }
 function displayName(){return user?.user_metadata?.username||user?.email?.split('@')[0]||'Uživatel'}
 function overlay(){return document.getElementById('ukaAuthOverlay')}
@@ -42,7 +55,7 @@ function render(){
  }
  const submit=document.createElement('button');submit.type='submit';submit.className='uka-auth-submit';submit.textContent=mode==='login'?'Přihlásit se':mode==='signup'?'Vytvořit účet':mode==='forgot'?'Poslat odkaz':mode==='reset'?'Změnit heslo':'Odhlásit se';form.append(submit);
  form.addEventListener('submit',async e=>{e.preventDefault();if(busy)return;const email=form.elements.email?.value.trim(),password=form.elements.password?.value;
-  if(mode==='signup'){const username=form.elements.username.value.trim();if(!/^[A-Za-z0-9_]{3,24}$/.test(username)){message('Uživatelské jméno musí mít 3–24 znaků: písmena bez diakritiky, čísla nebo podtržítko.');return;}if(password!==form.elements.confirmPassword.value){message('Hesla se neshodují.');return;}}
+  if(mode==='signup'){const username=form.elements.username.value.trim();const problem=usernameProblem(username);if(problem){message(problem);return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email||'')){message('Zadej platnou e-mailovou adresu.');return;}if(password!==form.elements.confirmPassword.value){message('Hesla se neshodují.');return;}}
   if(mode==='signup'||mode==='reset'){if(!password||password.length<12){message('Heslo musí mít alespoň 12 znaků.');return;}}
   busy=true;submit.disabled=true;message('');try{
   let result;
@@ -62,7 +75,7 @@ function render(){
  const options=mode==='login'?[['signup','Vytvořit účet'],['forgot','Zapomenuté heslo?']]:mode==='signup'||mode==='forgot'?[['login','Zpět na přihlášení']]:mode==='account'?[['reset','Změnit heslo']]:[];
  for(const [next,label] of options){const a=document.createElement('button');a.type='button';a.textContent=label;a.addEventListener('click',()=>{mode=next;render()});links.append(a)}panel.append(links);
  const msg=document.createElement('div');msg.id='ukaAuthMessage';msg.className='uka-auth-msg';msg.setAttribute('role','status');msg.setAttribute('aria-live','polite');panel.append(msg);
- root.append(panel);root.addEventListener('click',e=>{if(e.target===root)close()});document.body.append(root);document.addEventListener('keydown',escapeHandler);panel.querySelector('input')?.focus();
+ root.append(panel);let pressedBackdrop=false;root.addEventListener('pointerdown',e=>{pressedBackdrop=e.target===root});root.addEventListener('pointerup',e=>{if(pressedBackdrop&&e.target===root)close();pressedBackdrop=false});root.addEventListener('pointercancel',()=>{pressedBackdrop=false});document.body.append(root);document.addEventListener('keydown',escapeHandler);panel.querySelector('input')?.focus();
 }
 function updateAuthButton(){btn.textContent=user?'@'+displayName():'Přihlásit se';btn.title=user?.email||'Přihlásit se'}
 async function refreshUser(){const {data,error}=await client.auth.getUser();user=error?null:data.user;updateAuthButton();}

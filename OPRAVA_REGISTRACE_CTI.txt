@@ -1,0 +1,20 @@
+UKA – oprava registrace (2026-11-04)
+
+1. Nahraď soubory v branch Develop (NE hned main), spusť GitHub Actions a otestuj registraci.
+2. Opravený uka-auth.js:
+   - vrací konkrétní hlášku pro zakázané uživatelské jméno;
+   - zakazuje běžné rasistické a jiné urážlivé výrazy i některé obměny číslicemi;
+   - opravuje zavírání okna: zavře se jen pokud stisk i uvolnění myši proběhnou na pozadí;
+   - zachovává placeholder očekávaný testem.
+3. DŮLEŽITÉ: Kontrola v prohlížeči NENÍ bezpečnostní ochrana. Spusť SQL ze souboru
+   supabase/username_guard.sql v každém Supabase projektu a v Authentication > Hooks
+   zapni Before User Created hook s funkcí public.uka_check_username_before_signup.
+   Teprve POTOM je blokování vynuceno serverem. Otestuj na development Supabase.
+4. Oprava neřeší jedinečnost username. To vyžaduje samostatnou tabulku/proces
+   s unikátním indexem; metadata Auth uživatelů jedinečnost nezaručují.
+5. Zkontroluj, že production uka-auth.js používá produkční Supabase a Develop používá
+   výhradně development Supabase. V tomto balíčku je původní produkční URL a klíč.
+6. Po úspěšném testování přenes změny do main, nikoliv development Supabase konfiguraci.
+7. Starý účet s nevhodným jménem je třeba samostatně odstranit/přejmenovat v Supabase.
+
+Bez serverového hooku není ochrana úplná. Seznam zakázaných výrazů také není vyčerpávající.
