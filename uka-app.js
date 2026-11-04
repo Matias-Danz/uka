@@ -13,6 +13,7 @@
   let page='akce',search='',category='',city='',when='all',favoriteOnly=false,mapCategory='',mapCity='',mapQuery='',radius=0,userCoords=null,onlyAvailable=false;
   let availabilityOverrides={};
   let adminOverrides={overrides:{},custom_events:[]};
+  let cloudAdminEdits={},cloudAdminEvents=[];
   let mainMap=null,miniMap=null,mainTiles=null,miniTiles=null,mapMarkers=null,miniMarker=null,chosenCoords=null;
   let toastTimer=null,mapSearchTimer=null,pendingMapFocusId=null,mapReady=false;
   const el=id=>document.getElementById(id);
@@ -85,8 +86,8 @@
   // Ruční administrační opravy mají přednost před automaticky obnoveným events.json.
   // Oddělené ukládání zajišťuje, že hodinový import tyto opravy nesmaže.
   function allMergedEvents(){
-    const edits=adminOverrides.overrides||{};
-    const extra=Array.isArray(adminOverrides.custom_events)?adminOverrides.custom_events:[];
+    const edits={...(adminOverrides.overrides||{}),...cloudAdminEdits};
+    const extra=[...(Array.isArray(adminOverrides.custom_events)?adminOverrides.custom_events:[]),...cloudAdminEvents];
     return [...officialEvents,...approvedSubmissions,...extra].map(event=>{
       const change=edits[event.id];
       if(change?.hidden)return null;
@@ -558,7 +559,18 @@ function showDetails(id){
     approvedSubmissions=(data||[]).map(x=>({id:'submission-'+x.id,title:x.title,artist:x.artist,category:x.category,venue:x.venue,city:x.city,date:x.event_date,time:x.event_time||'',price:x.price,ticket_url:x.ticket_url||'',description:x.description||'',lat:x.lat,lng:x.lng,source:'Schválený návrh UKA'}));
     if(page==='akce'||page==='mapa')render();
   }
-  window.addEventListener('load',()=>{setTimeout(loadApprovedSubmissions,300);});
+  async function loadAdminModeEvents(){
+    const client=window.ukaSupabaseClient;if(!client)return;
+    const [edits,custom]=await Promise.all([
+      client.from('uka_admin_event_edits').select('event_id,hidden,fields').limit(10000),
+      client.from('uka_admin_events').select('*').limit(10000)
+    ]);
+    if(edits.error||custom.error){console.warn('UKA admin event state unavailable',edits.error?.code,custom.error?.code);return;}
+    cloudAdminEdits=Object.fromEntries((edits.data||[]).map(x=>[x.event_id,{hidden:x.hidden,fields:x.fields}]));
+    cloudAdminEvents=(custom.data||[]).map(x=>({id:'admin-'+x.id,title:x.title,artist:x.artist,category:x.category,venue:x.venue,city:x.city,date:x.event_date,time:x.event_time||'',price:x.price,ticket_url:x.ticket_url||'',description:x.description||'',lat:x.lat,lng:x.lng,source:'UKA administrátor'}));
+    if(page==='mapa'||page==='akce'||page==='oblibene')render();
+  }
+  window.addEventListener('load',()=>{setTimeout(()=>{loadApprovedSubmissions();loadAdminModeEvents();},300);});
   document.addEventListener('click',e=>{
     const oz=e.target.closest('[data-offline-zoom]');if(oz){offlineZoom=Math.max(1,Math.min(5,offlineZoom-Number(oz.dataset.offlineZoom)*.45));const svg=oz.closest('.fallback-map')?.querySelector('.schematic');if(svg)svg.style.transform=`scale(${offlineZoom})`;return;}
     const n=e.target.closest('[data-nav]');if(n){e.preventDefault();if(n.classList.contains('brand')){search='';city='';when='all';category='';}go(n.dataset.nav);return;}
