@@ -1,7 +1,7 @@
 /* UKA login v1: Supabase Auth. No secret/service_role key in browser. */
 (()=>{
 'use strict';
-const PROJECT_URL='https://orofwgbqlqyvfndvdxrk.supabase.co/rest/v1/';
+const PROJECT_URL='https://orofwgbqlqyvfndvdxrk.supabase.co';
 const PUBLISHABLE_KEY='sb_publishable_gZqr_a9ExZpbObLyHN_sTw_jeszsism';
 const btn=document.getElementById('ukaAuthButton');
 if(!btn)return;
