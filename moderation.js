@@ -1,6 +1,6 @@
 (()=>{'use strict';
 // Uses the same public project settings as uka-auth.js. Never use service_role here.
-const url=supabase.createClient('https://orofwgbqlqyvfndvdxrk.supabase.co','SEM_VLOZ_PUBLISHABLE_KEY_Z_TESTOVACI_SUPABASE');
+const url=supabase.createClient('https://orofwgbqlqyvfndvdxrk.supabase.co','sb_publishable_gZqr_a9ExZpbObLyHN_sTw_jeszsism');
 const client=supabase.createClient(url,key),status=document.getElementById('status'),items=document.getElementById('items'),login=document.getElementById('login'),logout=document.getElementById('logout');
 const say=t=>{status.textContent=t};
 async function refresh(){const {data:{user}}=await client.auth.getUser();login.hidden=!!user;logout.hidden=!user;items.replaceChildren();if(!user){say('Nejdřív se přihlas.');return;}
