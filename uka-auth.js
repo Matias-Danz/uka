@@ -23,7 +23,8 @@ function safeMessage(err){
  if(/username_taken|username already exists|username unavailable/i.test(msg+' '+code))return 'Toto uživatelské jméno je již obsazené.';
  if(/invalid login credentials/i.test(msg))return 'Nesprávný e-mail nebo heslo.';
  if(/email not confirmed/i.test(msg))return 'Přihlášení se nezdařilo. Zkontroluj údaje a potvrzení e-mailu.';
- if(/rate limit|too many requests/i.test(msg+' '+code))return 'Příliš mnoho pokusů. Zkus to později.';
+ if(/rate limit|too many requests|over_email_send_rate_limit|over_request_rate_limit|email rate limit/i.test(msg+' '+code))return 'Supabase teď dočasně omezuje registrace nebo odesílání e-mailů. Počkej chvíli a zkus to znovu. Neznamená to, že máš špatné uživatelské jméno.';
+ if(/invalid email|email address is invalid|email_address_invalid/i.test(msg+' '+code))return 'Zadej platnou e-mailovou adresu.';
  if(/password should|weak password|at least/i.test(msg))return 'Zvol silnější heslo (alespoň 12 znaků).';
  if(/failed to fetch|network/i.test(msg))return 'Nepodařilo se připojit k serveru. Zkontroluj internet a zkus to znovu.';
  return 'Registraci se nepodařilo dokončit. Zkontroluj údaje a zkus to znovu.';
@@ -53,7 +54,7 @@ function render(){
  }
  const submit=document.createElement('button');submit.type='submit';submit.className='uka-auth-submit';submit.textContent=mode==='login'?'Přihlásit se':mode==='signup'?'Vytvořit účet':mode==='forgot'?'Poslat odkaz':mode==='reset'?'Změnit heslo':'Odhlásit se';form.append(submit);
  form.addEventListener('submit',async e=>{e.preventDefault();if(busy)return;const email=form.elements.email?.value.trim(),password=form.elements.password?.value;
-  if(mode==='signup'){const username=form.elements.username.value.trim();const problem=usernameProblem(username);if(problem){message(problem);return;}if(password!==form.elements.confirmPassword.value){message('Hesla se neshodují.');return;}}
+  if(mode==='signup'){const username=form.elements.username.value.trim();const problem=usernameProblem(username);if(problem){message(problem);return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email||'')){message('Zadej platnou e-mailovou adresu.');return;}if(password!==form.elements.confirmPassword.value){message('Hesla se neshodují.');return;}}
   if(mode==='signup'||mode==='reset'){if(!password||password.length<12){message('Heslo musí mít alespoň 12 znaků.');return;}}
   busy=true;submit.disabled=true;message('');try{
   let result;

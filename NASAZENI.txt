@@ -1,0 +1,10 @@
+UKA – oprava hlášek registrace v2
+
+1. Nahraj pouze uka-auth.js do větve Develop, NE celý projekt.
+2. POZOR: soubor má produkční Supabase URL! Před nasazením do Develop zachovej z aktuálního Develop uka-auth.js jeho PROJECT_URL a PUBLISHABLE_KEY.
+3. Ověř, že testovací web používá DEV Supabase.
+4. Spusť testy a vyzkoušej neplatné jméno bez odeslání registrace.
+5. Až potom přenes opravu do main; pro main ponech produkční Supabase URL a klíč.
+
+Tato oprava NEZVYŠUJE limit Supabase. Limit určuje server a nelze ho bezpečně obejít v prohlížeči.
+Serverovou ochranu z předchozího balíčku je nutné zapnout zvlášť v každém Supabase projektu.
