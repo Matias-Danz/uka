@@ -34,7 +34,7 @@ function render(){
   const name=document.createElement('p');name.style.fontWeight='800';name.textContent='@'+displayName();form.append(name);
   const em=document.createElement('p');em.textContent=user?.email||'';form.append(em);
  }else{
-  if(mode==='signup'){const username=field('username','Uživatelské jméno','text','username');username.minLength=3;username.maxLength=24;username.pattern='[A-Za-z0-9_]{3,24}';username.placeholder='např. matias23';}
+  if(mode==='signup'){const username=field('username','Uživatelské jméno','text','username');username.minLength=3;username.maxLength=24;username.pattern='[A-Za-z0-9_]{3,24}';username.placeholder='např. hudebnifan23';}
   if(mode!=='reset')field('email','E-mail','email','email');
   if(mode!=='forgot')field('password',mode==='reset'?'Nové heslo (min. 12 znaků)':'Heslo (min. 12 znaků)','password',mode==='signup'||mode==='reset'?'new-password':'current-password');
   if(mode==='reset'&&user&&!recoveryMode){field('currentPassword','Současné heslo','password','current-password');}
@@ -64,8 +64,9 @@ function render(){
  const msg=document.createElement('div');msg.id='ukaAuthMessage';msg.className='uka-auth-msg';msg.setAttribute('role','status');msg.setAttribute('aria-live','polite');panel.append(msg);
  root.append(panel);root.addEventListener('click',e=>{if(e.target===root)close()});document.body.append(root);document.addEventListener('keydown',escapeHandler);panel.querySelector('input')?.focus();
 }
-async function refreshUser(){const {data,error}=await client.auth.getUser();user=error?null:data.user;btn.textContent=user?'@'+displayName():'Přihlásit se';btn.title=user?.email||'Přihlásit se';}
+function updateAuthButton(){btn.textContent=user?'@'+displayName():'Přihlásit se';btn.title=user?.email||'Přihlásit se'}
+async function refreshUser(){const {data,error}=await client.auth.getUser();user=error?null:data.user;updateAuthButton();}
 btn.addEventListener('click',()=>{mode=user?'account':'login';render()});
-client.auth.onAuthStateChange((event,session)=>{user=session?.user||null;btn.textContent=user?'@'+displayName():'Přihlásit se';if(event==='PASSWORD_RECOVERY'){recoveryMode=true;mode='reset';render()}});
+client.auth.onAuthStateChange((event,session)=>{user=session?.user||null;updateAuthButton();if(event==='PASSWORD_RECOVERY'){recoveryMode=true;mode='reset';render()}});
 refreshUser();
 })();
