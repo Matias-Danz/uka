@@ -115,7 +115,7 @@ def main():
         if any(p.is_symlink() for p in media.rglob("*")):
             raise ValueError("Symlinks in media/ are not allowed")
         shutil.copytree(media, OUT / "media")
-    allowed = {"index.html", "events.json", "uka-auth.js", "uka-app.js", "uka-theme.js", "uka.css", "moderation.html", "moderation.js", "admin-mode.html", "admin-mode.js", "_headers", ".nojekyll", "media"}
+    allowed = {"index.html", "events.json", "uka-auth.js", "uka-app.js", "uka-theme.js", "uka.css", "moderation.html", "moderation.js", "admin-mode.html", "admin-mode.js", "admin-mode.css", "_headers", ".nojekyll", "media"}
     got = {p.name for p in OUT.iterdir()}
     if got - allowed:
         raise AssertionError(f"Unexpected published file(s): {got - allowed}")
