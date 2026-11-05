@@ -103,7 +103,7 @@ def main():
         shutil.rmtree(OUT)
     OUT.mkdir()
     (OUT / "index.html").write_text(index, encoding="utf-8")
-    for filename in ("uka-app.js", "uka-theme.js", "uka.css", "moderation.html", "moderation.js", "admin-mode.html", "admin-mode.js", "_headers"):
+    for filename in ("uka-app.js", "uka-theme.js", "uka.css", "moderation.html", "moderation.js", "admin-mode.html", "admin-mode.js", "admin-mode.css", "_headers"):
         shutil.copy2(ROOT / filename, OUT / filename)
     shutil.copy2(ROOT / "uka-auth.js", OUT / "uka-auth.js")
     (OUT / "events.json").write_text(
@@ -115,7 +115,7 @@ def main():
         if any(p.is_symlink() for p in media.rglob("*")):
             raise ValueError("Symlinks in media/ are not allowed")
         shutil.copytree(media, OUT / "media")
-    allowed = {"index.html", "events.json", "uka-auth.js", "uka-app.js", "uka-theme.js", "uka.css", "moderation.html", "moderation.js", "admin-mode.html", "admin-mode.js", "_headers", ".nojekyll", "media"}
+    allowed = {"index.html", "events.json", "uka-auth.js", "uka-app.js", "uka-theme.js", "uka.css", "moderation.html", "moderation.js", "admin-mode.html", "admin-mode.js", "admin-mode.css", "_headers", ".nojekyll", "media"}
     got = {p.name for p in OUT.iterdir()}
     if got - allowed:
         raise AssertionError(f"Unexpected published file(s): {got - allowed}")
