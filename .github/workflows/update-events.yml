@@ -128,7 +128,7 @@ jobs:
           fi
           git config user.name 'UKA Aktualizace'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'UKA: aktualizace akcí a cen [skip ci]'
+          git commit -m 'UKA: aktualizace akcí a cen'
           for attempt in 1 2 3; do
             if ! git pull --rebase origin Develop; then
               git rebase --abort || true
