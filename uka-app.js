@@ -554,7 +554,7 @@ function showDetails(id){
   }
   async function loadApprovedSubmissions(){
     const client=window.ukaSupabaseClient;if(!client)return;
-    const {data,error}=await const {data,error}=await client.from('public_approved_submissions').select('id,title,artist,category,venue,city,event_date,event_time,price,ticket_url,description,lat,lng').limit(1000);.select('id,title,artist,category,venue,city,event_date,event_time,price,ticket_url,description,lat,lng').eq('status','approved').limit(1000);
+    const {data,error}=await client.from('public_approved_submissions').select('id,title,artist,category,venue,city,event_date,event_time,price,ticket_url,description,lat,lng').limit(1000);
     if(error){console.warn('UKA approved events unavailable',error.code);return;}
     approvedSubmissions=(data||[]).map(x=>({id:'submission-'+x.id,title:x.title,artist:x.artist,category:x.category,venue:x.venue,city:x.city,date:x.event_date,time:x.event_time||'',price:x.price,ticket_url:x.ticket_url||'',description:x.description||'',lat:x.lat,lng:x.lng,source:'Schválený návrh UKA'}));
     if(page==='akce'||page==='mapa')render();
