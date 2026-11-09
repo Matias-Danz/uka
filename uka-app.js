@@ -1,5 +1,8 @@
 
   'use strict';
+  // Při refreshi nenech tlačítko účtu probliknout do stavu „Přihlásit se“, než se obnoví session.
+  const ukaBootAuthButton=document.getElementById('ukaAuthButton');
+  if(ukaBootAuthButton)ukaBootAuthButton.style.visibility='hidden';
   const icon=(id,cls='')=>`<svg class="icon ${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
   const CATS=[['','Všechny'],['koncert','Koncerty'],['rave','Ravy'],['festival','Festivaly'],['opera','Opera'],['klub','Kluby'],['divadlo','Divadlo'],['jiné','Jiné']];
   const CAT_LABELS={koncert:'Koncert',rave:'Rave',festival:'Festival',opera:'Opera',klub:'Klub',divadlo:'Divadlo',jiné:'Jiné'};
@@ -351,50 +354,62 @@ function pageHome(){
   function render(){const current=(location.hash||'#akce').slice(1);page=['akce','mapa','oblibene','pridat'].includes(current)?current:'akce';favoriteOnly=page==='oblibene';closeModal(false);destroyMaps();document.querySelectorAll('[data-nav]').forEach(n=>n.classList.toggle('active',n.dataset.nav===page));el('app').innerHTML=page==='mapa'?mapPage():page==='pridat'?addPage():pageHome();window.scrollTo({top:0,behavior:'instant'});if(page==='mapa')setTimeout(initMainMap,30);if(page==='pridat')setTimeout(initFormMap,30);}
   function go(where){const to=['akce','mapa','oblibene','pridat'].includes(where)?where:'akce';if(location.hash===`#${to}`){render()}else location.hash=to;}
   function rerenderList(){const scroll=window.scrollY;const elem=el('searchInput');const start=elem?.selectionStart,end=elem?.selectionEnd;const focused=document.activeElement===elem;el('app').innerHTML=pageHome();if(focused){const input=el('searchInput');input.focus({preventScroll:true});input.setSelectionRange(Math.min(start??search.length,search.length),Math.min(end??search.length,search.length));}window.scrollTo(0,scroll);}
+  function cacheFavorites(){
+    try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{}
+  }
+
+  function repaintFavorites(){
+    if(page==='mapa')renderMapListAndPins();
+    else if(page!=='pridat'&&el('app'))rerenderList();
+  }
+
+  function waitForSupabaseClient(timeout=5000){
+    return new Promise(resolve=>{
+      if(window.ukaSupabaseClient){resolve(window.ukaSupabaseClient);return;}
+      const started=Date.now();
+      const timer=setInterval(()=>{
+        if(window.ukaSupabaseClient){clearInterval(timer);resolve(window.ukaSupabaseClient);return;}
+        if(Date.now()-started>=timeout){clearInterval(timer);resolve(null);}
+      },25);
+    });
+  }
+
   async function toggleFav(id){
-  const client=window.ukaSupabaseClient;
-  const wasFavorite=favorites.has(id);
+    const client=await waitForSupabaseClient(1500);
+    const wasFavorite=favorites.has(id);
 
-  if(wasFavorite)favorites.delete(id);
-  else favorites.add(id);
+    if(wasFavorite)favorites.delete(id);
+    else favorites.add(id);
+    cacheFavorites();
 
-  const redraw=()=>{
     showToast(favorites.has(id)?'Přidáno do oblíbených':'Odebráno z oblíbených');
     if(page==='mapa')renderMapListAndPins();
     else if(page!=='pridat')rerenderList();
     if(el('modalRoot').querySelector('.overlay'))showDetails(id);
-  };
 
-  redraw();
+    if(!client)return;
 
-  if(!client){
-    try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{}
-    return;
+    const {data:{session},error:sessionError}=await client.auth.getSession();
+    if(sessionError){console.warn('UKA session unavailable',sessionError);return;}
+    const user=session?.user||null;
+    if(!user)return;
+
+    const result=wasFavorite
+      ? await client.from('user_favorites').delete().eq('user_id',user.id).eq('event_id',id)
+      : await client.from('user_favorites').insert({user_id:user.id,event_id:id});
+
+    // Duplicitní INSERT jen znamená, že už oblíbená akce v databázi byla.
+    if(result.error&&result.error.code!=='23505'){
+      if(wasFavorite)favorites.add(id);
+      else favorites.delete(id);
+      cacheFavorites();
+      showToast('Uložení oblíbené akce selhalo.');
+      repaintFavorites();
+      if(el('modalRoot').querySelector('.overlay'))showDetails(id);
+      console.warn('UKA favorite write failed',result.error);
+    }
   }
 
-  const {data:{user}}=await client.auth.getUser();
-
-  if(!user){
-    try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{}
-    return;
-  }
-
-  const {error}=wasFavorite
-    ? await client.from('user_favorites').delete().eq('user_id',user.id).eq('event_id',id)
-    : await client.from('user_favorites').upsert(
-        {user_id:user.id,event_id:id},
-        {onConflict:'user_id,event_id'}
-      );
-
-  if(error){
-    if(wasFavorite)favorites.add(id);
-    else favorites.delete(id);
-
-    showToast('Uložení oblíbené akce selhalo.');
-    if(page==='mapa')renderMapListAndPins();
-    else if(page!=='pridat')rerenderList();
-  }
-}
 function showDetails(id){
   const e=getEvents().find(x=>x.id===id);if(!e)return;
   const fav=favorites.has(id),price=priceLabel(e),av=compactAvailability(e),desc=meaningfulDescription(e);
@@ -613,50 +628,89 @@ function showDetails(id){
     cloudAdminEvents=(custom.data||[]).map(x=>({id:'admin-'+x.id,title:x.title,artist:x.artist,category:x.category,venue:x.venue,city:x.city,date:x.event_date,time:x.event_time||'',price:x.price,ticket_url:x.ticket_url||'',description:x.description||'',lat:x.lat,lng:x.lng,source:'UKA administrátor'}));
     if(page==='mapa'||page==='akce'||page==='oblibene')render();
   }
-  async function toggleFav(id){
-  const client=window.ukaSupabaseClient;
-  const wasFavorite=favorites.has(id);
+  function settleAuthButton(user){
+    const btn=document.getElementById('ukaAuthButton');
+    if(!btn)return;
+    if(!user){btn.style.visibility='visible';return;}
 
-  if(wasFavorite)favorites.delete(id);
-  else favorites.add(id);
+    const revealIfReady=()=>{
+      if(btn.textContent.trim()!=='Přihlásit se'){
+        btn.style.visibility='visible';
+        return true;
+      }
+      return false;
+    };
+    if(revealIfReady())return;
 
-  const redraw=()=>{
-    showToast(favorites.has(id)?'Přidáno do oblíbených':'Odebráno z oblíbených');
-    if(page==='mapa')renderMapListAndPins();
-    else if(page!=='pridat')rerenderList();
-    if(el('modalRoot').querySelector('.overlay'))showDetails(id);
-  };
-
-  redraw();
-
-  if(!client){
-    try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{}
-    return;
+    const observer=new MutationObserver(()=>{if(revealIfReady())observer.disconnect();});
+    observer.observe(btn,{childList:true,subtree:true,characterData:true});
+    setTimeout(()=>{
+      observer.disconnect();
+      if(btn.textContent.trim()==='Přihlásit se'){
+        const fallback=user.user_metadata?.username||user.user_metadata?.display_name||user.email?.split('@')[0]||'';
+        if(fallback)btn.textContent='@'+String(fallback).replace(/^@/, '');
+      }
+      btn.style.visibility='visible';
+    },1200);
   }
 
-  const {data:{user}}=await client.auth.getUser();
+  async function loadUserFavorites(userOverride){
+    const client=await waitForSupabaseClient();
+    if(!client){
+      const btn=document.getElementById('ukaAuthButton');if(btn)btn.style.visibility='visible';
+      return;
+    }
 
-  if(!user){
-    try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{}
-    return;
+    let user=userOverride;
+    if(user===undefined){
+      const {data:{session},error}=await client.auth.getSession();
+      if(error){console.warn('UKA session unavailable',error);return;}
+      user=session?.user||null;
+    }
+
+    settleAuthButton(user);
+
+    if(!user){
+      favorites=new Set(loadJson(FAVORITES,[]));
+      repaintFavorites();
+      return;
+    }
+
+    const {data,error}=await client
+      .from('user_favorites')
+      .select('event_id')
+      .eq('user_id',user.id)
+      .limit(10000);
+
+    if(error){
+      console.warn('UKA favorites unavailable',error);
+      return;
+    }
+
+    favorites=new Set((data||[]).map(x=>String(x.event_id)));
+    cacheFavorites();
+    repaintFavorites();
   }
 
-  const {error}=wasFavorite
-    ? await client.from('user_favorites').delete().eq('user_id',user.id).eq('event_id',id)
-    : await client.from('user_favorites').upsert(
-        {user_id:user.id,event_id:id},
-        {onConflict:'user_id,event_id'}
-      );
+  let favoritesAuthSubscriptionStarted=false;
+  async function startUserFavoritesSync(){
+    const client=await waitForSupabaseClient();
+    if(!client){
+      const btn=document.getElementById('ukaAuthButton');if(btn)btn.style.visibility='visible';
+      return;
+    }
 
-  if(error){
-    if(wasFavorite)favorites.add(id);
-    else favorites.delete(id);
+    const {data:{session},error}=await client.auth.getSession();
+    if(error)console.warn('UKA session unavailable',error);
+    await loadUserFavorites(session?.user||null);
 
-    showToast('Uložení oblíbené akce selhalo.');
-    if(page==='mapa')renderMapListAndPins();
-    else if(page!=='pridat')rerenderList();
+    if(favoritesAuthSubscriptionStarted)return;
+    favoritesAuthSubscriptionStarted=true;
+    client.auth.onAuthStateChange((_event,nextSession)=>{
+      setTimeout(()=>loadUserFavorites(nextSession?.user||null),0);
+    });
   }
-}
+
   document.addEventListener('click',e=>{
     const oz=e.target.closest('[data-offline-zoom]');if(oz){offlineZoom=Math.max(1,Math.min(5,offlineZoom-Number(oz.dataset.offlineZoom)*.45));const svg=oz.closest('.fallback-map')?.querySelector('.schematic');if(svg)svg.style.transform=`scale(${offlineZoom})`;return;}
     const n=e.target.closest('[data-nav]');if(n){e.preventDefault();if(n.classList.contains('brand')){search='';city='';when='all';category='';}go(n.dataset.nav);return;}
@@ -720,6 +774,19 @@ function showDetails(id){
   el('themeToggle').addEventListener('click',()=>setTheme(theme()==='dark'?'light':'dark'));
   window.addEventListener('hashchange',render);
   syncThemeButton();render();refreshEvents();
+  // Načti účet, oblíbené a cloudové admin akce bez závodu při refreshi.
+  (async()=>{
+    const client=await waitForSupabaseClient();
+    if(!client){
+      const btn=document.getElementById('ukaAuthButton');if(btn)btn.style.visibility='visible';
+      return;
+    }
+    await Promise.allSettled([
+      loadApprovedSubmissions(),
+      loadAdminModeEvents(),
+      startUserFavoritesSync()
+    ]);
+  })();
   // Refresh the published JSON while tab stays open, independently of background crawler.
   setInterval(refreshEvents,15*60*1000);
   
