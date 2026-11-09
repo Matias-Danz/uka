@@ -351,7 +351,50 @@ function pageHome(){
   function render(){const current=(location.hash||'#akce').slice(1);page=['akce','mapa','oblibene','pridat'].includes(current)?current:'akce';favoriteOnly=page==='oblibene';closeModal(false);destroyMaps();document.querySelectorAll('[data-nav]').forEach(n=>n.classList.toggle('active',n.dataset.nav===page));el('app').innerHTML=page==='mapa'?mapPage():page==='pridat'?addPage():pageHome();window.scrollTo({top:0,behavior:'instant'});if(page==='mapa')setTimeout(initMainMap,30);if(page==='pridat')setTimeout(initFormMap,30);}
   function go(where){const to=['akce','mapa','oblibene','pridat'].includes(where)?where:'akce';if(location.hash===`#${to}`){render()}else location.hash=to;}
   function rerenderList(){const scroll=window.scrollY;const elem=el('searchInput');const start=elem?.selectionStart,end=elem?.selectionEnd;const focused=document.activeElement===elem;el('app').innerHTML=pageHome();if(focused){const input=el('searchInput');input.focus({preventScroll:true});input.setSelectionRange(Math.min(start??search.length,search.length),Math.min(end??search.length,search.length));}window.scrollTo(0,scroll);}
-  function toggleFav(id){if(favorites.has(id))favorites.delete(id);else favorites.add(id);try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{};showToast(favorites.has(id)?'Přidáno do oblíbených':'Odebráno z oblíbených');if(page==='mapa'){renderMapListAndPins()}else if(page!=='pridat')rerenderList();if(el('modalRoot').querySelector('.overlay'))showDetails(id);}
+  async function toggleFav(id){
+  const client=window.ukaSupabaseClient;
+  const wasFavorite=favorites.has(id);
+
+  if(wasFavorite)favorites.delete(id);
+  else favorites.add(id);
+
+  const redraw=()=>{
+    showToast(favorites.has(id)?'Přidáno do oblíbených':'Odebráno z oblíbených');
+    if(page==='mapa')renderMapListAndPins();
+    else if(page!=='pridat')rerenderList();
+    if(el('modalRoot').querySelector('.overlay'))showDetails(id);
+  };
+
+  redraw();
+
+  if(!client){
+    try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{}
+    return;
+  }
+
+  const {data:{user}}=await client.auth.getUser();
+
+  if(!user){
+    try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{}
+    return;
+  }
+
+  const {error}=wasFavorite
+    ? await client.from('user_favorites').delete().eq('user_id',user.id).eq('event_id',id)
+    : await client.from('user_favorites').upsert(
+        {user_id:user.id,event_id:id},
+        {onConflict:'user_id,event_id'}
+      );
+
+  if(error){
+    if(wasFavorite)favorites.add(id);
+    else favorites.delete(id);
+
+    showToast('Uložení oblíbené akce selhalo.');
+    if(page==='mapa')renderMapListAndPins();
+    else if(page!=='pridat')rerenderList();
+  }
+}
 function showDetails(id){
   const e=getEvents().find(x=>x.id===id);if(!e)return;
   const fav=favorites.has(id),price=priceLabel(e),av=compactAvailability(e),desc=meaningfulDescription(e);
