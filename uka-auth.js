@@ -77,9 +77,59 @@ function render(){
  const msg=document.createElement('div');msg.id='ukaAuthMessage';msg.className='uka-auth-msg';msg.setAttribute('role','status');msg.setAttribute('aria-live','polite');panel.append(msg);
  root.append(panel);let pressedBackdrop=false;root.addEventListener('pointerdown',e=>{pressedBackdrop=e.target===root});root.addEventListener('pointerup',e=>{if(pressedBackdrop&&e.target===root)close();pressedBackdrop=false});root.addEventListener('pointercancel',()=>{pressedBackdrop=false});document.body.append(root);document.addEventListener('keydown',escapeHandler);panel.querySelector('input')?.focus();
 }
-function updateAuthButton(){btn.textContent=user?'@'+displayName():'Přihlásit se';btn.title=user?.email||'Přihlásit se'}
-async function refreshUser(){const {data,error}=await client.auth.getUser();user=error?null:data.user;updateAuthButton();}
-btn.addEventListener('click',()=>{mode=user?'account':'login';render()});
-client.auth.onAuthStateChange((event,session)=>{user=session?.user||null;updateAuthButton();if(event==='PASSWORD_RECOVERY'){recoveryMode=true;mode='reset';render()}});
-refreshUser();
+let resolveAuthReady;
+let authReadyDone=false;
+
+window.ukaAuthReady=new Promise(resolve=>{
+  resolveAuthReady=resolve;
+});
+
+function updateAuthButton(){
+  btn.textContent=user?'@'+displayName():'Přihlásit se';
+  btn.title=user?.email||'Přihlásit se';
+  btn.style.visibility='visible';
+}
+
+function finishAuthReady(){
+  if(authReadyDone)return;
+  authReadyDone=true;
+  resolveAuthReady(user);
+
+  window.dispatchEvent(new CustomEvent('uka-auth-ready',{
+    detail:{user}
+  }));
+}
+
+async function initAuth(){
+  const {data,error}=await client.auth.getSession();
+
+  user=error?null:(data.session?.user||null);
+
+  updateAuthButton();
+  finishAuthReady();
+}
+
+btn.addEventListener('click',()=>{
+  mode=user?'account':'login';
+  render();
+});
+
+client.auth.onAuthStateChange((event,session)=>{
+  user=session?.user||null;
+
+  updateAuthButton();
+  finishAuthReady();
+
+  window.dispatchEvent(new CustomEvent('uka-auth-changed',{
+    detail:{user,event}
+  }));
+
+  if(event==='PASSWORD_RECOVERY'){
+    recoveryMode=true;
+    mode='reset';
+    render();
+  }
+});
+
+initAuth();
 })();
