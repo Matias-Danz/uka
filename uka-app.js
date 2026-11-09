@@ -570,7 +570,50 @@ function showDetails(id){
     cloudAdminEvents=(custom.data||[]).map(x=>({id:'admin-'+x.id,title:x.title,artist:x.artist,category:x.category,venue:x.venue,city:x.city,date:x.event_date,time:x.event_time||'',price:x.price,ticket_url:x.ticket_url||'',description:x.description||'',lat:x.lat,lng:x.lng,source:'UKA administrátor'}));
     if(page==='mapa'||page==='akce'||page==='oblibene')render();
   }
-  window.addEventListener('load',()=>{setTimeout(()=>{loadApprovedSubmissions();loadAdminModeEvents();},300);});
+  async function toggleFav(id){
+  const client=window.ukaSupabaseClient;
+  const wasFavorite=favorites.has(id);
+
+  if(wasFavorite)favorites.delete(id);
+  else favorites.add(id);
+
+  const redraw=()=>{
+    showToast(favorites.has(id)?'Přidáno do oblíbených':'Odebráno z oblíbených');
+    if(page==='mapa')renderMapListAndPins();
+    else if(page!=='pridat')rerenderList();
+    if(el('modalRoot').querySelector('.overlay'))showDetails(id);
+  };
+
+  redraw();
+
+  if(!client){
+    try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{}
+    return;
+  }
+
+  const {data:{user}}=await client.auth.getUser();
+
+  if(!user){
+    try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{}
+    return;
+  }
+
+  const {error}=wasFavorite
+    ? await client.from('user_favorites').delete().eq('user_id',user.id).eq('event_id',id)
+    : await client.from('user_favorites').upsert(
+        {user_id:user.id,event_id:id},
+        {onConflict:'user_id,event_id'}
+      );
+
+  if(error){
+    if(wasFavorite)favorites.add(id);
+    else favorites.delete(id);
+
+    showToast('Uložení oblíbené akce selhalo.');
+    if(page==='mapa')renderMapListAndPins();
+    else if(page!=='pridat')rerenderList();
+  }
+}
   document.addEventListener('click',e=>{
     const oz=e.target.closest('[data-offline-zoom]');if(oz){offlineZoom=Math.max(1,Math.min(5,offlineZoom-Number(oz.dataset.offlineZoom)*.45));const svg=oz.closest('.fallback-map')?.querySelector('.schematic');if(svg)svg.style.transform=`scale(${offlineZoom})`;return;}
     const n=e.target.closest('[data-nav]');if(n){e.preventDefault();if(n.classList.contains('brand')){search='';city='';when='all';category='';}go(n.dataset.nav);return;}
