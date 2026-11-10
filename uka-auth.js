@@ -115,9 +115,7 @@ btn.addEventListener('click',()=>{
 });
 
 client.auth.onAuthStateChange((event,session)=>{
-  user=session?.user||null;
-
-  updateAuthButton();
+  user=session?.user||null;updateAuthButton();
   finishAuthReady();
 
   window.dispatchEvent(new CustomEvent('uka-auth-changed',{
