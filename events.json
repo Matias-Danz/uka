@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-16T06:32:19+00:00",
+  "updated_at": "2026-11-16T17:03:48+00:00",
   "events": [
     {
       "id": "ticketmaster-Z698xZu0Z16vvzowp_",
@@ -22,8 +22,8 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/249/8cd56847-1875-4bc5-9e7e-eb81bc40f249_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:58:51+01:00",
+      "sales_phase": "closed",
+      "sales_phase_checked_at": "2026-11-16T18:02:05+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -76,7 +76,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/2fe/278043f9-995c-4cff-ba48-6125f8b9f2fe_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "paused"
     },
@@ -102,7 +102,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/ba2/047fbc18-8746-4556-b17b-f03d08efeba2_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:05+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -128,7 +128,7 @@
       "image_credit": "O2 arena / pořadatel",
       "price_checked_at": "2026-11-14",
       "price_source": "O2 arena",
-      "sales_phase_checked_at": "2026-11-15T15:51:03Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -154,7 +154,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:05+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -179,8 +179,8 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:00:42Z",
+      "sales_phase": "closed",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -341,9 +341,9 @@
       "image_url": "https://s1.ticketm.net/dam/a/9f9/29569a70-00c1-4792-a27b-d402c0d899f9_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:05+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "sales_phase": "on_sale"
+      "sales_phase": "closed"
     },
     {
       "id": "eventlook-meduza-1611-sa-sa-zu-praha-dhhdcr",
@@ -369,7 +369,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/meduza-02-1920-1080-nddqnt.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:46+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:03:00+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -396,7 +396,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/lriusemafor-16-11-eventlook-16-9-jlfeec.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:48+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:03:02+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -421,7 +421,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:00:42Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -500,7 +500,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/2e7/b00d1f40-b817-48d7-b1e2-82aaea8c22e7_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:05+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -552,7 +552,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/865/3dd295d1-4b3a-4bff-9333-4c9318fd0865_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:05+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -607,7 +607,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/fc-7-d-5-db-7-3-e-51-4930-bc-25-358-b-6-ec-0-c-9-a-7-snutxk.jpeg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:18+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:43+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -701,7 +701,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:00:42Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -807,7 +807,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -914,7 +914,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/812/69dd09a4-a677-45dc-a7d5-612156454812_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -1003,7 +1003,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/k-day-dgcbyp.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:24+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:49+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -1054,7 +1054,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/img-4278-ozesdt.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:22+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:47+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)",
       "public_price_attempts": {
         "https://www.eventlook.cz/udalosti/imagine-diamonds-i-vimperk-calypso-xhuxkc/": "2026-11-15"
@@ -1159,7 +1159,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/47e/d532f689-dc81-43ac-9fb8-8e2ea364e47e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -1211,7 +1211,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/kos-14-eventlook-2-mchlph.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:26+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:50+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -1262,7 +1262,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -1395,7 +1395,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/af6/54ac539b-c85e-49b9-be30-fc18a05a3af6_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -1423,7 +1423,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/lriuglow-21-11-eventlook-16-9-vagfbo.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:17+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:43+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -1448,7 +1448,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e87/7cbadcb9-92fd-49ed-ba9a-fe6039f0de87_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -1532,7 +1532,7 @@
       "tm_price_checked_at": "2026-10-16",
       "price_from": true,
       "price_checked_at": "2026-10-17",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -1558,7 +1558,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -1584,7 +1584,7 @@
       "image_credit": "O2 arena / pořadatel",
       "price_checked_at": "2026-11-14",
       "price_source": "O2 arena",
-      "sales_phase_checked_at": "2026-11-15T17:47:27Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -1610,7 +1610,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -1662,7 +1662,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/9a0/7495ec81-5627-4744-b9b3-22ac795ad9a0_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempt_at": "2026-10-18",
@@ -1765,7 +1765,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/fbevlackmbtf-amydsx.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:28+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:52+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -1897,7 +1897,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/fb-event-1-kopie-uslljb.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:44+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:59+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -1922,7 +1922,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -1976,7 +1976,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/novy-projekt-101-tfqmcr.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:42+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:58+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -2001,7 +2001,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/0c8/0ae93ac0-5c69-4994-87ab-af0f81c600c8_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -2029,7 +2029,7 @@
       "tm_price_checked_at": "2026-10-16",
       "price_from": true,
       "price_checked_at": "2026-10-17",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -2055,7 +2055,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -2162,7 +2162,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/f-984-d-505-51-c-0-4139-a-585-f-9489-ee-92-de-4-chacml.jpeg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:38+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:56+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -2189,7 +2189,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/sem-nsa-pc-lib-vubout.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:52+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:03:04+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -2241,7 +2241,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/2bb/e6973f9c-eaa1-487e-9a8f-e2ef1230a2bb_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -2286,7 +2286,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/593/413e12a2-fca6-46ce-8ce6-d8014572f593_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-24",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -2370,8 +2370,8 @@
       "price_source": "Eventlook – veřejný detail (ověřeno 20. 10. 2026)",
       "price_from": true,
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-10-20",
-      "sales_phase_source": "Eventlook – veřejně zobrazené tlačítko nákupu (kontrola 20. 10. 2026)"
+      "sales_phase_checked_at": "2026-11-16T18:02:50+01:00",
+      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
       "id": "eventlook-nove-apres-ski-1st-edition-xplwbu",
@@ -2397,7 +2397,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/28305-f-34-683-e-45-eb-841-d-d-6-c-36-c-19-ab-06-afwacx.jpeg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:50+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:03:03+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -2503,7 +2503,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/61b/b433b799-f911-416f-afa8-df6f5653261b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -2687,7 +2687,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/3-21-vlykfy.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:23+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:48+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -2712,7 +2712,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/602/c150179d-012c-47eb-b5fa-87ad3a075602_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-24",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -2744,7 +2744,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/c55/42b02a59-02f8-41ae-9d2f-6dc004011c55_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -2796,7 +2796,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e13/8650ff17-86e1-4982-9069-261ef3805e13_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -2822,7 +2822,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/f4d/7ced5e21-5db6-4950-ac49-2c0b480dff4d_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-24",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -2873,7 +2873,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/313/6de3ff37-028f-462b-b8dc-abcc41a76313_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -2899,7 +2899,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/48b/8b218b4f-bb36-46c2-b7d6-3295b301848b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -2928,7 +2928,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/d9e/2c8f26ff-6f3b-4f93-a198-c388ebf49d9e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-24",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -2987,7 +2987,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/2c1/e1cc6a5c-ce65-4626-b899-d5ec1b2812c1_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -3013,7 +3013,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/24b/fad0ee1f-ee07-4079-a961-05f7982f424b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -3039,7 +3039,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -3091,7 +3091,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/322/7000c133-11ed-40da-a08d-6d23d1a84322_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-13",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -3202,7 +3202,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -3362,7 +3362,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/c1b/5c2d2507-6cda-4481-abfb-1f5a5390fc1b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -3388,7 +3388,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/f52/7be9d9e0-7d83-497d-98bb-31ff52ba7f52_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -3472,7 +3472,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/28305-f-34-683-e-45-eb-841-d-d-6-c-36-c-19-ab-06-xafcye.jpeg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:51+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:03:04+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -3497,7 +3497,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -3549,7 +3549,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/ecc/a2421b4f-49bd-4487-8fa8-846093161ecc_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -3575,7 +3575,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/2b1/d1850a94-98c5-43e6-b5cc-c0c9059562b1_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -3633,7 +3633,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/3-19-ohqlwh.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:29+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:53+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -3684,7 +3684,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e3a/e77c6064-6cdf-4035-8174-98c9a01e6e3a_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -3729,7 +3729,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/8d4/0d78337a-dcdd-41f8-b542-3a6bdda948d4_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -3755,7 +3755,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/396/c965a493-fdd3-4d72-876b-833ad0992396_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -3781,7 +3781,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/aaf/a7241cde-84c4-49dc-a7a2-d37a50876aaf_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -3840,12 +3840,39 @@
       "image_url": "https://s1.ticketm.net/dam/a/1d3/ac79f90c-ae89-4352-8d36-4d7c299921d3_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
         "https://goout.net/cs/stronger-together/szuobpy/": "2026-11-15"
       }
+    },
+    {
+      "id": "eventlook-loudsilentboys-night-nuamak",
+      "title": "Loudsilentboys Night",
+      "artist": "Loudsilentboys Night",
+      "category": "klub",
+      "venue": "MōōVEMENT",
+      "city": "Plzeň",
+      "address": "Kopeckého sady 7",
+      "lat": 49.7445515,
+      "lng": 13.3779867,
+      "date": "2026-12-11",
+      "time": "19:00",
+      "price": 150,
+      "price_max": null,
+      "price_from": true,
+      "price_free_verified": false,
+      "price_source": "Eventlook – veřejný detail",
+      "ticket_url": "https://www.eventlook.cz/udalosti/loudsilentboys-night-nuamak/",
+      "source": "Eventlook",
+      "verified_at": "2026-11-16",
+      "description": "Událost z programu Eventlook. Před návštěvou ověř termín u pořadatele.",
+      "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/artboard-62-x-rpdlrs.png",
+      "image_credit": "Eventlook / pořadatel",
+      "sales_phase": "on_sale",
+      "sales_phase_checked_at": "2026-11-16T18:02:54+01:00",
+      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
       "id": "eventlook-churaq-cyril-release-show-dywpeq",
@@ -3896,7 +3923,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/0b7/0993fb35-9a1b-4fd6-9dc1-f6c90eba30b7_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -3949,7 +3976,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -4107,7 +4134,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/8d4/0d78337a-dcdd-41f8-b542-3a6bdda948d4_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -4159,7 +4186,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -4211,7 +4238,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -4263,7 +4290,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -4341,7 +4368,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/43b/ab9317bd-ccde-4daa-a75b-09f4bf21a43b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -4374,7 +4401,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/ecc/2c8d8ac8-7683-4992-a05a-b36b883baecc_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -4454,7 +4481,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/70a/b6e1e3cd-e2ba-48ce-8e18-70cfb1adb70a_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -4506,7 +4533,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -4614,7 +4641,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/maniak-tour-kluby-sou-mrtvy-sklaga.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:43+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:59+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -4639,7 +4666,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/890/a032af72-6b86-49c3-9ed5-713345167890_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -4696,7 +4723,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/cfc/e9f392b0-9cce-4e4c-9fcd-6e2f2dfc8cfc_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -4800,7 +4827,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/890/a032af72-6b86-49c3-9ed5-713345167890_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -4831,7 +4858,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/16e/cdfde837-9052-4692-bfd5-9e680c59316e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -4928,7 +4955,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/3-22-weyyez.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:45+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:03:00+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -4955,7 +4982,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/a-0-f-907-ea-b-7-bc-44-d-4-81-f-3-22607-fe-4-c-1-d-1-imegmk.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:24+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:48+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -5059,7 +5086,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:19+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -5087,7 +5114,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/img-0065-qijqew.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:30+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:55+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -5169,6 +5196,33 @@
       "sales_phase": "on_sale"
     },
     {
+      "id": "eventlook-new-year-leguan-prerov-fkalmu",
+      "title": "NEW YEAR - LEGUÁN PŘEROV",
+      "artist": "NEW YEAR - LEGUÁN PŘEROV",
+      "category": "koncert",
+      "venue": "Leguán Club",
+      "city": "Přerov",
+      "address": "Kratochvílova 1",
+      "lat": 49.45434539999999,
+      "lng": 17.4495587,
+      "date": "2026-12-31",
+      "time": "19:00",
+      "price": 149,
+      "price_max": null,
+      "price_from": true,
+      "price_free_verified": false,
+      "price_source": "Eventlook – veřejný detail",
+      "ticket_url": "https://www.eventlook.cz/udalosti/new-year-leguan-prerov-fkalmu/",
+      "source": "Eventlook",
+      "verified_at": "2026-11-16",
+      "description": "Událost z programu Eventlook. Před návštěvou ověř termín u pořadatele.",
+      "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/lego-3112-rzynbw.jpeg",
+      "image_credit": "Eventlook / pořadatel",
+      "sales_phase": "on_sale",
+      "sales_phase_checked_at": "2026-11-16T18:03:02+01:00",
+      "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
+    },
+    {
       "id": "o2-silvestr",
       "title": "MEGA SILVESTROVSKÉ PECKY",
       "artist": "MEGA SILVESTROVSKÉ PECKY",
@@ -5242,7 +5296,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -5268,7 +5322,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e6b/132de64e-984e-4eea-934a-f8360ecd4e6b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -5297,7 +5351,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/376/06cefe09-f55e-41e4-a7b4-02809d3a6376_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -5323,7 +5377,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -5427,7 +5481,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/987/d708119f-6026-422c-b7cd-240b00c8f987_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -5505,7 +5559,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/9f4/a1eb7362-fdee-4fab-b550-05f4756d49f4_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T15:00:41+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -5557,7 +5611,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -5611,7 +5665,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/mala-carodejnice-zrkgut.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:31+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:55+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -5665,7 +5719,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/nebezpecna-komedia-egewib.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:47+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:03:01+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -5771,7 +5825,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/b-822-aa-2-e-ea-8-e-47-f-7-a-42-a-69812151-afc-4-hgquzc.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:40+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:57+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -5796,7 +5850,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/7ab/4fd4110d-5870-4ac0-954e-a5f813bab7ab_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-07",
       "public_price_attempts": {
@@ -5830,7 +5884,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/kubula-a-kuba-kubikula-mtegkw.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:27+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:52+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -5855,7 +5909,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/ecb/3697b706-4f3f-4422-93e0-731d584c2ecb_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -5887,7 +5941,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a8c/b52817b5-2bae-4c81-9b8d-5aa691116a8c_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -5943,7 +5997,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e37/65fb5e3b-bf40-4d1b-ac7c-926312948e37_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-19",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -5975,7 +6029,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/309/1b1c2abc-80f8-4d07-84a0-80e28ffec309_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -6055,7 +6109,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/396/c965a493-fdd3-4d72-876b-833ad0992396_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -6108,7 +6162,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/21b/9f7dddfc-d411-49d4-9b8a-9baae133f21b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -6134,7 +6188,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/ecb/3697b706-4f3f-4422-93e0-731d584c2ecb_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempt_at": "2026-10-18",
@@ -6190,7 +6244,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/9ba/6fea6d90-e501-45e7-830a-44dc56f8f9ba_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -6216,7 +6270,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/94f/b5af71d1-5b8a-4861-a48f-74564b2dd94f_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -6294,7 +6348,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/9ba/6fea6d90-e501-45e7-830a-44dc56f8f9ba_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -6346,7 +6400,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -6451,7 +6505,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/kniha-dzungli-maugliho-posledni-boj-dskqdk.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:27+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:51+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -6502,7 +6556,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -6528,7 +6582,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/dff/a2cc4784-f652-48c2-845a-6dabf6da4dff_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -6556,7 +6610,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/jak-zil-jules-verne-taupmm.jpg",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:53:22+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:47+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -6581,7 +6635,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/3b2/786a8fbe-6234-42d7-9a6e-e4a07690a3b2_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -6607,7 +6661,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/3d1/1b8fff4b-6dd1-4a53-a808-0515662253d1_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -6663,7 +6717,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/136/17360bd6-6ddd-4cb7-9a53-dfdfc4902136_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -6689,7 +6743,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/64f/591c8850-ad5f-41e4-b49d-6a63016cf64f_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-24",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -6775,7 +6829,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/1b6/65aff113-cc40-4e98-aeca-5bd205b2e1b6_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -6936,7 +6990,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a86/e2f0e0ee-aa29-4f71-9155-130cd88cea86_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -7012,7 +7066,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/370/be3e6c55-8188-4638-9458-a6dca6e33370_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "upcoming",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -7140,7 +7194,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/ae6/68a19fa2-e1be-4983-b6ae-c48430f13ae6_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -7198,7 +7252,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -7224,7 +7278,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/439/31ccd683-155f-4207-827d-77425214b439_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-07",
       "public_price_attempts": {
@@ -7256,7 +7310,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/7ec/3f8d6d6c-dc76-48df-afe8-160b0f7da7ec_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-10-30",
       "public_price_attempts": {
@@ -7288,7 +7342,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/30a/25580f10-6719-41ab-9340-b78268a7130a_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -7340,7 +7394,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "paused"
     },
@@ -7419,7 +7473,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/fa5/013b4c62-1225-4dc7-9828-ccbb39273fa5_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -7447,7 +7501,7 @@
       "tm_price_checked_at": "2026-10-16",
       "price_from": true,
       "price_checked_at": "2026-10-17",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -7473,7 +7527,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -7525,7 +7579,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/bbe/300cd83c-5df9-451e-99ee-c654c646cbbe_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15",
       "public_price_attempts": {
@@ -7554,7 +7608,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/16f/77b40596-5867-4211-99c7-4a87c1aa816f_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -7580,7 +7634,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e13/4cf9553a-11d0-4ca1-936c-edd43f081e13_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -7609,7 +7663,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/b7d/9a2e44cc-455f-4ead-9a7c-d4d41a26eb7d_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -7640,7 +7694,7 @@
       "price_from": false,
       "price_note": "Přízemí",
       "price_checked_at": "2026-10-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -7668,7 +7722,7 @@
       "image_url": "https://eventigo.s3-central.vshosting.cloud/production/event/chat-gpt-image-oct-20-2026-014715-am-xoivsw.png",
       "image_credit": "Eventlook / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-16T00:59:41+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:57+01:00",
       "sales_phase_source": "Eventlook – tlačítko nákupu (bez ověření volných míst)"
     },
     {
@@ -7693,7 +7747,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/ee6/e4ca290c-3f7c-4559-86cd-74aff6a42ee6_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-10-30",
       "public_price_attempts": {
@@ -7725,7 +7779,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/ce6/f1b64d97-9e99-473b-ba13-58ac8ee18ce6_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -7751,7 +7805,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -7795,7 +7849,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/728/882748dc-a84b-4378-8a1f-7e7d5ce2a728_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-24",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -7854,7 +7908,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/255/7e6c9b26-e2a5-4828-94cd-e2a3e52d3255_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -7886,7 +7940,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/bc2/111f1616-1763-43f3-8ff6-b79e281d2bc2_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -7912,7 +7966,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -7964,7 +8018,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e7f/22947d1e-5c42-4258-89f2-af9d8b46ee7f_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -7993,7 +8047,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e1b/33f0f33c-f96e-4863-8552-6abbdd9aae1b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-24",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -8025,7 +8079,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/88c/95789acf-6e08-4844-b744-bcfde23a088c_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -8051,7 +8105,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/3a8/db384fc3-0981-4463-b8da-2e8df78cd3a8_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -8182,7 +8236,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/95e/6733f5ab-d120-4f31-b50f-fb7ee523b95e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -8213,6 +8267,32 @@
       "sales_phase": "on_sale"
     },
     {
+      "id": "ticketmaster-Z698xZu0Z1koNxpQp",
+      "title": "Paris Jackson",
+      "artist": "Paris Jackson",
+      "category": "koncert",
+      "venue": "Cargo Gallery",
+      "city": "Praha 5",
+      "address": "Hořejší nábřeží, náplavka",
+      "lat": 50.07195,
+      "lng": 14.41094,
+      "date": "2027-03-22",
+      "time": "20:00",
+      "price": null,
+      "price_max": null,
+      "price_source": "",
+      "ticket_url": "https://www.ticketmaster.cz/event/paris-jackson-tickets/463896696?language=en-us",
+      "source": "Ticketmaster Discovery API",
+      "verified_at": "2026-11-16",
+      "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
+      "image_url": "https://s1.ticketm.net/dam/a/1c7/4149cd9f-25b2-449a-b9ae-77c88fc2a1c7_TABLET_LANDSCAPE_16_9.jpg",
+      "image_credit": "Ticketmaster / pořadatel",
+      "sales_phase": "upcoming",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "tm_price_checked_at": "2026-11-16"
+    },
+    {
       "id": "ticketmaster-Z698xZu0ZaAJ5",
       "title": "Tones and I (AU)",
       "artist": "Tones And I",
@@ -8234,7 +8314,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/d0f/cae15f2f-35c6-45ff-a30d-2fafe5d09d0f_1171171_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "paused",
       "public_price_attempts": {
@@ -8263,7 +8343,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/24b/963207ca-bf74-4eb9-aa79-3237c8e6924b_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -8345,7 +8425,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -8398,7 +8478,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/652/30beadb6-a966-4c5c-bf73-954c9d60c652_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-24",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -8430,7 +8510,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/c2e/79f959d4-d6aa-40be-93c5-52ef3a5d4c2e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -8459,7 +8539,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -8537,7 +8617,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -8615,7 +8695,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/c2e/79f959d4-d6aa-40be-93c5-52ef3a5d4c2e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-15",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -8671,7 +8751,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/784/6de00332-a6a5-4dff-b265-4e03a47db784_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-25",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -8703,7 +8783,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/c2e/79f959d4-d6aa-40be-93c5-52ef3a5d4c2e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -8732,7 +8812,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/c9c/c0ad775f-6603-4314-8107-f07b2b986c9c_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:20+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -8758,7 +8838,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/4fc/c64c2670-4d27-414a-ad4f-2e4db7f284fc_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T18:47:25+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -8784,7 +8864,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -8836,7 +8916,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/f20/0a3bf8e4-55bb-4b2f-98c0-f57c4c16ef20_1390791_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-25",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:06+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -8894,7 +8974,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/b88/98673359-3a01-4071-b8e6-157df22aab88_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16",
       "public_price_attempts": {
@@ -8923,7 +9003,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/6d0/9ddc738b-a5fc-4f82-a0f2-9cd7312ca6d0_1740881_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -9001,7 +9081,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -9054,7 +9134,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/f8a/619a248b-1833-4725-8ef8-00bd71fbff8a_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -9132,7 +9212,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/72d/451692de-5602-4448-989c-17376d2ec72d_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "closed"
     },
@@ -9158,7 +9238,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -9210,7 +9290,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/ece/654ef6c5-0ef8-4943-9ea7-fcec7de0cece_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-25",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -9242,7 +9322,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/790/b7982d80-4364-4296-89f1-781dd9602790_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-30",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -9274,7 +9354,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/71f/eac33d63-ec52-4ccc-8946-4af63facd71f_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -9335,7 +9415,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/72d/451692de-5602-4448-989c-17376d2ec72d_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -9361,7 +9441,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -9413,7 +9493,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/c93/2f218614-96d0-4900-8727-6ecb36aa8c93_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-08",
       "public_price_attempts": {
@@ -9445,7 +9525,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/c2e/79f959d4-d6aa-40be-93c5-52ef3a5d4c2e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -9526,7 +9606,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -9604,7 +9684,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -9630,7 +9710,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -9682,7 +9762,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/5c2/fc96c4e5-dd10-4a65-ba94-0182234c55c2_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -9734,7 +9814,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/421/c4c793c9-7c1b-4e7e-ba33-8edd5d3f8421_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -9787,7 +9867,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/ff6/dbb36358-65d0-4907-9880-eb401f23aff6_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-10-30",
       "public_price_attempts": {
@@ -9845,7 +9925,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -9897,7 +9977,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/b8c/787e18da-72f2-4eaf-9ebc-cd346ff33b8c_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -9923,7 +10003,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -10001,7 +10081,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e98/6eb46a79-4c10-4bf3-a4b1-ac5dd6cdae98_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-25",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -10033,7 +10113,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/380/e07a392d-a0a3-4ee1-af7f-34a815ddb380_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T20:52:43+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -10059,7 +10139,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/c2e/79f959d4-d6aa-40be-93c5-52ef3a5d4c2e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -10141,7 +10221,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/df8/c9b7bbea-af03-43d0-99bd-a88b146eddf8_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-10-30",
       "public_price_attempts": {
@@ -10173,7 +10253,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/9ac/67c40b43-6c82-465f-a5ce-94e983ec59ac_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -10199,7 +10279,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -10251,7 +10331,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/077/305d0d87-239e-4344-a635-b5f2a0d7c077_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-04",
       "public_price_attempts": {
@@ -10283,7 +10363,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -10385,7 +10465,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e69/c2f26c61-1bf3-478f-b9e7-8755e6e35e69_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -10411,7 +10491,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -10461,7 +10541,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/2c2/fcc4a625-a056-4f07-b1ca-beaeb653d2c2_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -10517,7 +10597,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -10595,7 +10675,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/385/df02aa0f-e870-4b9a-9729-9c5901fd2385_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -10624,7 +10704,7 @@
       "image_credit": "O2 arena / pořadatel",
       "price_checked_at": "2026-11-14",
       "price_source": "O2 arena",
-      "sales_phase_checked_at": "2026-11-15T15:51:03Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -10650,7 +10730,7 @@
       "image_credit": "O2 arena / pořadatel",
       "price_checked_at": "2026-11-14",
       "price_source": "O2 arena",
-      "sales_phase_checked_at": "2026-11-15T15:51:03Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "O2 official"
     },
     {
@@ -10727,7 +10807,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/90e/aac18024-0cec-46df-b1dc-1d33c920390e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -10753,7 +10833,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -10779,7 +10859,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -10806,7 +10886,7 @@
       "price_checked_at": "2026-11-16",
       "price_source": "O2 arena",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T15:51:03Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "O2 official"
     },
     {
@@ -10855,7 +10935,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -10907,7 +10987,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/17a/d823880d-be45-4eab-9de4-4b7542ab617a_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16",
       "public_price_attempts": {
@@ -10940,7 +11020,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -10992,7 +11072,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -11018,7 +11098,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -11070,7 +11150,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/8db/505c0ac8-aa28-4e44-a26f-8ac805bb08db_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -11099,7 +11179,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/8db/505c0ac8-aa28-4e44-a26f-8ac805bb08db_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -11128,7 +11208,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -11204,7 +11284,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/192/34bbfd52-93f3-439a-aca5-b82b48b51192_1746311_EVENT_DETAIL_PAGE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T13:05:22Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -11256,7 +11336,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/d68/a07f7f1d-5ed1-4772-9b4a-d46421bc6d68_1807201_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -11313,7 +11393,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/449/85129a43-3701-4189-88ea-660dbaa14449_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-01",
       "public_price_attempts": {
@@ -11345,7 +11425,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/7de/a99b2387-9054-4e19-a4d9-55c6164c37de_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-16"
     },
@@ -11371,7 +11451,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e3a/d02b6f30-b139-472e-881d-3d1538158e3a_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -11530,7 +11610,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -11556,7 +11636,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/160/e6058495-fac2-4653-93cd-fc2ef36cd160_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -11582,7 +11662,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e90/67a92ded-d0fc-4c38-9a89-60b32c62fe90_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -11637,7 +11717,7 @@
       "image_credit": "O2 arena / pořadatel",
       "price_checked_at": "2026-11-14",
       "price_source": "O2 arena",
-      "sales_phase_checked_at": "2026-11-15T15:51:03Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -11689,7 +11769,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/e90/67a92ded-d0fc-4c38-9a89-60b32c62fe90_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-11-16",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -11718,7 +11798,7 @@
       "image_credit": "O2 arena / pořadatel",
       "price_checked_at": "2026-11-14",
       "price_source": "O2 arena",
-      "sales_phase_checked_at": "2026-11-15T15:51:03Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -11746,7 +11826,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T14:00:42Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "o2-auto-jean-michel-jarre-2027-10-03",
@@ -11801,7 +11881,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/0b8/2c098075-f714-4ed1-9057-9d215b7370b8_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "tm_price_checked_at": "2026-10-25",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale",
       "public_price_attempts": {
@@ -11835,7 +11915,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T14:00:42Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "o2-auto-cesky-mejdan-s-impulsem-2027-2027-10-16",
@@ -11887,7 +11967,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T19:52:44Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "o2-ilvolo",
@@ -11939,7 +12019,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T19:52:44Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "o2-universum-auto-renne-dang-2027-10-23",
@@ -11988,8 +12068,8 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-11-14",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "tm_price_checked_at": "2026-11-16",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -12017,7 +12097,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T19:52:44Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "o2-universum-auto-monika-slavi-50-plus-2027-10-25",
@@ -12067,7 +12147,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/8d3/af16f966-872c-4786-8cac-0894be2c78d3_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15",
       "public_price_attempts": {
@@ -12098,7 +12178,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/fd5/8fe636d8-074e-4a4a-a967-cfd8fc6ccfd5_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "paused",
-      "sales_phase_checked_at": "2026-11-15T15:00:41+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "public_price_attempts": {
         "https://goout.net/cs/jack-and-the-weatherman/szcmgfy/": "2026-11-11"
@@ -12127,7 +12207,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/164/d8b2c404-986e-4336-b4f5-d450c5b32164_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T18:47:26+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-09",
       "price_from": true,
@@ -12155,7 +12235,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T18:47:26+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "tm_price_checked_at": "2026-11-15"
     },
@@ -12208,7 +12288,8 @@
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "paused",
       "sales_phase_checked_at": "2026-11-16T00:58:53+01:00",
-      "sales_phase_source": "Ticketmaster Discovery API"
+      "sales_phase_source": "Ticketmaster Discovery API",
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16v39xbG6",
@@ -12234,7 +12315,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T19:52:44Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "o2-horkyze",
@@ -12286,7 +12367,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T14:00:42Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "o2-auto-habera-team-2027-12-11",
@@ -12341,7 +12422,7 @@
       "image_url": "https://s1.ticketm.net/dam/a/cfc/7be36444-9f77-4a36-8a06-60e920682cfc_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:21+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "price_from": true,
       "price_checked_at": "2026-10-24"
@@ -12370,7 +12451,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T19:52:44Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "ticketmaster-Z698xZu0Z16vxkx9ut",
@@ -12396,7 +12477,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T14:00:42Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1k7wjVFU",
@@ -12419,8 +12500,8 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-11-14",
-      "sales_phase_checked_at": "2026-11-15T14:05:22+01:00",
+      "tm_price_checked_at": "2026-11-16",
+      "sales_phase_checked_at": "2026-11-16T18:02:07+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -12446,7 +12527,7 @@
       "image_credit": "Ticketmaster / pořadatel",
       "price_checked_at": "2026-11-14",
       "price_source": "O2 universum",
-      "sales_phase_checked_at": "2026-11-15T15:51:03Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -12472,9 +12553,9 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:22+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:08+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "o2-auto-till-lindemann-world-tour-2027-2027-12-12",
@@ -12499,7 +12580,7 @@
       "price_checked_at": "2026-11-16",
       "price_source": "O2 arena",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T15:51:03Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "O2 official"
     },
     {
@@ -12549,8 +12630,8 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/a41/5ae42dd1-a51d-4ba2-9283-f261fe6dea41_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-11-14",
-      "sales_phase_checked_at": "2026-11-15T14:05:22+01:00",
+      "tm_price_checked_at": "2026-11-16",
+      "sales_phase_checked_at": "2026-11-16T18:02:08+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -12578,7 +12659,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T23:59:10Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "o2-tenori",
@@ -12600,7 +12681,7 @@
       "description": "Událost uvedená v oficiálním hudebním programu O2 areny. Aktuální cenu a vstupenky najdeš na webu haly.",
       "image_url": "https://cdn.static-assets.cz/20261012-180702/4-tenori-o2-1080x1080-1.jpg-4c1bca543a51.webp",
       "image_credit": "O2 arena / pořadatel",
-      "sales_phase_checked_at": "2026-11-15T15:51:03Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -12625,8 +12706,8 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/f55/f3de7948-f44d-4040-ad0b-d264c7e8ff55_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-11-14",
-      "sales_phase_checked_at": "2026-11-15T14:05:22+01:00",
+      "tm_price_checked_at": "2026-11-16",
+      "sales_phase_checked_at": "2026-11-16T18:02:08+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -12654,7 +12735,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T23:59:10Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kkf0-0M",
@@ -12680,7 +12761,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T14:00:42Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "o2-universum-auto-gregorian-the-magical-christmas-tour-2027-2027-12-19",
@@ -12732,7 +12813,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T14:00:42Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1kQ7bI8_",
@@ -12755,8 +12836,8 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-11-14",
-      "sales_phase_checked_at": "2026-11-15T14:05:22+01:00",
+      "tm_price_checked_at": "2026-11-16",
+      "sales_phase_checked_at": "2026-11-16T18:02:08+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -12780,7 +12861,7 @@
       "description": "Událost uvedená v oficiálním hudebním programu O2 areny. Aktuální cenu a vstupenky najdeš na webu haly.",
       "image_url": "https://cdn.static-assets.cz/20261012-180702/tm-o2-arena-1080x1080-1.jpg-3798c388caa1.webp",
       "image_credit": "O2 arena / pořadatel",
-      "sales_phase_checked_at": "2026-11-15T15:51:03Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -12808,7 +12889,7 @@
       "tm_price_checked_at": "2026-10-17",
       "price_from": true,
       "price_checked_at": "2026-10-17",
-      "sales_phase_checked_at": "2026-11-15T14:05:22+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:08+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -12832,7 +12913,7 @@
       "description": "Událost uvedená v oficiálním hudebním programu O2 areny. Aktuální cenu a vstupenky najdeš na webu haly.",
       "image_url": "https://cdn.static-assets.cz/20261012-180702/1080x1080-o2-o5ar.jpg-7fbfa493f6f9.webp",
       "image_credit": "O2 arena / pořadatel",
-      "sales_phase_checked_at": "2026-11-15T15:51:03Z",
+      "sales_phase_checked_at": "2026-11-16T17:02:19Z",
       "sales_phase_source": "O2 official",
       "sales_phase": "on_sale"
     },
@@ -12857,8 +12938,8 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-11-14",
-      "sales_phase_checked_at": "2026-11-15T14:05:22+01:00",
+      "tm_price_checked_at": "2026-11-16",
+      "sales_phase_checked_at": "2026-11-16T18:02:08+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "on_sale"
     },
@@ -12886,7 +12967,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T23:59:10Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "o2-universum-auto-thomas-anders-from-modern-talking-2028-2028-02-26",
@@ -12910,8 +12991,8 @@
       "image_credit": "O2 universum / pořadatel",
       "price_checked_at": "2026-11-13",
       "price_source": "O2 universum",
-      "sales_phase": "upcoming",
-      "sales_phase_checked_at": "2026-11-16T07:30:47+01:00",
+      "sales_phase": "on_sale",
+      "sales_phase_checked_at": "2026-11-16T18:02:08+01:00",
       "sales_phase_source": "Ticketmaster Discovery API"
     },
     {
@@ -12935,8 +13016,8 @@
       "description": "Informace poskytuje Ticketmaster. Vstupenky a případné změny ověř u prodejce.",
       "image_url": "https://s1.ticketm.net/dam/a/cee/be173fd8-8a23-4a30-af3d-6a80e088ecee_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
-      "tm_price_checked_at": "2026-11-14",
-      "sales_phase_checked_at": "2026-11-15T14:05:22+01:00",
+      "tm_price_checked_at": "2026-11-16",
+      "sales_phase_checked_at": "2026-11-16T18:02:08+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
       "sales_phase": "paused"
     },
@@ -12964,7 +13045,7 @@
       "sales_phase": "paused",
       "sales_phase_checked_at": "2026-11-15T23:59:10Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1k1f_N-y",
@@ -12990,7 +13071,7 @@
       "sales_phase": "on_sale",
       "sales_phase_checked_at": "2026-11-15T14:00:42Z",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     },
     {
       "id": "ticketmaster-Z698xZu0Z1ku0Fzuw",
@@ -13014,9 +13095,9 @@
       "image_url": "https://s1.ticketm.net/dam/a/119/badc9284-93e9-4a10-8e4c-bac3fa6a6119_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:22+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:08+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14",
+      "tm_price_checked_at": "2026-11-16",
       "public_price_attempts": {
         "https://goout.net/cs/refew/szmvtoy/": "2026-11-10"
       }
@@ -13069,12 +13150,12 @@
       "image_url": "https://s1.ticketm.net/dam/a/32e/91931067-6d78-47a3-84e1-77088900c32e_TABLET_LANDSCAPE_16_9.jpg",
       "image_credit": "Ticketmaster / pořadatel",
       "sales_phase": "on_sale",
-      "sales_phase_checked_at": "2026-11-15T14:05:22+01:00",
+      "sales_phase_checked_at": "2026-11-16T18:02:08+01:00",
       "sales_phase_source": "Ticketmaster Discovery API",
-      "tm_price_checked_at": "2026-11-14"
+      "tm_price_checked_at": "2026-11-16"
     }
   ],
-  "eventlook_cursor": 17,
+  "eventlook_cursor": 52,
   "price_catalog_cache": {
     "version": 1,
     "entries": {
@@ -13267,7 +13348,7 @@
           "acdc tribute pardubice"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/acid-row+marcel-gidotes-holy-crab/szirnoy/": {
         "names": [
@@ -13426,7 +13507,7 @@
           "Adventní koncert Osmikvítku",
           "adventni koncert osmikvitku"
         ],
-        "city": "Česko",
+        "city": "Praha",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/adventni-koncert-spiritual-kvartet/szlovny/": {
@@ -13579,7 +13660,7 @@
           "alfa mist"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/alfredo-rodriguez+blubry+stivin-zbrozek-slavik/szqokky/": {
         "names": [
@@ -13594,8 +13675,8 @@
           "Alice Bauer Q – Křest alba The Way I Am",
           "alice bauer q krest alba the way i am"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/alkehol+doga/szmsmky/": {
         "names": [
@@ -14082,8 +14163,8 @@
           "Bára Zmeková s kapelou",
           "bara zmekova s kapelou"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/barokni-mistri-ve-stare-praze/szartny/": {
         "names": [
@@ -14202,8 +14283,8 @@
           "Ben Poole",
           "ben poole"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/ben-poole/szxwnoy/": {
         "names": [
@@ -14707,7 +14788,7 @@
           "black veil brides support the funeral portrait the howling"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/blackgold+support-sumo-cyco/szgpnky/": {
         "names": [
@@ -15418,8 +15499,8 @@
           "Charlie Slavík Revue",
           "charlie slavik revue"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/charlotte-cardin/szwrsny/": {
         "names": [
@@ -15930,7 +16011,7 @@
           "Colorfactory + support: Mia Rosa",
           "colorfactory support mia rosa"
         ],
-        "city": "Praha",
+        "city": "Česko",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/colorfactory+support-pishcoth/szpqrmy/": {
@@ -16019,7 +16100,7 @@
           "comeback kid support haywire whispers speedway"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-15"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/complicated-christmas-vol-7/szqdfpy/": {
         "names": [
@@ -16211,7 +16292,7 @@
           "dan barta and iilustratosphere lash and grey"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-15"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/dan-barta-and-iilustratosphere+lash-and-grey/szypkjy/": {
         "names": [
@@ -16219,7 +16300,7 @@
           "dan barta and iilustratosphere lash and grey"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-15"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/dan-barta-and-illustratosphere+dalsi-stribrna-svatba-tour/szhyqiy/": {
         "names": [
@@ -16291,7 +16372,7 @@
           "david koller"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/david-kraus-and-gipsy-brothers/szyldny/": {
         "names": [
@@ -16348,6 +16429,14 @@
         ],
         "city": "Česko",
         "last_seen": "2026-10-26"
+      },
+      "https://goout.net/cs/death-angel+vio-lence+deviance/szrjjly/": {
+        "names": [
+          "Death Angel + Vio-lence + Deviance",
+          "death angel vio lence deviance"
+        ],
+        "city": "Brno",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/death-angel+vio-lence+support/szrjjly/": {
         "names": [
@@ -16822,6 +16911,14 @@
         "city": "Ostrava",
         "last_seen": "2026-11-16"
       },
+      "https://goout.net/cs/dymytry-a-arakain-neztracime-naboj-afterparty/szmiboy/": {
+        "names": [
+          "Dymytry a Arakain: Neztrácíme náboj afterparty",
+          "dymytry a arakain neztracime naboj afterparty"
+        ],
+        "city": "Ostrava",
+        "last_seen": "2026-11-16"
+      },
       "https://goout.net/cs/dymytry-se-symfonickym-orchestrem/szlqhny/": {
         "names": [
           "Dymytry se symfonickým orchestrem",
@@ -17219,8 +17316,8 @@
           "Epoque Quartet",
           "epoque quartet"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/epydemye/sziiyly/": {
         "names": [
@@ -17717,6 +17814,22 @@
         "city": "Česko",
         "last_seen": "2026-11-11"
       },
+      "https://goout.net/cs/filharmoniste-christmas-baby-s-detmi-od-0-do-3-let/szkkepy/": {
+        "names": [
+          "Filharmoniště: Christmas Baby (s dětmi od 0 do 3 let)",
+          "filharmoniste christmas baby s detmi od 0 do 3 let"
+        ],
+        "city": "Praha",
+        "last_seen": "2026-11-16"
+      },
+      "https://goout.net/cs/filharmoniste-christmas-baby-s-detmi-od-0-do-3-let/szlkepy/": {
+        "names": [
+          "Filharmoniště: Christmas Baby (s dětmi od 0 do 3 let)",
+          "filharmoniste christmas baby s detmi od 0 do 3 let"
+        ],
+        "city": "Praha",
+        "last_seen": "2026-11-16"
+      },
       "https://goout.net/cs/filharmoniste-ctvero-rocnich-obdobi-ocima-antonia-vivaldiho-pro-deti-od-3-do-8-let/szpocpy/": {
         "names": [
           "Filharmoniště: Čtvero ročních období očima Antonia Vivaldiho (pro děti od 3 do 8 let)",
@@ -17780,6 +17893,22 @@
         ],
         "city": "Česko",
         "last_seen": "2026-11-15"
+      },
+      "https://goout.net/cs/filharmoniste-vanoce-na-vsechny-zpusoby-s-gadrew-way-s-detmi-od-0-do-3-let/szgfmpy/": {
+        "names": [
+          "Filharmoniště: Vánoce na všechny způsoby s Gadrew Way (s dětmi od 0 do 3 let)",
+          "filharmoniste vanoce na vsechny zpusoby s gadrew way s detmi od 0 do 3 let"
+        ],
+        "city": "Česko",
+        "last_seen": "2026-11-16"
+      },
+      "https://goout.net/cs/filharmoniste-vanoce-na-vsechny-zpusoby-s-gadrew-way-s-detmi-od-0-do-3-let/szhfmpy/": {
+        "names": [
+          "Filharmoniště: Vánoce na všechny způsoby s Gadrew Way (s dětmi od 0 do 3 let)",
+          "filharmoniste vanoce na vsechny zpusoby s gadrew way s detmi od 0 do 3 let"
+        ],
+        "city": "Česko",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/filharmoniste-vanocni-pribeh-pro-deti-od-3-do-8-let/szagroy/": {
         "names": [
@@ -17938,7 +18067,7 @@
           "Floyds CZ/SK – Pink Floyd Symphony Show",
           "floyds czsk pink floyd symphony show"
         ],
-        "city": "Česko",
+        "city": "Praha",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/floyds-czsk-pink-floyd-symphony-show/sziardy/": {
@@ -18139,7 +18268,7 @@
           "gala opera and ballet in municipal house"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/gala-opera-and-ballet-in-municipal-house/szxempy/": {
         "names": [
@@ -18147,7 +18276,7 @@
           "gala opera and ballet in municipal house"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/gala-opera-and-ballet-in-municipal-house/szyempy/": {
         "names": [
@@ -18155,7 +18284,7 @@
           "gala opera and ballet in municipal house"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/galakoncert-k-100-vyroci-csl-pobocky-alai/szxemmy/": {
         "names": [
@@ -18402,8 +18531,8 @@
           "Groove Dock: Jazz to Dance",
           "groove dock jazz to dance"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/groove-it/szsmwoy/": {
         "names": [
@@ -18843,7 +18972,7 @@
           "hentai corporation shirimming tour guest mmnk"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/hentai-corporation-shirimming-tour+guest-pst/szlcdly/": {
         "names": [
@@ -18867,7 +18996,7 @@
           "hentai corporation shirimming tour hoste atari terror mmnk"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/hentai-corporation-shirimming-tour-krest-alba/szebfly/": {
         "names": [
@@ -18995,7 +19124,7 @@
           "hollywood movie music"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/hollywood-movie-music/szcfmpy/": {
         "names": [
@@ -19394,8 +19523,8 @@
           "Ingvaldsen & Cremaschi & Chalupa & Wróblewski",
           "ingvaldsen and cremaschi and chalupa and wroblewski"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/insania+drutty/sznfljy/": {
         "names": [
@@ -19458,7 +19587,7 @@
           "Iva Bittová & Vladimír Václavek: Bílé inferno – 30 let od vzniku legendy",
           "iva bittova and vladimir vaclavek bile inferno 30 let od vzniku legendy"
         ],
-        "city": "Česko",
+        "city": "Praha",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/iva-bittova-and-vladimir-vaclavek-bile-inferno-30-let-od-vzniku-legendy/szjbnpy/": {
@@ -19666,7 +19795,7 @@
           "Jakub Jan Ryba: Česká mše vánoční",
           "jakub jan ryba ceska mse vanocni"
         ],
-        "city": "Brno",
+        "city": "Česko",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/jakub-jan-ryba-ceska-mse-vanocni/szshjoy/": {
@@ -19778,8 +19907,8 @@
           "James Harries Band",
           "james harries band"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/james-lisney-klavirni-recital/szyvnky/": {
         "names": [
@@ -19882,8 +20011,8 @@
           "Jan Smigmator & Band: Vánoce v Malostranské besedě",
           "jan smigmator and band vanoce v malostranske besede"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/jan-smigmator-and-big-band-swingove-vanoce/sztlqiy/": {
         "names": [
@@ -20122,8 +20251,8 @@
           "Jazz Dock Orchestra",
           "jazz dock orchestra"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/jazz-francies-feat-julia/sztffpy/": {
         "names": [
@@ -20290,7 +20419,7 @@
           "Jelen",
           "jelen"
         ],
-        "city": "Česko",
+        "city": "Praha",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/jessie-ware-the-superbloom-tour-2026+support-tsatsamis/szmojhy/": {
@@ -20379,7 +20508,7 @@
           "jitka cvancarova vanocni galavecer"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/jitka-smutna-and-katka-soukupova/szlynoy/": {
         "names": [
@@ -20395,7 +20524,7 @@
           "joe cocker forever"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/johanela-+-giulia-amerighi+special-guest-tereza-kocholata/sznpeny/": {
         "names": [
@@ -20442,8 +20571,8 @@
           "Jones Jones - Larry Ochs, Vladimir Tarasov, Mark Dresser",
           "jones jones larry ochs vladimir tarasov mark dresser"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/jordan-rakei+support-olive-jones/szdynky/": {
         "names": [
@@ -20555,7 +20684,7 @@
           "kamil strihavka 40 let na scene specialni host bsp"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/kamil-strihavka-40-let-na-scene/szcaqiy/": {
         "names": [
@@ -21220,7 +21349,7 @@
           "koncertni turne srsen barbora polakova and stepan urban"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/koncerty-ze-satny-stare-pisne-prastare/szgpdpy/": {
         "names": [
@@ -21252,7 +21381,7 @@
           "korben dallas"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/korzo-narodni-afterparty-midi-lidi-cary-zivota/szfdvny/": {
         "names": [
@@ -21411,7 +21540,7 @@
           "Krucipüsk (křest EP) + support: Better Way",
           "krucipusk krest ep support better way"
         ],
-        "city": "Praha",
+        "city": "Česko",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/kruh-19+ornament+more-kurat/szppvoy/": {
@@ -21604,8 +21733,8 @@
           "Laco Deczi & New York Celula",
           "laco deczi and new york celula"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/lagrimas+host/szcntky/": {
         "names": [
@@ -21900,8 +22029,8 @@
           "Lenka Nová",
           "lenka nova"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/lesni-zver+rabbit-slow/szpivky/": {
         "names": [
@@ -22372,7 +22501,7 @@
           "LVMEN + Thulsa",
           "lvmen thulsa"
         ],
-        "city": "Brno",
+        "city": "Česko",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/lynch-mob-40th-anniversary-of-back-for-the-attack-celebrating-the-music-of-dokken/szpmtoy/": {
@@ -22453,7 +22582,7 @@
           "magicka noc vozary and hlavsa poly noir and the holy spirit smugglers"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/majerovy-brzdove-tabulky-40-let-na-hudebni-scene/szwapny/": {
         "names": [
@@ -22509,7 +22638,7 @@
           "maly princ recital"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/maly-princ-recital/szlsehy/": {
         "names": [
@@ -22525,7 +22654,7 @@
           "maly princ recital"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/maly-princ-recital/szmixmy/": {
         "names": [
@@ -22557,7 +22686,7 @@
           "maly princ recital"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/maly-princ-recital/szqsooy/": {
         "names": [
@@ -22748,8 +22877,8 @@
           "Marta Kloučková & David Dorůžka",
           "marta klouckova and david doruzka"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/martin-hruby-s-dph/szxswky/": {
         "names": [
@@ -23021,7 +23150,7 @@
           "meltt"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-15"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/meluzina-krest-alba+sundrinker/szwerny/": {
         "names": [
@@ -23220,7 +23349,7 @@
           "Michal Pavlíček a Trio",
           "michal pavlicek a trio"
         ],
-        "city": "Plzeň",
+        "city": "Česko",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/michal-pavlicek-trio/szxcsjy/": {
@@ -23237,7 +23366,7 @@
           "michal prokop and framus five live 80"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-15"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/michal-prokop-and-framus-five/szalepy/": {
         "names": [
@@ -23541,7 +23670,7 @@
           "modestep"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/modestep/szxmoly/": {
         "names": [
@@ -23573,7 +23702,7 @@
           "monika absolonova a vlastni band  novorocni koncert"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-15"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/monika-absolonova-a-vlastni-band--novorocni-koncert/szmaony/": {
         "names": [
@@ -23581,7 +23710,7 @@
           "monika absolonova a vlastni band  novorocni koncert"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/monika-absolonova-a-vlastni-band--novorocni-koncert/szpaony/": {
         "names": [
@@ -23589,7 +23718,7 @@
           "monika absolonova a vlastni band  novorocni koncert"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/monika-absolonova-a-vlastni-band/sznifiy/": {
         "names": [
@@ -23933,7 +24062,7 @@
           "munly and the lupercalians"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/munly-and-the-lupercalians/szgpbly/": {
         "names": [
@@ -24099,8 +24228,8 @@
           "Na koladu jsme přišli k vám!",
           "na koladu jsme prisli k vam"
         ],
-        "city": "Praha",
-        "last_seen": "2026-11-14"
+        "city": "Česko",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/nada-valova-sansony/szekoly/": {
         "names": [
@@ -24211,16 +24340,16 @@
           "Nedělní Dixie: Darja Kuncová & Swing Cabinet",
           "nedelni dixie darja kuncova and swing cabinet"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/nedelni-dixie-j-j-jazzmen-and-luci-radecka/szhlepy/": {
         "names": [
           "Nedělní Dixie: J. J. Jazzmen & Luci Radecka",
           "nedelni dixie j j jazzmen and luci radecka"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/nedelni-dixie-j-j-jazzmen-and-luci-radecka/szuvpmy/": {
         "names": [
@@ -24531,7 +24660,7 @@
           "nomadix bashment bass foundation"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-15"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/not-my-value-it+tryo/szgsroy/": {
         "names": [
@@ -24619,7 +24748,7 @@
           "obcoovanis duchem vaclava havla"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/ocean-grove-experience-the-oddworld-ukxeu-tour+guests-unitytx-diamond-construct/szpheky/": {
         "names": [
@@ -24953,8 +25082,8 @@
         "names": [
           "oskar med k"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/otto-hejnic-trio-and-alan-bartus-and-neal-sugar-caine-krest-alba/szuunny/": {
         "names": [
@@ -25819,7 +25948,7 @@
           "portrayal of guilt spike hellis"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/portrayal-of-guilt+spike-hellis/szekvly/": {
         "names": [
@@ -25922,8 +26051,8 @@
           "Pragasón",
           "pragason"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/prago-union-and-live-band+hoste/szesoky/": {
         "names": [
@@ -26042,8 +26171,8 @@
           "Prague Cello Quartet",
           "prague cello quartet"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Brno",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/prague-cello-quartet/szggply/": {
         "names": [
@@ -26051,7 +26180,7 @@
           "prague cello quartet"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/prague-cello-quartet/szgptny/": {
         "names": [
@@ -26435,7 +26564,7 @@
           "protheus tour jaro 2027 gate crasher"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/protheus-tour-jaro-2027+gate-crasher/szhcipy/": {
         "names": [
@@ -26443,7 +26572,7 @@
           "protheus tour jaro 2027 gate crasher"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/protheus-tour-jaro-2027+gate-crasher/sznuhpy/": {
         "names": [
@@ -26467,7 +26596,7 @@
           "protheus tour jaro 2027 gate crasher"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/protheus-tour-jaro-2027+gate-crasher/sztuhpy/": {
         "names": [
@@ -26483,7 +26612,7 @@
           "protheus tour jaro 2027 gate crasher"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/protheus-tour-jaro-2027+gate-crasher/szuxipy/": {
         "names": [
@@ -26491,7 +26620,7 @@
           "protheus tour jaro 2027 gate crasher"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/protheus-tour-jaro-2027+gate-crasher/szwuhpy/": {
         "names": [
@@ -26499,7 +26628,7 @@
           "protheus tour jaro 2027 gate crasher"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-15"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/protomartyr/szstfly/": {
         "names": [
@@ -26523,7 +26652,7 @@
           "pruhovany holub anna jozefina"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/prusovy-kovarenske-vanoce/szffrmy/": {
         "names": [
@@ -26531,7 +26660,7 @@
           "prusovy kovarenske vanoce"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/prusovy-kovarenske-vanoce/szgfrmy/": {
         "names": [
@@ -26962,8 +27091,8 @@
           "Renata Drössler",
           "renata drossler"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/rene-trossman-quartet/szqrrmy/": {
         "names": [
@@ -27837,7 +27966,7 @@
           "shakespearovska velkomse loutkova"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/shaking-hand+wreckberries/sztjkiy/": {
         "names": [
@@ -27869,7 +27998,7 @@
           "shred fest 2027 obscura pestilence cryptic shift thus dvrk"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/sifon-and-martin-kubice+bene-and-jan-sicko/szeainy/": {
         "names": [
@@ -28380,8 +28509,8 @@
           "Sisa Feher & Vojtěch Procházka: Just a Gigolo",
           "sisa feher and vojtech prochazka just a gigolo"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/skareda-holka-35-let/szhnnny/": {
         "names": [
@@ -28404,8 +28533,8 @@
           "Skety",
           "skety"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/skety/szruamy/": {
         "names": [
@@ -28957,7 +29086,7 @@
           "sousedske jamovani"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/south-arcade/szdadky/": {
         "names": [
@@ -29220,8 +29349,8 @@
           "Steven’s",
           "stevens"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/sto-zvirat/szbfoly/": {
         "names": [
@@ -29444,7 +29573,7 @@
           "Svojost: Autorské čtení s klavírním doprovodem",
           "svojost autorske cteni s klavirnim doprovodem"
         ],
-        "city": "Česko",
+        "city": "Praha",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/swing-into-the-new-year/sznktoy/": {
@@ -29821,7 +29950,7 @@
           "tereza balonova"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/tereza-hrabini-krest-alba+ima-teva/szyqrmy/": {
         "names": [
@@ -30117,7 +30246,7 @@
           "the black dahlia murder fuming mouth celestial sanctuary"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/the-black-dahlia-murder+special-guest/szhgely/": {
         "names": [
@@ -30133,7 +30262,7 @@
           "the bladderstones and vladimir vaclavek yo soy indigo"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/the-bladderstones-and-vladimir-vaclavek-live-session/szfhepy/": {
         "names": [
@@ -31060,7 +31189,7 @@
           "Tinlicker (NL)",
           "tinlicker nl"
         ],
-        "city": "Česko",
+        "city": "Praha",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/to-nejlepsi-z-ceske-a-svetove-hudby/szngtfy/": {
@@ -31860,7 +31989,7 @@
           "v zrcadlove sini"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/v-zrcadlove-sini/szwuhny/": {
         "names": [
@@ -32196,7 +32325,7 @@
           "vanocni koncert divadlo 2 15"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/vanocni-koncert-hm/szmitny/": {
         "names": [
@@ -32539,7 +32668,7 @@
           "Venjent (UK)",
           "venjent uk"
         ],
-        "city": "Česko",
+        "city": "Praha",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/ventolin+fvlcrvm-ventofu-tour/szfioly/": {
@@ -32547,8 +32676,8 @@
           "Ventolin + FVLCRVM: Ventofu tour",
           "ventolin fvlcrvm ventofu tour"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-14"
+        "city": "Brno",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/ventolin+fvlcrvm-ventofu-tour/szhwxny/": {
         "names": [
@@ -32563,7 +32692,7 @@
           "Ventolin + FVLCRVM: Ventofu tour",
           "ventolin fvlcrvm ventofu tour"
         ],
-        "city": "Česko",
+        "city": "Praha",
         "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/ventolin-and-fvlcrvm-ventofu-tour-2026/szbfhny/": {
@@ -32667,8 +32796,8 @@
           "Vieze Asbak (NL)",
           "vieze asbak nl"
         ],
-        "city": "Česko",
-        "last_seen": "2026-11-15"
+        "city": "Praha",
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/vila-live-samoty-krest-ep+support-josefina+dj-nahanbe/szpoymy/": {
         "names": [
@@ -32772,7 +32901,7 @@
           "vivaldi four seasons in smetana hall"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/vivaldi-four-seasons-in-smetana-hall/szpempy/": {
         "names": [
@@ -32780,7 +32909,7 @@
           "vivaldi four seasons in smetana hall"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/vivaldi-four-seasons-in-smetana-hall/szqempy/": {
         "names": [
@@ -32788,7 +32917,7 @@
           "vivaldi four seasons in smetana hall"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/vivaldi-four-seasons-in-smetana-hall/szrempy/": {
         "names": [
@@ -32796,7 +32925,7 @@
           "vivaldi four seasons in smetana hall"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/vivaldi-four-seasons-in-smetana-hall/szsempy/": {
         "names": [
@@ -32804,7 +32933,7 @@
           "vivaldi four seasons in smetana hall"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/vivaldi-four-seasons-in-smetana-hall/sztempy/": {
         "names": [
@@ -32812,7 +32941,7 @@
           "vivaldi four seasons in smetana hall"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/vivaldi-four-seasons-in-smetana-hall/szuempy/": {
         "names": [
@@ -32820,7 +32949,7 @@
           "vivaldi four seasons in smetana hall"
         ],
         "city": "Česko",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/vivaldi-four-seasons/szepbfy/": {
         "names": [
@@ -32964,7 +33093,7 @@
           "vltava sto let s vami"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/vltava-sto-let-s-vami/szvypiy/": {
         "names": [
@@ -33524,7 +33653,7 @@
           "zakazanyovoce konflikt 10 let diky vam tour 2026"
         ],
         "city": "Brno",
-        "last_seen": "2026-11-14"
+        "last_seen": "2026-11-16"
       },
       "https://goout.net/cs/zakazanyovoce+papir-sklo-plasty-10-let-diky-vam-tour-2026/szcxjly/": {
         "names": [
