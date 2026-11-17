@@ -248,7 +248,7 @@
   function eventPoster(e,modal=false){
     const letter=(e.title.match(/[\p{L}]/u)||['U'])[0].toUpperCase();
     const image=safeHttpUrl(e.image_url);
-    return `<div class="poster ${image?'has-image':''}" data-theme="${esc(e.category)}">${image?`<img class="poster-photo" src="${esc(image)}" alt="Plakát akce ${esc(e.title)}" loading="lazy" referrerpolicy="no-referrer">`:''}<span class="poster-symbol">${esc(letter)}.</span>${modal?'':datePill(e)}${!modal&&availabilityFor(e).status==='sold_out'?'<span class="poster-sold-ribbon">VYPRODÁNO</span>':''}${modal?'':`<button class="favorite ${favorites.has(e.id)?'active':''}" data-fav="${esc(e.id)}" aria-label="${favorites.has(e.id)?'Odebrat z oblíbených':'Uložit do oblíbených'}" title="Oblíbené">${icon('heart')}</button>`}</div>`;
+    return `<div class="poster ${image?'has-image':''}" data-theme="${esc(e.category)}">${image?`<img class="poster-photo" src="${esc(image)}" alt="Plakát akce ${esc(e.title)}" loading="lazy" referrerpolicy="no-referrer">`:''}<span class="poster-symbol">${esc(letter)}.</span>${modal?'':datePill(e)}${!modal&&availabilityFor(e).status==='sold_out'?'<span class="poster-sold-ribbon">VYPRODÁNO</span>':''}${modal?'':`<button type="button" class="event-share-fab" data-share-event="${esc(e.id)}" aria-label="Poslat akci příteli" title="Poslat akci">${icon('send')}</button><button class="favorite ${favorites.has(e.id)?'active':''}" data-fav="${esc(e.id)}" aria-label="${favorites.has(e.id)?'Odebrat z oblíbených':'Uložit do oblíbených'}" title="Oblíbené">${icon('heart')}</button>`}</div>`;
   }
 function compactAvailability(e){
   const info=availabilityFor(e);
@@ -430,6 +430,7 @@ function showDetails(id){
       ${desc?`<p class="modal-desc">${esc(desc)}</p>`:''}
       <div class="modal-actions">${safeHttpUrl(e.ticket_url)?`<a class="btn btn-primary" href="${esc(safeHttpUrl(e.ticket_url))}" target="_blank" rel="noopener noreferrer">${icon('ticket')} Vstupenky / info ${icon('arrow','sm')}</a>`:`<button type="button" disabled class="btn btn-outline">Odkaz není k dispozici</button>`}
         <button class="btn btn-outline" data-fav="${esc(e.id)}">${icon('heart')} ${fav?'Uloženo':'Uložit'}</button>
+        <button type="button" class="btn btn-outline" data-share-event="${esc(e.id)}">${icon('send')} Poslat akci</button>
         ${hasVerifiedCoords(e)?`<button class="btn btn-outline" data-map-event="${esc(e.id)}">${icon('pin')} Mapa</button>`:''}
       </div>
       <details class="event-fineprint"><summary>Informace o akci</summary><div class="event-fineprint-content"><p>${summary}</p>${e.address?`<p>Adresa: ${esc(e.address)}</p>`:''}<p>${availabilityMeta(e)}</p><p>Údaje se mohou změnit. Aktuální stav ověř u pořadatele.</p></div></details>
@@ -438,6 +439,12 @@ function showDetails(id){
   document.body.style.overflow='hidden';
 }
   function closeModal(clear=true){if(clear){el('modalRoot').innerHTML='';document.body.style.overflow='';}else{el('modalRoot').innerHTML='';document.body.style.overflow='';}}
+  window.showToast=showToast;
+  window.UKAEvents={
+    getById(id){const item=getEvents().find(event=>event.id===id);return item?{...item}:null;},
+    open(id){showDetails(id);},
+    all(){return getEvents().map(event=>({...event}));}
+  };
   function distance(a,b){let toR=x=>x*Math.PI/180,dl=toR(b[0]-a[0]),dn=toR(b[1]-a[1]);let v=Math.sin(dl/2)**2+Math.cos(toR(a[0]))*Math.cos(toR(b[0]))*Math.sin(dn/2)**2;return 6371*2*Math.atan2(Math.sqrt(v),Math.sqrt(1-v));}
   function pinNode(user=false,status='unknown'){
     const node=document.createElement('div');node.className='uka-marker';
@@ -725,6 +732,7 @@ function showDetails(id){
     }
     const c=e.target.closest('[data-category]');if(c){category=c.dataset.category;rerenderList();return;}
     const f=e.target.closest('[data-fav]');if(f){e.preventDefault();e.stopPropagation();toggleFav(f.dataset.fav);return;}
+    const share=e.target.closest('[data-share-event]');if(share){e.preventDefault();e.stopPropagation();const eventItem=getEvents().find(item=>item.id===share.dataset.shareEvent);if(eventItem&&window.UKAOnline?.openShare)window.UKAOnline.openShare(eventItem);else showToast('Přihlas se a přidej si přátele.');return;}
     const d=e.target.closest('[data-detail]');if(d){showDetails(d.dataset.detail);return;}
     const close=e.target.closest('[data-close]');if(close&&(e.target===close||e.target.closest('button[data-close]'))){closeModal();return;}
     const jump=e.target.closest('[data-jump]');if(jump){el(jump.dataset.jump)?.scrollIntoView({behavior:'smooth'});return;}

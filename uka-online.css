@@ -11,3 +11,126 @@
 .mobile-nav.uka-mobile-icon-nav button .icon{width:23px;height:23px;margin:0!important}
 .mobile-nav.uka-mobile-icon-nav button.active{color:#d7ff39}
 @media(max-width:760px){.nav.uka-icon-nav{display:none}}
+
+/* UKA Social V4 — zprávy, sdílení akcí a vlastní dialogy */
+.uka-online-top-actions{display:flex;align-items:center;gap:8px}
+.uka-online-icon-button{position:relative}
+.uka-online-icon-button .icon{width:19px;height:19px}
+.uka-online-icon-badge{position:absolute;right:-4px;top:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;display:grid;place-items:center;background:#d7ff39;color:#0b0d12;font-size:9px;font-weight:900;border:2px solid var(--bg,#0b0d12)}
+
+.event-share-fab{position:absolute;right:57px;top:13px;z-index:3;border:1px solid rgba(255,255,255,.25);border-radius:11px;background:rgba(20,20,29,.36);color:#fff;backdrop-filter:blur(12px);height:36px;width:36px;display:grid;place-items:center;cursor:pointer;transition:transform .15s ease,background .15s ease}
+.event-share-fab:hover{transform:translateY(-1px);background:rgba(20,20,29,.58)}
+.event-share-fab .icon{width:17px;height:17px}
+
+.uka-conversation-list{display:grid;gap:2px}
+.uka-conversation-row{width:100%;border:0;background:transparent;color:inherit;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px 7px;border-radius:14px;text-align:left;cursor:pointer;transition:background .15s ease}
+.uka-conversation-row:hover{background:rgba(127,127,127,.055)}
+.uka-conversation-copy{min-width:0;display:grid;gap:3px}
+.uka-conversation-copy strong,.uka-conversation-copy span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uka-conversation-copy strong{font-size:13px}
+.uka-conversation-copy span{font-size:12px;color:var(--muted);font-weight:500}
+.uka-conversation-row.has-unread .uka-conversation-copy strong,.uka-conversation-row.has-unread .uka-conversation-copy span{color:var(--text);font-weight:800}
+.uka-conversation-meta{display:grid;justify-items:end;gap:6px;min-width:40px}
+.uka-conversation-meta time{font-size:10px;color:var(--muted)}
+.uka-conversation-meta b{min-width:19px;height:19px;padding:0 5px;border-radius:999px;display:grid;place-items:center;background:#d7ff39;color:#0b0d12;font-size:9px}
+
+.uka-online-friend-open{width:100%;border:0;background:transparent;color:inherit;padding:0;cursor:pointer;text-align:center}
+.uka-online-friend-open:hover strong{color:#d7ff39}
+
+.uka-chat-shell{max-width:820px;margin:0 auto;border-left:1px solid rgba(127,127,127,.16);border-right:1px solid rgba(127,127,127,.16);min-height:calc(100vh - 145px);display:grid;grid-template-rows:auto minmax(420px,1fr) auto;background:rgba(127,127,127,.015)}
+.uka-chat-header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:11px;padding:13px 16px;border-bottom:1px solid rgba(127,127,127,.18);background:var(--bg,#0b0d12);background:color-mix(in srgb,var(--bg,#0b0d12) 92%,transparent);backdrop-filter:blur(18px)}
+.uka-chat-back{width:36px;height:36px;border:0;background:transparent;color:inherit;border-radius:50%;display:grid;place-items:center;cursor:pointer;margin-right:2px}
+.uka-chat-back:hover{background:rgba(127,127,127,.08)}
+.uka-chat-back .icon{width:23px;height:23px}
+.uka-chat-header-copy{display:grid;min-width:0}
+.uka-chat-header-copy strong{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uka-chat-header-copy span{font-size:11px;color:var(--muted);margin-top:2px}
+.uka-chat-messages{height:min(66vh,680px);min-height:420px;overflow-y:auto;overscroll-behavior:contain;padding:22px 18px 16px;scrollbar-width:thin}
+.uka-chat-line{display:flex;margin:5px 0}
+.uka-chat-line.is-mine{justify-content:flex-end}
+.uka-chat-line.is-theirs{justify-content:flex-start}
+.uka-chat-bubble{max-width:min(74%,540px);border-radius:20px;padding:10px 12px;background:rgba(127,127,127,.10);border:1px solid rgba(127,127,127,.12);overflow:hidden}
+.uka-chat-line.is-mine .uka-chat-bubble{background:#d7ff39;color:#0b0d12;border-color:#d7ff39;border-bottom-right-radius:6px}
+.uka-chat-line.is-theirs .uka-chat-bubble{border-bottom-left-radius:6px}
+.uka-chat-bubble>p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.45}
+.uka-chat-bubble>time{display:block;text-align:right;font-size:9px;opacity:.55;margin-top:5px}
+.uka-chat-event-card{width:300px;max-width:100%;border:1px solid rgba(127,127,127,.18);border-radius:15px;background:var(--surface);color:var(--text);display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px;margin:0 0 8px;text-align:left;cursor:pointer;overflow:hidden}
+.uka-chat-line.is-mine .uka-chat-event-card{background:rgba(11,13,18,.09);color:#0b0d12;border-color:rgba(11,13,18,.12)}
+.uka-chat-event-thumb{width:54px;height:54px;border-radius:10px;overflow:hidden;display:grid;place-items:center;background:rgba(127,127,127,.12);font-weight:900}
+.uka-chat-event-thumb img{width:100%;height:100%;object-fit:cover}
+.uka-chat-event-copy{display:grid;min-width:0;gap:2px}
+.uka-chat-event-copy small{font-size:9px;opacity:.6;text-transform:uppercase;letter-spacing:.04em}
+.uka-chat-event-copy strong{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uka-chat-event-copy em{font-style:normal;font-size:10px;opacity:.62;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uka-chat-event-arrow{font-size:23px;opacity:.45}
+.uka-chat-event-card.is-missing{grid-template-columns:42px 1fr;width:260px}
+.uka-chat-empty,.uka-chat-loading{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;color:var(--muted)}
+.uka-chat-empty strong{color:var(--text);margin-top:10px;font-size:15px}
+.uka-chat-empty span{font-size:11px;margin-top:2px}
+.uka-chat-empty p{max-width:300px;font-size:12px;line-height:1.5;margin-top:12px}
+.uka-chat-empty-avatar .uka-online-avatar{width:82px;height:82px}
+.uka-chat-composer{position:sticky;bottom:0;z-index:5;display:grid;grid-template-columns:minmax(0,1fr) 42px;gap:8px;align-items:end;padding:12px 14px;border-top:1px solid rgba(127,127,127,.18);background:var(--bg,#0b0d12);background:color-mix(in srgb,var(--bg,#0b0d12) 94%,transparent);backdrop-filter:blur(18px)}
+.uka-chat-composer textarea{width:100%;max-height:120px;box-sizing:border-box;resize:none;border:1px solid rgba(127,127,127,.24);background:rgba(127,127,127,.055);color:inherit;border-radius:22px;padding:11px 15px;font:inherit;font-size:14px;line-height:1.35;outline:none;overflow-y:auto}
+.uka-chat-composer textarea:focus{border-color:#d7ff39;box-shadow:0 0 0 3px rgba(215,255,57,.08)}
+.uka-chat-send{width:42px;height:42px;border:0;border-radius:50%;display:grid;place-items:center;background:#d7ff39;color:#0b0d12;cursor:pointer}
+.uka-chat-send:disabled{opacity:.45;cursor:wait}
+.uka-chat-send .icon{width:18px;height:18px}
+
+body.uka-social-modal-open{overflow:hidden}
+.uka-social-overlay{position:fixed;inset:0;z-index:5000;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);display:grid;place-items:center;padding:18px}
+.uka-social-dialog{width:min(430px,100%);max-height:min(86vh,720px);overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--stroke);border-radius:20px;box-shadow:0 30px 100px rgba(0,0,0,.38)}
+.uka-remove-dialog{text-align:center;padding:28px 24px 0;overflow:hidden}
+.uka-social-dialog-avatar{display:flex;justify-content:center;margin-bottom:14px}
+.uka-social-dialog-avatar .uka-online-avatar{width:72px;height:72px}
+.uka-remove-dialog h3{font-size:20px;margin:0 0 8px}
+.uka-remove-dialog p{font-size:13px;line-height:1.5;color:var(--muted);margin:0 auto 24px;max-width:310px}
+.uka-remove-dialog p strong{color:var(--text)}
+.uka-social-dialog-actions{margin:0 -24px;display:grid;border-top:1px solid var(--stroke)}
+.uka-social-dialog-actions button{height:48px;border:0;border-bottom:1px solid var(--stroke);background:transparent;font:inherit;font-size:13px;font-weight:800;cursor:pointer}
+.uka-social-dialog-actions button:last-child{border-bottom:0}
+.uka-social-danger-button{color:#ff5e6c}
+.uka-social-cancel-button{color:var(--text)}
+.uka-social-dialog-actions button:hover{background:rgba(127,127,127,.055)}
+
+.uka-share-dialog{padding:0;overflow:hidden}
+.uka-social-dialog-head{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 20px 15px;border-bottom:1px solid var(--stroke)}
+.uka-social-dialog-head small{font-size:9px;font-weight:900;letter-spacing:.12em;color:#d7ff39}
+.uka-social-dialog-head h3{margin:4px 0 0;font-size:20px}
+.uka-social-close{width:34px;height:34px;border:0;background:rgba(127,127,127,.07);color:inherit;border-radius:50%;font-size:22px;cursor:pointer;display:grid;place-items:center}
+.uka-share-event-preview{display:grid;grid-template-columns:58px minmax(0,1fr);gap:12px;align-items:center;margin:16px 18px 12px;padding:9px;border:1px solid var(--stroke);border-radius:14px;background:rgba(127,127,127,.035)}
+.uka-share-event-thumb{width:58px;height:58px;border-radius:10px;overflow:hidden;background:rgba(127,127,127,.10);display:grid;place-items:center;font-weight:900}
+.uka-share-event-thumb img{width:100%;height:100%;object-fit:cover}
+.uka-share-event-preview>div{display:grid;gap:4px;min-width:0}
+.uka-share-event-preview strong{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uka-share-event-preview span{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uka-share-note{display:grid;gap:6px;margin:0 18px 14px}
+.uka-share-note>span{font-size:10px;font-weight:800;color:var(--muted)}
+.uka-share-note input{width:100%;box-sizing:border-box;border:1px solid var(--stroke);border-radius:12px;background:rgba(127,127,127,.045);color:inherit;padding:11px 12px;font:inherit;font-size:12px;outline:none}
+.uka-share-note input:focus{border-color:#d7ff39}
+.uka-share-list{padding:0 12px 12px;max-height:360px;overflow-y:auto}
+.uka-share-person{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 6px;border-radius:12px}
+.uka-share-person:hover{background:rgba(127,127,127,.04)}
+.uka-share-person>div{display:grid;min-width:0}
+.uka-share-person strong,.uka-share-person span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uka-share-person strong{font-size:12px}
+.uka-share-person span{font-size:10px;color:var(--muted);margin-top:2px}
+.uka-share-person button{border:0;border-radius:9px;background:#d7ff39;color:#0b0d12;padding:8px 11px;font-size:10px;font-weight:900;cursor:pointer}
+.uka-share-person button.is-sent{background:rgba(127,127,127,.12);color:var(--muted)}
+
+@media(max-width:760px){
+  .event-share-fab{right:55px;top:13px}
+  .uka-chat-shell{max-width:none;margin-inline:-16px;border:0;min-height:calc(100vh - 128px);grid-template-rows:auto minmax(0,1fr) auto}
+  .uka-chat-header{padding:10px 12px}
+  .uka-chat-messages{height:calc(100vh - 62px - 64px - 76px);min-height:360px;padding:18px 12px 12px}
+  .uka-chat-bubble{max-width:84%;padding:9px 11px}
+  .uka-chat-composer{bottom:64px;padding:9px 10px 10px}
+  .uka-social-overlay{padding:12px}
+  .uka-social-dialog{border-radius:18px}
+}
+
+@media(max-width:480px){
+  .event-share-fab{right:55px}
+  .uka-chat-event-card{width:270px}
+  .uka-chat-bubble{max-width:88%}
+  .uka-conversation-row{padding-inline:2px}
+}

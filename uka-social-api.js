@@ -281,10 +281,91 @@
     return data;
   }
 
+
+  async function sendDirectMessage(recipientId,body='',eventId=null){
+    await requireUser();
+    if(typeof recipientId!=='string'||!recipientId)throw new Error('Neplatný příjemce.');
+    const text=String(body||'').trim();
+    const event=eventId==null?null:String(eventId||'').trim();
+    if(text.length>2000)throw new Error('Zpráva může mít maximálně 2000 znaků.');
+    if(event&&event.length>200)throw new Error('Neplatná akce.');
+    if(!text&&!event)throw new Error('Napiš zprávu.');
+    const {data,error}=await db().rpc('uka_send_direct_message',{
+      p_recipient:recipientId,
+      p_body:text||null,
+      p_event_id:event||null
+    });
+    fail(error,'Zprávu se nepodařilo odeslat.');
+    return data||null;
+  }
+
+  async function getConversation(friendId,limit=120){
+    const user=await requireUser();
+    if(typeof friendId!=='string'||!friendId)throw new Error('Neplatný uživatel.');
+    const size=Math.max(1,Math.min(Number(limit)||120,250));
+    const {data,error}=await db().from('direct_messages')
+      .select('id,sender_id,recipient_id,body,event_id,created_at,seen_at')
+      .or(`and(sender_id.eq.${user.id},recipient_id.eq.${friendId}),and(sender_id.eq.${friendId},recipient_id.eq.${user.id})`)
+      .order('created_at',{ascending:false})
+      .limit(size);
+    fail(error,'Zprávy se nepodařilo načíst.');
+    return (data||[]).reverse();
+  }
+
+  async function getMessageOverview(limit=500){
+    const user=await requireUser();
+    const size=Math.max(1,Math.min(Number(limit)||500,1000));
+    const {data,error}=await db().from('direct_messages')
+      .select('id,sender_id,recipient_id,body,event_id,created_at,seen_at')
+      .or(`sender_id.eq.${user.id},recipient_id.eq.${user.id}`)
+      .order('created_at',{ascending:false})
+      .limit(size);
+    fail(error,'Konverzace se nepodařilo načíst.');
+    const byFriend=new Map();
+    for(const row of data||[]){
+      const friendId=row.sender_id===user.id?row.recipient_id:row.sender_id;
+      let item=byFriend.get(friendId);
+      if(!item){
+        item={friend_id:friendId,last_message:row,unread:0};
+        byFriend.set(friendId,item);
+      }
+      if(row.recipient_id===user.id&&row.seen_at==null)item.unread+=1;
+    }
+    return [...byFriend.values()];
+  }
+
+  async function markConversationSeen(friendId){
+    await requireUser();
+    if(typeof friendId!=='string'||!friendId)return 0;
+    const {data,error}=await db().rpc('uka_mark_conversation_seen',{p_friend:friendId});
+    fail(error,'Zprávy se nepodařilo označit jako přečtené.');
+    return Number(data)||0;
+  }
+
+  async function subscribeDirectMessages(handler){
+    const user=await requireUser();
+    if(typeof handler!=='function')throw new Error('Chybí obsluha zpráv.');
+    const client=db();
+    const channel=client.channel(`uka-direct-${user.id}-${Date.now()}`)
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'direct_messages'},payload=>{
+        const row=payload?.new;
+        if(!row)return;
+        if(row.sender_id===user.id||row.recipient_id===user.id)handler(row);
+      })
+      .subscribe();
+    return channel;
+  }
+
+  async function unsubscribeChannel(channel){
+    if(!channel)return;
+    try{await db().removeChannel(channel);}catch{}
+  }
+
   window.UKASocial={
     currentUser,getMyProfile,getProfile,updateMyProfile,uploadAvatar,removeAvatar,searchUsers,
     sendFriendRequest,acceptFriendRequest,declineFriendRequest,getFriendRequests,getFriends,removeFriend,
     likeEvent,unlikeEvent,getEventLikes,getComments,addComment,editComment,deleteComment,
-    shareEvent,getInbox,getUnreadCount,markShareSeen
+    shareEvent,getInbox,getUnreadCount,markShareSeen,
+    sendDirectMessage,getConversation,getMessageOverview,markConversationSeen,subscribeDirectMessages,unsubscribeChannel
   };
 })();
