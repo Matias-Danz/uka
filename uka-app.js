@@ -351,8 +351,9 @@ function pageHome(){
     }
   }
   function showToast(msg){const t=el('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3200);}
-  function render(){const current=(location.hash||'#akce').slice(1);page=['akce','mapa','oblibene','pridat'].includes(current)?current:'akce';favoriteOnly=page==='oblibene';closeModal(false);destroyMaps();document.querySelectorAll('[data-nav]').forEach(n=>n.classList.toggle('active',n.dataset.nav===page));el('app').innerHTML=page==='mapa'?mapPage():page==='pridat'?addPage():pageHome();window.scrollTo({top:0,behavior:'instant'});if(page==='mapa')setTimeout(initMainMap,30);if(page==='pridat')setTimeout(initFormMap,30);}
-  function go(where){const to=['akce','mapa','oblibene','pridat'].includes(where)?where:'akce';if(location.hash===`#${to}`){render()}else location.hash=to;}
+  function onlinePage(){return window.UKAOnline?.page?.()||'<section class="uka-online-page"><div class="container"><div class="uka-online-loading">Načítám UKA Online…</div></div></section>';}
+  function render(){const current=(location.hash||'#akce').slice(1);page=['akce','mapa','oblibene','online','pridat'].includes(current)?current:'akce';favoriteOnly=page==='oblibene';closeModal(false);destroyMaps();document.querySelectorAll('[data-nav]').forEach(n=>n.classList.toggle('active',n.dataset.nav===page));el('app').innerHTML=page==='mapa'?mapPage():page==='pridat'?addPage():page==='online'?onlinePage():pageHome();window.scrollTo({top:0,behavior:'instant'});if(page==='mapa')setTimeout(initMainMap,30);if(page==='pridat')setTimeout(initFormMap,30);if(page==='online')setTimeout(()=>window.UKAOnline?.mount?.(),0);}
+  function go(where){const to=['akce','mapa','oblibene','online','pridat'].includes(where)?where:'akce';if(location.hash===`#${to}`){render()}else location.hash=to;}
   function rerenderList(){const scroll=window.scrollY;const elem=el('searchInput');const start=elem?.selectionStart,end=elem?.selectionEnd;const focused=document.activeElement===elem;el('app').innerHTML=pageHome();if(focused){const input=el('searchInput');input.focus({preventScroll:true});input.setSelectionRange(Math.min(start??search.length,search.length),Math.min(end??search.length,search.length));}window.scrollTo(0,scroll);}
   function cacheFavorites(){
     try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{}
@@ -360,7 +361,7 @@ function pageHome(){
 
   function repaintFavorites(){
     if(page==='mapa')renderMapListAndPins();
-    else if(page!=='pridat'&&el('app'))rerenderList();
+    else if((page==='akce'||page==='oblibene')&&el('app'))rerenderList();
   }
 
   function waitForSupabaseClient(timeout=5000){
@@ -384,7 +385,7 @@ function pageHome(){
 
     showToast(favorites.has(id)?'Přidáno do oblíbených':'Odebráno z oblíbených');
     if(page==='mapa')renderMapListAndPins();
-    else if(page!=='pridat')rerenderList();
+    else if(page==='akce'||page==='oblibene')rerenderList();
     if(el('modalRoot').querySelector('.overlay'))showDetails(id);
 
     if(!client)return;

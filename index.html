@@ -7,14 +7,11 @@
   <meta name="theme-color" content="#0b0d12">
   <meta name="description" content="UKA — koncerty, kluby a festivaly na jednom místě.">
   <title>UKA — Objev hudbu kolem sebe</title>
-  
   <link rel="preconnect" href="https://tiles.openfreemap.org">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.8.0/dist/maplibre-gl.css">
   <script src="./uka-theme.js"></script>
-  
-
-
   <link rel="stylesheet" href="./uka.css">
+  <link rel="stylesheet" href="./uka-online.css">
 </head>
 <body>
   <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="uka-svg-sprite"><defs>
@@ -31,30 +28,33 @@
     <symbol id="i-cross" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
     <symbol id="i-locate" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3"/></symbol>
     <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M9 8l12-2"/><ellipse cx="6" cy="18" rx="3" ry="2"/><ellipse cx="18" cy="16" rx="3" ry="2"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
   </defs></svg>
   <header><div class="container head">
     <a href="#akce" class="brand" data-nav="akce" aria-label="UKA — zpět na hlavní stránku"><span class="brand-mark">U</span><span class="brand-name">UKA<span class="brand-dot">.</span></span></a>
-    <nav class="nav" aria-label="Hlavní navigace"><button type="button" data-nav="akce" class="active">Objevovat</button><button type="button" data-nav="mapa">Mapa</button><button type="button" data-nav="oblibene">Uložené</button></nav>
+    <nav class="nav" aria-label="Hlavní navigace"><button type="button" data-nav="akce" class="active">Objevovat</button><button type="button" data-nav="mapa">Mapa</button><button type="button" data-nav="oblibene">Uložené</button><button type="button" data-nav="online">Online</button></nav>
     <div class="head-actions"><button type="button" id="ukaAuthButton" class="uka-auth-button" style="visibility:hidden" aria-label="Přihlášení">Přihlásit se</button><span class="theme-label" id="themeText">Noční režim</span><button id="themeToggle" class="icon-btn" aria-label="Přepnout na denní režim" title="Přepnout denní/noční režim"><svg class="icon lg"><use id="themeIcon" href="#i-sun"/></svg></button><button class="btn btn-primary btn-sm head-add" data-nav="pridat"><svg class="icon sm"><use href="#i-plus"/></svg> Přidat</button></div>
   </div></header>
   <main id="app" aria-live="polite"></main>
   <footer class="footer">
     <div class="container">
-      <div class="foot"><div><span class="foot-brand">UKA<em>.</em></span><div class="uka-footer-tagline">Hudba kolem tebe.</div></div><span>Informace a dostupnost ověř u pořadatele. · Mapová data © OpenStreetMap · <a href="./admin.html" class="uka-admin-link">Administrace</a></span></div>
+      <div class="foot"><div><span class="foot-brand">UKA<em>.</em></span><div class="uka-footer-tagline">Hudba kolem tebe.</div></div><span>Informace a dostupnost ověř u pořadatele. · Mapová data ©️ OpenStreetMap · <a href="./admin.html" class="uka-admin-link">Administrace</a></span></div>
       <div class="footer-rights">
         <div class="footer-rights-copy">
           <strong>Nahlášení obsahu</strong>
           <p>Domníváte se, že některý obsah v UKA zasahuje do vašich autorských práv? Napište nám a uveďte odkaz na dotčený obsah a důvod žádosti. Každý podnět prověříme a v odůvodněných případech obsah bez zbytečného odkladu odstraníme.</p>
         </div>
-        <a class="footer-contact" href="mailto:kontakt.uka@gmail.com?subject=UKA%20%E2%80%93%20nahl%C3%A1%C5%A1en%C3%AD%20obsahu" aria-label="Napsat na kontakt.uka@gmail.com">kontakt.uka@gmail.com <span aria-hidden="true">↗</span></a>
+        <a class="footer-contact" href="mailto:kontakt.uka@gmail.com?subject=UKA%20%E2%80%93%20nahl%C3%A1%C5%A1en%C3%AD%20obsahu" aria-label="Napsat na kontakt.uka@gmail.com">kontakt.uka@gmail.com <span aria-hidden="true">↗️</span></a>
       </div>
     </div>
   </footer>
-  <div class="mobile-nav" aria-label="Mobilní navigace"><button data-nav="akce"><svg class="icon"><use href="#i-search"/></svg>Akce</button><button data-nav="mapa"><svg class="icon"><use href="#i-pin"/></svg>Mapa</button><button data-nav="oblibene"><svg class="icon"><use href="#i-heart"/></svg>Uložené</button><button data-nav="pridat"><svg class="icon"><use href="#i-plus"/></svg>Přidat</button></div>
+  <div class="mobile-nav" aria-label="Mobilní navigace"><button data-nav="akce"><svg class="icon"><use href="#i-search"/></svg>Akce</button><button data-nav="mapa"><svg class="icon"><use href="#i-pin"/></svg>Mapa</button><button data-nav="online"><svg class="icon"><use href="#i-users"/></svg>Online</button><button data-nav="oblibene"><svg class="icon"><use href="#i-heart"/></svg>Uložené</button><button data-nav="pridat"><svg class="icon"><use href="#i-plus"/></svg>Přidat</button></div>
   <div id="modalRoot"></div><div id="toast" class="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.8.0/dist/maplibre-gl.js"></script>
   <script src="./uka-app.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js" defer></script>
-<script src="./uka-auth.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js" defer></script>
+  <script src="./uka-auth.js" defer></script>
+  <script src="./uka-social-api.js" defer></script>
+  <script src="./uka-online.js" defer></script>
 </body>
 </html>
