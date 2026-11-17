@@ -55,7 +55,7 @@
 
   async function updateMyProfile(changes={}){
     const user=await requireUser();
-    const payload={};
+    const payload={id:user.id};
     if(Object.hasOwn(changes,'username')){
       const username=String(changes.username||'').trim().replace(/^@/,'');
       if(!/^[A-Za-z0-9._-]{3,30}$/.test(username))throw new Error('Uživatelské jméno musí mít 3–30 znaků a může obsahovat písmena, čísla, tečku, pomlčku a podtržítko.');
@@ -66,9 +66,58 @@
     if(Object.hasOwn(changes,'avatar_url'))payload.avatar_url=changes.avatar_url?String(changes.avatar_url).trim():null;
     if(Object.hasOwn(changes,'is_private'))payload.is_private=!!changes.is_private;
     payload.updated_at=new Date().toISOString();
-    const {data,error}=await db().from('profiles').update(payload).eq('id',user.id).select(PROFILE_FIELDS).single();
+    const {data,error}=await db().from('profiles').upsert(payload,{onConflict:'id'}).select(PROFILE_FIELDS).single();
     fail(error,'Profil se nepodařilo uložit.');
     return data;
+  }
+
+  function avatarObjectPath(url,userId){
+    if(!url||!userId)return null;
+    try{
+      const parsed=new URL(url);
+      const marker='/storage/v1/object/public/avatars/';
+      const pos=parsed.pathname.indexOf(marker);
+      if(pos<0)return null;
+      const path=decodeURIComponent(parsed.pathname.slice(pos+marker.length));
+      return path.startsWith(`${userId}/`)?path:null;
+    }catch{return null;}
+  }
+
+  async function uploadAvatar(file){
+    const user=await requireUser();
+    if(!(file instanceof Blob))throw new Error('Vyber obrázek.');
+    const allowed={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'};
+    const ext=allowed[file.type];
+    if(!ext)throw new Error('Použij JPG, PNG nebo WebP.');
+    if(file.size>5*1024*1024)throw new Error('Profilová fotka může mít maximálně 5 MB.');
+    const current=await getMyProfile();
+    const oldPath=avatarObjectPath(current?.avatar_url,user.id);
+    const path=`${user.id}/avatar-${Date.now()}.${ext}`;
+    const {error:uploadError}=await db().storage.from('avatars').upload(path,file,{cacheControl:'3600',upsert:false,contentType:file.type});
+    fail(uploadError,'Fotku se nepodařilo nahrát.');
+    const {data:publicData}=db().storage.from('avatars').getPublicUrl(path);
+    const publicUrl=publicData?.publicUrl;
+    if(!publicUrl){
+      await db().storage.from('avatars').remove([path]);
+      throw new Error('Nepodařilo se vytvořit adresu profilové fotky.');
+    }
+    try{
+      const profile=await updateMyProfile({avatar_url:publicUrl});
+      if(oldPath&&oldPath!==path)await db().storage.from('avatars').remove([oldPath]);
+      return profile;
+    }catch(error){
+      await db().storage.from('avatars').remove([path]);
+      throw error;
+    }
+  }
+
+  async function removeAvatar(){
+    const user=await requireUser();
+    const current=await getMyProfile();
+    const oldPath=avatarObjectPath(current?.avatar_url,user.id);
+    const profile=await updateMyProfile({avatar_url:null});
+    if(oldPath)await db().storage.from('avatars').remove([oldPath]);
+    return profile;
   }
 
   async function searchUsers(query,limit=20){
@@ -233,7 +282,7 @@
   }
 
   window.UKASocial={
-    currentUser,getMyProfile,getProfile,updateMyProfile,searchUsers,
+    currentUser,getMyProfile,getProfile,updateMyProfile,uploadAvatar,removeAvatar,searchUsers,
     sendFriendRequest,acceptFriendRequest,declineFriendRequest,getFriendRequests,getFriends,removeFriend,
     likeEvent,unlikeEvent,getEventLikes,getComments,addComment,editComment,deleteComment,
     shareEvent,getInbox,getUnreadCount,markShareSeen
