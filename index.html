@@ -20,6 +20,7 @@
     <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="2.5"/></symbol>
     <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m16 8-2.7 5.3L8 16l2.7-5.3L16 8z"/></symbol>
     <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 8V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a4 4 0 0 0 0 8v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a4 4 0 0 0 0-8z"/><path d="M13 3v2m0 4v2m0 4v2m0 4v-2"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
     <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.6a5.3 5.3 0 0 0-7.5 0L12 6.9l-1.3-1.3a5.3 5.3 0 0 0-7.5 7.5L12 21l8.8-7.9a5.3 5.3 0 0 0 0-7.5z"/></symbol>
@@ -32,7 +33,7 @@
   </defs></svg>
   <header><div class="container head">
     <a href="#akce" class="brand" data-nav="akce" aria-label="UKA — zpět na hlavní stránku"><span class="brand-mark">U</span><span class="brand-name">UKA<span class="brand-dot">.</span></span></a>
-    <nav class="nav" aria-label="Hlavní navigace"><button type="button" data-nav="akce" class="active">Objevovat</button><button type="button" data-nav="mapa">Mapa</button><button type="button" data-nav="oblibene">Uložené</button><button type="button" data-nav="online">Online</button></nav>
+    <nav class="nav uka-icon-nav" aria-label="Hlavní navigace"><button type="button" data-nav="akce" class="active" aria-label="Objevovat" title="Objevovat"><svg class="icon"><use href="#i-compass"/></svg></button><button type="button" data-nav="mapa" aria-label="Mapa" title="Mapa"><svg class="icon"><use href="#i-pin"/></svg></button><button type="button" data-nav="oblibene" aria-label="Uložené" title="Uložené"><svg class="icon"><use href="#i-heart"/></svg></button><button type="button" data-nav="online" aria-label="Přátelé" title="Přátelé"><svg class="icon"><use href="#i-users"/></svg></button></nav>
     <div class="head-actions"><button type="button" id="ukaAuthButton" class="uka-auth-button" style="visibility:hidden" aria-label="Přihlášení">Přihlásit se</button><span class="theme-label" id="themeText">Noční režim</span><button id="themeToggle" class="icon-btn" aria-label="Přepnout na denní režim" title="Přepnout denní/noční režim"><svg class="icon lg"><use id="themeIcon" href="#i-sun"/></svg></button><button class="btn btn-primary btn-sm head-add" data-nav="pridat"><svg class="icon sm"><use href="#i-plus"/></svg> Přidat</button></div>
   </div></header>
   <main id="app" aria-live="polite"></main>
@@ -48,7 +49,7 @@
       </div>
     </div>
   </footer>
-  <div class="mobile-nav" aria-label="Mobilní navigace"><button data-nav="akce"><svg class="icon"><use href="#i-search"/></svg>Akce</button><button data-nav="mapa"><svg class="icon"><use href="#i-pin"/></svg>Mapa</button><button data-nav="online"><svg class="icon"><use href="#i-users"/></svg>Online</button><button data-nav="oblibene"><svg class="icon"><use href="#i-heart"/></svg>Uložené</button><button data-nav="pridat"><svg class="icon"><use href="#i-plus"/></svg>Přidat</button></div>
+  <div class="mobile-nav uka-mobile-icon-nav" aria-label="Mobilní navigace"><button data-nav="akce" aria-label="Objevovat" title="Objevovat"><svg class="icon"><use href="#i-compass"/></svg></button><button data-nav="mapa" aria-label="Mapa" title="Mapa"><svg class="icon"><use href="#i-pin"/></svg></button><button data-nav="online" aria-label="Přátelé" title="Přátelé"><svg class="icon"><use href="#i-users"/></svg></button><button data-nav="oblibene" aria-label="Uložené" title="Uložené"><svg class="icon"><use href="#i-heart"/></svg></button><button data-nav="pridat" aria-label="Přidat akci" title="Přidat akci"><svg class="icon"><use href="#i-plus"/></svg></button></div>
   <div id="modalRoot"></div><div id="toast" class="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.8.0/dist/maplibre-gl.js"></script>
   <script src="./uka-app.js"></script>

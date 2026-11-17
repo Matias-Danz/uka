@@ -13,7 +13,7 @@
   const usernameOf=profile=>profile?.username?`@${profile.username}`:'@bez-jmena';
 
   function page(){
-    return `<section class="uka-online-page"><div class="container uka-online-container"><div class="uka-online-topbar"><div><span class="uka-online-kicker">UKA Online</span><h1>Profil</h1></div><button type="button" class="uka-online-icon-button" data-online-action="refresh" aria-label="Obnovit" title="Obnovit">↻</button></div><div id="ukaOnlineRoot" class="uka-online-root"><div class="uka-online-loading">Načítám profil…</div></div></div></section>`;
+    return `<section class="uka-online-page"><div class="container uka-online-container"><div class="uka-online-topbar"><div><h1>Profil</h1></div><button type="button" class="uka-online-icon-button" data-online-action="refresh" aria-label="Obnovit" title="Obnovit">↻</button></div><div id="ukaOnlineRoot" class="uka-online-root"><div class="uka-online-loading">Načítám profil…</div></div></div></section>`;
   }
 
   function avatar(profile,size='normal'){
@@ -25,7 +25,7 @@
   }
 
   function renderLoggedOut(){
-    return `<div class="uka-online-empty uka-online-login"><div class="uka-online-empty-icon">◎</div><h2>UKA Online</h2><p>Přihlas se a vytvoř si profil, přidej přátele a sdílej s nimi koncerty.</p><button type="button" class="btn btn-primary" data-online-action="login">Přihlásit se</button></div>`;
+    return `<div class="uka-online-empty uka-online-login"><div class="uka-online-empty-icon">◎</div><h2>Přátelé na UKA</h2><p>Přihlas se, vytvoř si profil a spoj se s lidmi, se kterými chceš chodit na koncerty.</p><button type="button" class="btn btn-primary" data-online-action="login">Přihlásit se</button></div>`;
   }
 
   function relationAction(profile){
@@ -100,7 +100,7 @@
   async function load(){
     const api=window.UKASocial;
     state.error='';
-    if(!api){state.user=null;state.loading=false;state.error='Online služba se nenačetla.';renderApp();return;}
+    if(!api){state.user=null;state.loading=false;state.error='Sociální funkce se nenačetly.';renderApp();return;}
     state.loading=true;renderApp();
     try{
       state.user=await api.currentUser();
@@ -109,7 +109,7 @@
       state.profile=profile;state.friends=friends;state.incoming=requests.incoming||[];state.outgoing=requests.outgoing||[];
     }catch(error){
       console.warn('UKA Online load failed',error);
-      state.error=error?.message||'Online režim se nepodařilo načíst.';
+      state.error=error?.message||'Sociální část se nepodařilo načíst.';
     }finally{state.loading=false;renderApp();}
   }
 
