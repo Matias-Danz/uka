@@ -192,6 +192,15 @@
     return true;
   }
 
+
+  async function getPublicFavorites(userId){
+    await requireUser();
+    if(typeof userId!=='string'||!userId)throw new Error('Neplatný profil.');
+    const {data,error}=await db().rpc('uka_get_profile_saved_events',{p_user:userId});
+    fail(error,'Uložené akce se nepodařilo načíst.');
+    return data||[];
+  }
+
   async function likeEvent(eventId){
     const user=await requireUser();
     const id=String(eventId||'').trim();
@@ -342,17 +351,15 @@
     return Number(data)||0;
   }
 
-  async function subscribeDirectMessages(handler){
+  async function subscribeDirectMessages(handler,statusHandler){
     const user=await requireUser();
     if(typeof handler!=='function')throw new Error('Chybí obsluha zpráv.');
     const client=db();
+    const deliver=payload=>{const row=payload?.new;if(row)handler(row);};
     const channel=client.channel(`uka-direct-${user.id}-${Date.now()}`)
-      .on('postgres_changes',{event:'INSERT',schema:'public',table:'direct_messages'},payload=>{
-        const row=payload?.new;
-        if(!row)return;
-        if(row.sender_id===user.id||row.recipient_id===user.id)handler(row);
-      })
-      .subscribe();
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'direct_messages',filter:`recipient_id=eq.${user.id}`},deliver)
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'direct_messages',filter:`sender_id=eq.${user.id}`},deliver)
+      .subscribe(status=>{if(typeof statusHandler==='function')statusHandler(status);});
     return channel;
   }
 
@@ -363,7 +370,7 @@
 
   window.UKASocial={
     currentUser,getMyProfile,getProfile,updateMyProfile,uploadAvatar,removeAvatar,searchUsers,
-    sendFriendRequest,acceptFriendRequest,declineFriendRequest,getFriendRequests,getFriends,removeFriend,
+    sendFriendRequest,acceptFriendRequest,declineFriendRequest,getFriendRequests,getFriends,removeFriend,getPublicFavorites,
     likeEvent,unlikeEvent,getEventLikes,getComments,addComment,editComment,deleteComment,
     shareEvent,getInbox,getUnreadCount,markShareSeen,
     sendDirectMessage,getConversation,getMessageOverview,markConversationSeen,subscribeDirectMessages,unsubscribeChannel

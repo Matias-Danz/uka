@@ -351,9 +351,10 @@ function pageHome(){
     }
   }
   function showToast(msg){const t=el('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3200);}
-  function onlinePage(){return window.UKAOnline?.page?.()||'<section class="uka-online-page"><div class="container"><div class="uka-online-loading">Načítám UKA Online…</div></div></section>';}
-  function render(){const current=(location.hash||'#akce').slice(1);page=['akce','mapa','oblibene','online','pridat'].includes(current)?current:'akce';favoriteOnly=page==='oblibene';closeModal(false);destroyMaps();document.querySelectorAll('[data-nav]').forEach(n=>n.classList.toggle('active',n.dataset.nav===page));el('app').innerHTML=page==='mapa'?mapPage():page==='pridat'?addPage():page==='online'?onlinePage():pageHome();window.scrollTo({top:0,behavior:'instant'});if(page==='mapa')setTimeout(initMainMap,30);if(page==='pridat')setTimeout(initFormMap,30);if(page==='online')setTimeout(()=>window.UKAOnline?.mount?.(),0);}
-  function go(where){const to=['akce','mapa','oblibene','online','pridat'].includes(where)?where:'akce';if(location.hash===`#${to}`){render()}else location.hash=to;}
+  function onlinePage(){return window.UKAOnline?.page?.()||'<section class="uka-online-page"><div class="container"><div class="uka-online-loading">Načítám sociální část…</div></div></section>';}
+  function routeBase(){const raw=(location.hash||'#akce').slice(1);const base=raw.split('/')[0]||'akce';return base==='online'?'social':base;}
+  function render(){const current=routeBase();page=['akce','mapa','oblibene','social','messages','pridat'].includes(current)?current:'akce';favoriteOnly=page==='oblibene';closeModal(false);destroyMaps();document.querySelectorAll('[data-nav]').forEach(n=>n.classList.toggle('active',n.dataset.nav===page));el('app').innerHTML=page==='mapa'?mapPage():page==='pridat'?addPage():(page==='social'||page==='messages')?onlinePage():pageHome();window.scrollTo({top:0,behavior:'instant'});if(page==='mapa')setTimeout(initMainMap,30);if(page==='pridat')setTimeout(initFormMap,30);if(page==='social'||page==='messages')setTimeout(()=>window.UKAOnline?.mount?.(),0);}
+  function go(where){const to=['akce','mapa','oblibene','social','messages','pridat'].includes(where)?where:'akce';if(location.hash===`#${to}`){render()}else location.hash=to;}
   function rerenderList(){const scroll=window.scrollY;const elem=el('searchInput');const start=elem?.selectionStart,end=elem?.selectionEnd;const focused=document.activeElement===elem;el('app').innerHTML=pageHome();if(focused){const input=el('searchInput');input.focus({preventScroll:true});input.setSelectionRange(Math.min(start??search.length,search.length),Math.min(end??search.length,search.length));}window.scrollTo(0,scroll);}
   function cacheFavorites(){
     try{localStorage.setItem(FAVORITES,JSON.stringify([...favorites]))}catch{}
@@ -442,6 +443,7 @@ function showDetails(id){
   window.showToast=showToast;
   window.UKAEvents={
     getById(id){const item=getEvents().find(event=>event.id===id);return item?{...item}:null;},
+    getAnyById(id){const item=allMergedEvents().map(correctEventCategory).find(event=>event.id===id);return item?{...item}:null;},
     open(id){showDetails(id);},
     all(){return getEvents().map(event=>({...event}));}
   };
