@@ -527,3 +527,108 @@ html[data-theme="light"] .uka-exact-date input{background:#fff;color-scheme:ligh
   .uka-filter-pills.uka-radius-pills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
   .uka-filter-pills.uka-radius-pills .pill{width:100%;justify-content:center}
 }
+
+/* UKA V11 — polished chat themes for both light and dark UI */
+.uka-chat-messages{
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+  background-size:cover!important;
+}
+
+/* Incoming messages stay readable on every wallpaper. */
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages,
+html[data-theme="dark"] .uka-chat-messages{
+  --uka-chat-incoming-bg:rgba(12,15,22,.84);
+  --uka-chat-incoming-fg:#f8faf7;
+  --uka-chat-incoming-border:rgba(255,255,255,.13);
+}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages,
+html[data-theme="light"] .uka-chat-messages{
+  --uka-chat-incoming-bg:rgba(255,255,255,.91);
+  --uka-chat-incoming-fg:#111419;
+  --uka-chat-incoming-border:rgba(17,20,25,.11);
+}
+.uka-chat-messages .uka-chat-line.is-theirs .uka-chat-bubble{
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+
+/* DARK — intentionally more colorful, not eighteen almost-black variants. */
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="default"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="default"]{background:#0b0d12!important;background-image:radial-gradient(circle at 86% 12%,rgba(215,255,57,.20),transparent 28%),radial-gradient(circle at 10% 86%,rgba(112,78,255,.19),transparent 34%),linear-gradient(145deg,#0b0d12,#121720)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="clean"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="clean"]{background:#12151b!important;background-image:linear-gradient(145deg,#151922,#0d1016)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="paper"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="paper"]{background:#201911!important;background-image:linear-gradient(rgba(239,210,157,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(239,210,157,.045) 1px,transparent 1px),linear-gradient(145deg,#241b12,#14110d)!important;background-size:26px 26px,26px 26px,cover!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="graphite"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="graphite"]{background:#17191e!important;background-image:radial-gradient(circle at 18% 16%,rgba(255,255,255,.12),transparent 30%),linear-gradient(145deg,#24272e,#101216 62%)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="ice"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="ice"]{background:#0b1b28!important;background-image:radial-gradient(circle at 15% 18%,rgba(120,218,255,.38),transparent 34%),radial-gradient(circle at 88% 84%,rgba(57,122,196,.28),transparent 39%),linear-gradient(145deg,#10293b,#08131d)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="sky"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="sky"]{background:#0b2232!important;background-image:radial-gradient(circle at 78% 15%,rgba(121,207,255,.34),transparent 34%),linear-gradient(155deg,#174d70 0%,#0c2940 48%,#09131d 100%)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="ocean"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="ocean"]{background:#06212b!important;background-image:radial-gradient(circle at 15% 18%,rgba(34,224,210,.32),transparent 36%),radial-gradient(circle at 88% 84%,rgba(34,91,214,.36),transparent 42%),linear-gradient(145deg,#0b3940,#071625)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="mint"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="mint"]{background:#0a2118!important;background-image:radial-gradient(circle at 18% 15%,rgba(78,232,154,.34),transparent 35%),radial-gradient(circle at 84% 84%,rgba(41,132,91,.27),transparent 38%),linear-gradient(145deg,#123c2b,#081610)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="aurora"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="aurora"]{background:#0b1c17!important;background-image:radial-gradient(ellipse at 18% 20%,rgba(63,255,161,.35),transparent 34%),radial-gradient(ellipse at 78% 72%,rgba(215,255,57,.24),transparent 38%),radial-gradient(ellipse at 86% 10%,rgba(102,79,255,.22),transparent 34%),linear-gradient(150deg,#102a22,#08120f)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="forest"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="forest"]{background:#0b1c10!important;background-image:radial-gradient(circle at 22% 12%,rgba(87,180,99,.31),transparent 34%),linear-gradient(160deg,#173823 0%,#0d2014 52%,#07100a 100%)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="sand"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="sand"]{background:#241b11!important;background-image:radial-gradient(circle at 18% 15%,rgba(236,184,102,.27),transparent 35%),radial-gradient(circle at 86% 84%,rgba(133,88,41,.28),transparent 40%),linear-gradient(145deg,#302214,#17110c)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="peach"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="peach"]{background:#29150f!important;background-image:radial-gradient(circle at 16% 16%,rgba(255,145,91,.34),transparent 35%),radial-gradient(circle at 86% 82%,rgba(209,75,74,.25),transparent 38%),linear-gradient(145deg,#3a1e14,#160d0b)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="rose"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="rose"]{background:#28101f!important;background-image:radial-gradient(circle at 18% 16%,rgba(255,93,164,.35),transparent 36%),radial-gradient(circle at 84% 82%,rgba(142,57,121,.27),transparent 40%),linear-gradient(145deg,#351629,#160b13)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="sunset"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="sunset"]{background:#2a1016!important;background-image:radial-gradient(circle at 12% 15%,rgba(255,145,74,.42),transparent 35%),radial-gradient(circle at 88% 82%,rgba(255,49,129,.34),transparent 40%),linear-gradient(145deg,#421c1a,#1b0c1e)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="lavender"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="lavender"]{background:#1c1430!important;background-image:radial-gradient(circle at 16% 16%,rgba(182,139,255,.35),transparent 36%),radial-gradient(circle at 86% 82%,rgba(92,73,194,.29),transparent 39%),linear-gradient(145deg,#2b2050,#110d1d)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="violet"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="violet"]{background:#190f31!important;background-image:radial-gradient(circle at 17% 17%,rgba(166,87,255,.42),transparent 35%),radial-gradient(circle at 86% 82%,rgba(65,97,255,.33),transparent 40%),linear-gradient(145deg,#2b1450,#10142c)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="midnight"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="midnight"]{background:#081329!important;background-image:radial-gradient(circle at 13% 12%,rgba(72,126,255,.38),transparent 35%),radial-gradient(circle at 87% 88%,rgba(39,63,145,.39),transparent 43%),linear-gradient(145deg,#122b58,#070d1c)!important}
+.uka-chat-shell[data-ui-theme="dark"] .uka-chat-messages[data-chat-theme="carbon"],html[data-theme="dark"] .uka-chat-messages[data-chat-theme="carbon"]{background:#090a0d!important;background-image:linear-gradient(135deg,rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(45deg,rgba(255,255,255,.025) 1px,transparent 1px),radial-gradient(circle at 18% 15%,rgba(255,255,255,.11),transparent 30%),linear-gradient(145deg,#181b21,#07080a)!important;background-size:30px 30px,30px 30px,cover,cover!important}
+
+/* LIGHT — same identity as the dark version, but soft enough for daylight UI. */
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="default"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="default"]{background:#f7f8f2!important;background-image:radial-gradient(circle at 86% 12%,rgba(201,235,47,.30),transparent 29%),radial-gradient(circle at 10% 86%,rgba(118,92,255,.11),transparent 35%),linear-gradient(145deg,#fbfcf7,#eef1eb)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="clean"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="clean"]{background:#fafbfa!important;background-image:linear-gradient(145deg,#ffffff,#f3f4f2)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="paper"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="paper"]{background:#f7f0df!important;background-image:linear-gradient(rgba(103,79,42,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(103,79,42,.038) 1px,transparent 1px),linear-gradient(145deg,#faf3e3,#efe4cf)!important;background-size:26px 26px,26px 26px,cover!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="graphite"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="graphite"]{background:#eceff1!important;background-image:radial-gradient(circle at 18% 16%,rgba(42,48,56,.10),transparent 31%),linear-gradient(145deg,#f4f5f6,#e1e5e8)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="ice"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="ice"]{background:#edf8ff!important;background-image:radial-gradient(circle at 15% 18%,rgba(109,206,247,.35),transparent 35%),radial-gradient(circle at 88% 84%,rgba(167,218,249,.34),transparent 39%),linear-gradient(145deg,#f5fcff,#dfeff8)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="sky"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="sky"]{background:#eaf7ff!important;background-image:radial-gradient(circle at 80% 17%,rgba(92,191,247,.34),transparent 34%),linear-gradient(155deg,#dff3ff 0%,#f6fbff 55%,#eaf5fb 100%)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="ocean"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="ocean"]{background:#e7f7f6!important;background-image:radial-gradient(circle at 15% 18%,rgba(39,198,190,.29),transparent 36%),radial-gradient(circle at 88% 84%,rgba(75,133,208,.22),transparent 42%),linear-gradient(145deg,#ecfbf8,#e4f0fa)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="mint"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="mint"]{background:#ebf9f1!important;background-image:radial-gradient(circle at 18% 15%,rgba(76,207,142,.30),transparent 35%),radial-gradient(circle at 84% 84%,rgba(173,232,197,.32),transparent 38%),linear-gradient(145deg,#effbf5,#e3f3ea)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="aurora"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="aurora"]{background:#ecf8f1!important;background-image:radial-gradient(ellipse at 18% 20%,rgba(62,211,129,.31),transparent 34%),radial-gradient(ellipse at 78% 72%,rgba(193,224,38,.23),transparent 38%),radial-gradient(ellipse at 86% 10%,rgba(119,95,235,.14),transparent 34%),linear-gradient(150deg,#effaf4,#e9f3ef)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="forest"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="forest"]{background:#edf5ef!important;background-image:radial-gradient(circle at 22% 12%,rgba(75,151,89,.23),transparent 34%),linear-gradient(160deg,#e4f0e6 0%,#f4f8f5 54%,#eaf1eb 100%)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="sand"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="sand"]{background:#faf2e5!important;background-image:radial-gradient(circle at 18% 15%,rgba(211,161,80,.29),transparent 35%),radial-gradient(circle at 86% 84%,rgba(174,126,66,.15),transparent 40%),linear-gradient(145deg,#fff7ea,#f1e4d1)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="peach"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="peach"]{background:#fff1e9!important;background-image:radial-gradient(circle at 16% 16%,rgba(255,144,92,.32),transparent 35%),radial-gradient(circle at 86% 82%,rgba(237,118,113,.19),transparent 38%),linear-gradient(145deg,#fff5ee,#fde7dc)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="rose"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="rose"]{background:#fff0f5!important;background-image:radial-gradient(circle at 18% 16%,rgba(247,100,158,.29),transparent 36%),radial-gradient(circle at 84% 82%,rgba(226,148,203,.20),transparent 40%),linear-gradient(145deg,#fff5f8,#fbe6ef)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="sunset"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="sunset"]{background:#fff0eb!important;background-image:radial-gradient(circle at 12% 15%,rgba(255,138,72,.34),transparent 35%),radial-gradient(circle at 88% 82%,rgba(246,75,132,.23),transparent 40%),linear-gradient(145deg,#fff5e9,#fde4ef)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="lavender"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="lavender"]{background:#f6f0ff!important;background-image:radial-gradient(circle at 16% 16%,rgba(164,119,239,.28),transparent 36%),radial-gradient(circle at 86% 82%,rgba(146,133,218,.20),transparent 39%),linear-gradient(145deg,#faf6ff,#eee7fb)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="violet"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="violet"]{background:#f2edff!important;background-image:radial-gradient(circle at 17% 17%,rgba(155,87,239,.31),transparent 35%),radial-gradient(circle at 86% 82%,rgba(75,104,230,.18),transparent 40%),linear-gradient(145deg,#f7f2ff,#eae9fb)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="midnight"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="midnight"]{background:#eaf0fb!important;background-image:radial-gradient(circle at 13% 12%,rgba(72,126,235,.27),transparent 35%),radial-gradient(circle at 87% 88%,rgba(94,114,173,.17),transparent 43%),linear-gradient(145deg,#eef4ff,#e4e9f4)!important}
+.uka-chat-shell[data-ui-theme="light"] .uka-chat-messages[data-chat-theme="carbon"],html[data-theme="light"] .uka-chat-messages[data-chat-theme="carbon"]{background:#eceff1!important;background-image:linear-gradient(135deg,rgba(27,31,36,.04) 1px,transparent 1px),linear-gradient(45deg,rgba(27,31,36,.025) 1px,transparent 1px),radial-gradient(circle at 18% 15%,rgba(33,38,44,.10),transparent 30%),linear-gradient(145deg,#f2f4f5,#e3e6e9)!important;background-size:30px 30px,30px 30px,cover,cover!important}
+
+/* Picker previews follow the current app mode, so what you tap is close to what you get. */
+.uka-theme-swatch{background-size:cover!important;background-position:center!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="default"]{background:radial-gradient(circle at 80% 18%,rgba(215,255,57,.35),transparent 34%),linear-gradient(145deg,#121720,#0b0d12)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="clean"]{background:linear-gradient(145deg,#1c2029,#0e1117)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="paper"]{background:linear-gradient(rgba(239,210,157,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(239,210,157,.06) 1px,transparent 1px),#211911!important;background-size:15px 15px!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="graphite"]{background:linear-gradient(145deg,#30343c,#111318)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="ice"]{background:linear-gradient(145deg,#1c5673,#0b1822)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="sky"]{background:linear-gradient(145deg,#25739d,#0a1720)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="ocean"]{background:linear-gradient(145deg,#167d79,#102a50)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="mint"]{background:linear-gradient(145deg,#246e4b,#091812)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="aurora"]{background:linear-gradient(145deg,#1b7651,#6f7d1d 58%,#1e1643)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="forest"]{background:linear-gradient(145deg,#2f6d3d,#0a130d)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="sand"]{background:linear-gradient(145deg,#7b5730,#18140f)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="peach"]{background:linear-gradient(145deg,#8b4930,#2b1110)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="rose"]{background:linear-gradient(145deg,#853358,#260f20)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="sunset"]{background:linear-gradient(145deg,#9b4f2c,#7b1f4b 55%,#1a0d16)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="lavender"]{background:linear-gradient(145deg,#644997,#171028)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="violet"]{background:linear-gradient(145deg,#7134aa,#243a9d)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="midnight"]{background:linear-gradient(145deg,#2855a1,#07101f)!important}
+html[data-theme="dark"] .uka-theme-swatch[data-theme-preview="carbon"]{background:linear-gradient(145deg,#363a43,#090a0d)!important}
+
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="default"]{background:radial-gradient(circle at 80% 18%,rgba(201,235,47,.48),transparent 34%),linear-gradient(145deg,#fbfcf7,#edf1ea)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="clean"]{background:linear-gradient(145deg,#fff,#f0f2ef)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="paper"]{background:linear-gradient(rgba(103,79,42,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(103,79,42,.05) 1px,transparent 1px),#f6ecd8!important;background-size:15px 15px!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="graphite"]{background:linear-gradient(145deg,#f5f6f7,#dfe3e6)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="ice"]{background:linear-gradient(145deg,#f4fcff,#bfe5f5)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="sky"]{background:linear-gradient(145deg,#cceeff,#f6fbff)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="ocean"]{background:linear-gradient(145deg,#c9f2ec,#d9e8fb)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="mint"]{background:linear-gradient(145deg,#d1f3df,#f0fbf5)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="aurora"]{background:linear-gradient(145deg,#c9f0da,#eef4c4 58%,#e8e0ff)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="forest"]{background:linear-gradient(145deg,#d5ead9,#f3f8f4)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="sand"]{background:linear-gradient(145deg,#f0d8b4,#fff6e9)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="peach"]{background:linear-gradient(145deg,#ffd8c7,#fff4ec)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="rose"]{background:linear-gradient(145deg,#ffd2e3,#fff3f8)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="sunset"]{background:linear-gradient(145deg,#ffd1ad,#f6c5d8 55%,#fff1ed)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="lavender"]{background:linear-gradient(145deg,#ded0fa,#f8f4ff)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="violet"]{background:linear-gradient(145deg,#d7c4f6,#cfd8fa)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="midnight"]{background:linear-gradient(145deg,#cbd8f3,#edf2fb)!important}
+html[data-theme="light"] .uka-theme-swatch[data-theme-preview="carbon"]{background:linear-gradient(145deg,#dce0e4,#f4f5f6)!important}
