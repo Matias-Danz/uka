@@ -19,11 +19,24 @@
   const CHAT_EMOJIS=['😀','😂','😍','🥰','😎','🥳','😭','😮','😅','🤝','👏','🙌','👍','👎','❤️','💚','🔥','✨','🎉','🎵','🎶','🫶','👀','💀','🤯','😈','🙏','✅','🚀','🍻'];
   const REACTION_EMOJIS=['❤️','😂','🔥','😍','😭','😮','👍','👏'];
   const CHAT_THEMES=[
-    {id:'default',name:'UKA',hint:'Čistý výchozí vzhled'},
-    {id:'midnight',name:'Midnight',hint:'Tmavě modrá'},
+    {id:'default',name:'UKA',hint:'Výchozí podle režimu'},
+    {id:'clean',name:'Clean',hint:'Čisté bez rušení'},
+    {id:'paper',name:'Paper',hint:'Jemný papírový vzhled'},
+    {id:'graphite',name:'Graphite',hint:'Neutrální šedá'},
+    {id:'ice',name:'Ice',hint:'Chladná světlá modrá'},
+    {id:'sky',name:'Sky',hint:'Vzdušná modrá'},
+    {id:'ocean',name:'Ocean',hint:'Modrozelený gradient'},
+    {id:'mint',name:'Mint',hint:'Svěží zelená'},
     {id:'aurora',name:'Aurora',hint:'Zelená záře'},
+    {id:'forest',name:'Forest',hint:'Hlubší zelená'},
+    {id:'sand',name:'Sand',hint:'Teplý neutrální tón'},
+    {id:'peach',name:'Peach',hint:'Měkká broskvová'},
+    {id:'rose',name:'Rose',hint:'Jemná růžová'},
     {id:'sunset',name:'Sunset',hint:'Teplý gradient'},
-    {id:'violet',name:'Violet',hint:'Fialový neon'}
+    {id:'lavender',name:'Lavender',hint:'Světlá levandule'},
+    {id:'violet',name:'Violet',hint:'Fialový gradient'},
+    {id:'midnight',name:'Midnight',hint:'Noční modrá'},
+    {id:'carbon',name:'Carbon',hint:'Tmavý minimalistický'}
   ];
 
   function page(){
@@ -136,7 +149,7 @@
     const avatarHtml=isOwn
       ? `<div class="uka-online-avatar-wrap"><button type="button" class="uka-online-avatar-button" data-online-action="choose-avatar" ${state.avatarBusy?'disabled':''} aria-label="Změnit profilovou fotku">${avatar(profile)}<span class="uka-online-avatar-edit">${state.avatarBusy?'…':'+'}</span></button><input id="ukaOnlineAvatarInput" type="file" accept="image/jpeg,image/png,image/webp" hidden></div>`
       : `<div class="uka-online-avatar-wrap">${avatar(profile)}</div>`;
-    const stats=`<div class="uka-online-stats"><span class="uka-online-stat"><strong>${followers}</strong><span>Okruh</span></span><span class="uka-online-stat"><strong>${following}</strong><span>Objevuju</span></span><button type="button" data-online-action="focus-saved"><strong>${savedCount}</strong><span>Uložené</span></button></div>`;
+    const stats=`<div class="uka-online-stats"><span class="uka-online-stat"><strong>${followers}</strong><span>Sledující</span></span><span class="uka-online-stat"><strong>${following}</strong><span>Sleduji</span></span><button type="button" data-online-action="focus-saved"><strong>${savedCount}</strong><span>Uložené</span></button></div>`;
     const actions=isOwn
       ? `<div class="uka-online-profile-actions"><button type="button" class="btn btn-outline btn-sm" data-online-action="edit-profile">Upravit profil</button><button type="button" class="btn btn-outline btn-sm" data-online-action="focus-search">Najít lidi</button>${profile?.avatar_url?'<button type="button" class="uka-online-text-button uka-online-remove-photo" data-online-action="remove-avatar">Odebrat fotku</button>':''}</div>`
       : `<div class="uka-online-profile-actions">${followAction(profile)}${relationAction(profile)}</div>`;
@@ -245,7 +258,8 @@
   function renderChat(){
     const row=friendRow(state.route.friendId),p=row?.profile||{};
     if(!row)return `${renderMessagesTopbar()}<div class="uka-online-soft-empty">Tuhle konverzaci nemůžu otevřít. Uživatel už nejspíš není ve spojení.</div>`;
-    return `<div class="uka-chat-shell"><div class="uka-chat-header"><button type="button" class="uka-chat-back" data-online-action="messages-home" aria-label="Zpět">${icon('back')}</button><button type="button" class="uka-chat-profile-link" data-online-action="open-profile" data-user-id="${esc(row.friend_id)}">${avatar(p,'small')}<span class="uka-chat-header-copy"><strong>${esc(nameOf(p))}</strong><span>${esc(usernameOf(p))}</span></span></button><div class="uka-chat-header-actions"><button type="button" class="uka-chat-theme-button" data-online-action="chat-theme" aria-label="Změnit pozadí chatu" title="Pozadí chatu">✦</button></div></div><div id="ukaChatMessages" class="uka-chat-messages" data-chat-theme="${esc(state.chatTheme)}">${chatBody()}</div><div class="uka-chat-composer-wrap">${renderEmojiPanel()}<form id="ukaChatForm" class="uka-chat-composer"><button type="button" class="uka-chat-emoji-button" data-online-action="toggle-emoji" aria-label="Emoji">☺</button><textarea id="ukaChatInput" name="message" rows="1" maxlength="2000" placeholder="Napiš zprávu…" autocomplete="off" ${state.sending?'disabled':''}>${esc(state.chatDraft)}</textarea><button type="submit" class="uka-chat-send" aria-label="Odeslat" ${state.sending?'disabled':''}>${icon('send')}</button></form></div></div>`;
+    const uiTheme=document.documentElement.dataset.theme==='light'?'light':'dark';
+    return `<div class="uka-chat-shell" data-ui-theme="${uiTheme}"><div class="uka-chat-header"><button type="button" class="uka-chat-back" data-online-action="messages-home" aria-label="Zpět">${icon('back')}</button><button type="button" class="uka-chat-profile-link" data-online-action="open-profile" data-user-id="${esc(row.friend_id)}">${avatar(p,'small')}<span class="uka-chat-header-copy"><strong>${esc(nameOf(p))}</strong><span>${esc(usernameOf(p))}</span></span></button><div class="uka-chat-header-actions"><button type="button" class="uka-chat-theme-button" data-online-action="chat-theme" aria-label="Změnit pozadí chatu" title="Pozadí chatu">✦</button></div></div><div id="ukaChatMessages" class="uka-chat-messages" data-ui-theme="${uiTheme}" data-chat-theme="${esc(state.chatTheme)}">${chatBody()}</div><div class="uka-chat-composer-wrap">${renderEmojiPanel()}<form id="ukaChatForm" class="uka-chat-composer"><button type="button" class="uka-chat-emoji-button" data-online-action="toggle-emoji" aria-label="Emoji">☺</button><textarea id="ukaChatInput" name="message" rows="1" maxlength="2000" placeholder="Napiš zprávu…" autocomplete="off" ${state.sending?'disabled':''}>${esc(state.chatDraft)}</textarea><button type="submit" class="uka-chat-send" aria-label="Odeslat" ${state.sending?'disabled':''}>${icon('send')}</button></form></div></div>`;
   }
 
   function renderApp(){
@@ -511,8 +525,8 @@
     if(action==='set-chat-theme'){
       const theme=button.dataset.themeValue||'default';api.setChatPreference(state.route.friendId,theme).then(()=>{state.chatTheme=theme;state.themeDialog=false;renderPortal();renderApp();}).catch(error=>notify(error?.message||'Pozadí se nepodařilo uložit.'));return;
     }
-    if(action==='follow'){run(()=>api.followUser(button.dataset.userId),'Přidáno do okruhu.');return;}
-    if(action==='unfollow'){run(()=>api.unfollowUser(button.dataset.userId),'Odebráno z okruhu.');return;}
+    if(action==='follow'){run(()=>api.followUser(button.dataset.userId),'Teď tohoto uživatele sleduješ.');return;}
+    if(action==='unfollow'){run(()=>api.unfollowUser(button.dataset.userId),'Už tohoto uživatele nesleduješ.');return;}
     if(action==='remove-avatar')run(()=>api.removeAvatar(),'Profilová fotka odebrána.').then(()=>{state.avatarBusy=false;});
     if(action==='add')run(()=>api.sendFriendRequest(button.dataset.userId),'Žádost o přátelství odeslána.');
     if(action==='accept')run(()=>api.acceptFriendRequest(button.dataset.requestId),'Jste přátelé.');
@@ -569,6 +583,16 @@
       }).catch(error=>{state.sending=false;if(input)input.disabled=false;notify(error?.message||'Zprávu se nepodařilo odeslat.');});
     }
   });
+
+  function syncChatUiTheme(){
+    const uiTheme=document.documentElement.dataset.theme==='light'?'light':'dark';
+    const shell=document.querySelector('.uka-chat-shell');
+    const messages=document.getElementById('ukaChatMessages');
+    if(shell)shell.dataset.uiTheme=uiTheme;
+    if(messages)messages.dataset.uiTheme=uiTheme;
+  }
+  const themeObserver=new MutationObserver(syncChatUiTheme);
+  themeObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 
   window.UKAOnline={page,mount,openShare};
   window.addEventListener('load',()=>{
