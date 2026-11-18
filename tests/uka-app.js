@@ -13,7 +13,7 @@
   function loadJson(key,def){try{const d=JSON.parse(localStorage.getItem(key));return Array.isArray(d)?d:def}catch{return def}}
   let added=[], favorites=new Set(loadJson(FAVORITES,[])); // staré lokální návrhy nikdy nezveřejňovat
   let approvedSubmissions=[];
-  let page='akce',search='',category='',city='',when='all',favoriteOnly=false,mapCategory='',mapCity='',mapQuery='',radius=0,userCoords=null,onlyAvailable=false;
+  let page='akce',search='',category='',city='',when='all',dateFrom='',dateTo='',homeRadius=0,homeFreeOnly=false,homeFiltersOpen=false,favoriteOnly=false,mapCategory='',mapCity='',mapQuery='',radius=0,userCoords=null,onlyAvailable=false;
   let availabilityOverrides={};
   let adminOverrides={overrides:{},custom_events:[]};
   let cloudAdminEdits={},cloudAdminEvents=[];
@@ -231,18 +231,33 @@
       return `<button type="button" class="smart-suggestion" data-search-correction="${where}" data-corrected="${esc(option.display)}"><span class="smart-suggestion-type">${completed?'Doplnit':'Myslel jsi'}</span><strong>${esc(option.display)}</strong><span class="smart-suggestion-arrow" aria-hidden="true">↗</span></button>`;
     }).join('')}</div>`;
   }
-  function filterEvents({favoritesOnly=false,cat='',cityFilter='',query='',period='all',loc=null,maxRadius=0,availableOnly=onlyAvailable}={}){
-    const now=daysFromNow(0);const dt=new Date();const end=new Date(dt.getFullYear(),dt.getMonth()+1,0);const monthEnd=`${end.getFullYear()}-${String(end.getMonth()+1).padStart(2,'0')}-${String(end.getDate()).padStart(2,'0')}`;
+  function filterEvents({favoritesOnly=false,cat='',cityFilter='',query='',period='all',startDate='',endDate='',loc=null,maxRadius=0,freeOnly=false,availableOnly=onlyAvailable}={}){
+    const now=daysFromNow(0);const tomorrow=daysFromNow(1);const dt=new Date();const end=new Date(dt.getFullYear(),dt.getMonth()+1,0);const monthEnd=`${end.getFullYear()}-${String(end.getMonth()+1).padStart(2,'0')}-${String(end.getDate()).padStart(2,'0')}`;
     const eligible=getEvents().filter(e=>{
       if(e.date<now||(favoritesOnly&&!favorites.has(e.id))||(cat&&e.category!==cat)||(cityFilter&&e.city!==cityFilter))return false;
+      if(period==='today'&&e.date!==now)return false;
+      if(period==='tomorrow'&&e.date!==tomorrow)return false;
       if(period==='week'&&e.date>daysFromNow(7))return false;
       if(period==='month'&&e.date>monthEnd)return false;
-      if(period==='free'&&(e.price==null||Number(e.price)!==0))return false;
+      if(period==='custom'&&startDate&&e.date<startDate)return false;
+      if(period==='custom'&&endDate&&e.date>endDate)return false;
+      if(freeOnly&&(e.price==null||Number(e.price)!==0))return false;
       if(availableOnly){const state=availabilityFor(e).status;if(!['available','low'].includes(state)&&!(state==='unknown'&&e.sales_phase==='on_sale'&&salesPhaseFor(e)))return false;}
-      if(loc&&maxRadius>0&&distance(loc,[e.lat,e.lng])>maxRadius)return false;
+      if(loc&&maxRadius>0){if(!hasVerifiedCoords(e)||distance(loc,[Number(e.lat),Number(e.lng)])>maxRadius)return false;}
       return true;
     });
     return searchRankedEvents(eligible,query).map(row=>row.event);
+  }
+  function homeFilterArgs(query=search){
+    return {favoritesOnly:favoriteOnly,cat:category,cityFilter:city,query,period:when,startDate:dateFrom,endDate:dateTo,loc:homeRadius>0?userCoords:null,maxRadius:homeRadius,freeOnly:homeFreeOnly,availableOnly:onlyAvailable};
+  }
+  function hasHomeFilters(){return !!(search||category||city||when!=='all'||homeRadius||homeFreeOnly||onlyAvailable);}
+  function homeFilterCount(){return [category,city||homeRadius,when!=='all',homeFreeOnly,onlyAvailable].filter(Boolean).length;}
+  function eventCities(){return [...new Set(getEvents().map(e=>String(e.city||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'cs'));}
+  function dateFilterText(){
+    if(when==='today')return 'Dnes';if(when==='tomorrow')return 'Zítra';if(when==='week')return '7 dní';if(when==='month')return 'Tento měsíc';
+    if(when==='custom'&&dateFrom&&dateTo)return dateFrom===dateTo?fmtDate(dateFrom,'short'):`${fmtDate(dateFrom,'short')} – ${fmtDate(dateTo,'short')}`;
+    return 'Kdykoliv';
   }
   const datePill=e=>{const [day,month]=dateParts(e.date);return `<div class="poster-date"><strong>${esc(day)}</strong><small>${esc(month)}</small></div>`};
   function eventPoster(e,modal=false){
@@ -276,7 +291,11 @@ function card(e){
   </article>`;
 }
 function pageHome(){
-  const events=filterEvents({favoritesOnly:favoriteOnly,cat:category,cityFilter:city,query:search,period:when});
+  const events=filterEvents(homeFilterArgs());
+  const filterCount=homeFilterCount();
+  const cities=eventCities();
+  const today=daysFromNow(0);
+  const quickDate=[['today','Dnes'],['tomorrow','Zítra'],['week','7 dní']];
   return `
     ${favoriteOnly?'':`<section class="hero"><div class="container hero-wrap"><div class="hero-copy">
       <div class="eyebrow">UKA / HUDBA KOLEM TEBE</div>
@@ -286,15 +305,28 @@ function pageHome(){
     </div><div class="hero-visual" aria-hidden="true"><div class="record-art"><span>UKA</span></div></div></div></section>`}
     <section id="events" class="container section">
       <div class="section-head"><div><h2>${favoriteOnly?'Uložené akce':'Objevuj akce'}</h2></div></div>
-      <div class="toolbar"><label class="field-wrap">${icon('search')}<input id="searchInput" autocomplete="off" placeholder="Interpret, akce nebo místo" value="${esc(search)}" aria-label="Hledat akci"></label>
-        <select id="cityFilter" class="select" aria-label="Město"><option value="">Všechna města</option>${['Praha','Brno','Ostrava','Plzeň','Olomouc','Liberec','Pardubice'].map(c=>`<option value="${c}" ${city===c?'selected':''}>${c}</option>`).join('')}</select>
-        <select id="whenFilter" class="select" aria-label="Termín"><option value="all" ${when==='all'?'selected':''}>Kdykoliv</option><option value="week" ${when==='week'?'selected':''}>Do 7 dní</option><option value="month" ${when==='month'?'selected':''}>Tento měsíc</option><option value="free" ${when==='free'?'selected':''}>Zdarma</option></select>
+      <div class="uka-discovery-tools">
+        <div class="uka-discovery-search-row">
+          <label class="field-wrap uka-discovery-search">${icon('search')}<input id="searchInput" autocomplete="off" placeholder="Interpret, akce nebo místo" value="${esc(search)}" aria-label="Hledat akci"></label>
+          <button type="button" id="toggleHomeFilters" class="uka-filter-toggle ${homeFiltersOpen?'is-open':''} ${filterCount?'has-active':''}" aria-expanded="${homeFiltersOpen?'true':'false'}"><span aria-hidden="true">☷</span> Filtry${filterCount?`<b>${filterCount}</b>`:''}</button>
         </div>
-      <div id="searchSuggestion" aria-live="polite">${searchSuggestionMarkup(search,filterEvents({favoritesOnly:favoriteOnly,cat:category,cityFilter:city,period:when}),'list')}</div>
-      <div class="filter-line"><div class="filter-pills">${CATS.map(([value,label])=>`<button class="pill ${category===value?'active':''}" data-category="${esc(value)}">${label}</button>`).join('')}</div><label class="filter-availability ${onlyAvailable?'is-active':''}" title="Jen akce s otevřeným prodejem nebo potvrzenou dostupností. Volná místa nejsou zaručena."><input id="homeAvailableOnly" type="checkbox" ${onlyAvailable?'checked':''}> V prodeji</label></div>
-      <div class="results"><span>${events.length} akcí</span>${search||category||city||when!=='all'||onlyAvailable?'<button type="button" id="clearFilters" class="filter-reset">Vymazat filtry</button>':''}</div>
+        <div class="uka-quick-filter-row" aria-label="Rychlé filtry">
+          ${quickDate.map(([value,label])=>`<button type="button" class="uka-quick-chip ${when===value?'active':''}" data-home-date="${value}">${label}</button>`).join('')}
+          <span class="uka-quick-divider" aria-hidden="true"></span>
+          ${[10,25].map(n=>`<button type="button" class="uka-quick-chip ${homeRadius===n?'active':''}" data-home-radius="${n}">${icon('locate','sm')} ${n} km</button>`).join('')}
+          ${(city||homeRadius||when==='custom')?`<span class="uka-filter-current">${city?esc(city):homeRadius?`Do ${homeRadius} km`:esc(dateFilterText())}</span>`:''}
+        </div>
+        ${homeFiltersOpen?`<div class="uka-filter-panel">
+          <div class="uka-filter-group"><div class="uka-filter-group-head"><strong>Kdy</strong><span>${esc(dateFilterText())}</span></div><div class="uka-filter-pills"><button type="button" class="pill ${when==='all'?'active':''}" data-home-date="all">Kdykoliv</button>${quickDate.map(([value,label])=>`<button type="button" class="pill ${when===value?'active':''}" data-home-date="${value}">${label}</button>`).join('')}<button type="button" class="pill ${when==='month'?'active':''}" data-home-date="month">Tento měsíc</button></div><div class="uka-date-range"><label>Od<input id="homeDateFrom" type="date" min="${today}" value="${esc(dateFrom)}"></label><span>–</span><label>Do<input id="homeDateTo" type="date" min="${esc(dateFrom||today)}" value="${esc(dateTo)}"></label></div></div>
+          <div class="uka-filter-group"><div class="uka-filter-group-head"><strong>Kde</strong><span>${city?esc(city):(homeRadius?`Do ${homeRadius} km od tebe`:'Kdekoliv')}</span></div><select id="cityFilter" class="select uka-filter-city" aria-label="Město"><option value="">Všechna města</option>${cities.map(c=>`<option value="${esc(c)}" ${city===c?'selected':''}>${esc(c)}</option>`).join('')}</select><div class="uka-filter-pills uka-radius-pills"><button type="button" class="pill ${!homeRadius?'active':''}" data-home-radius="0">Bez okruhu</button>${[10,25,50,100].map(n=>`<button type="button" class="pill ${homeRadius===n?'active':''}" data-home-radius="${n}">${n} km</button>`).join('')}</div></div>
+          <div class="uka-filter-group uka-filter-group-wide"><div class="uka-filter-group-head"><strong>Typ akce</strong><span>${category?esc(CAT_LABELS[category]||category):'Všechny'}</span></div><div class="uka-filter-pills">${CATS.map(([value,label])=>`<button class="pill ${category===value?'active':''}" data-category="${esc(value)}">${label}</button>`).join('')}</div></div>
+          <div class="uka-filter-group uka-filter-group-wide uka-filter-switches"><label class="uka-filter-switch ${onlyAvailable?'is-active':''}"><input id="homeAvailableOnly" type="checkbox" ${onlyAvailable?'checked':''}><span>Jen v prodeji</span></label><label class="uka-filter-switch ${homeFreeOnly?'is-active':''}"><input id="homeFreeOnly" type="checkbox" ${homeFreeOnly?'checked':''}><span>Jen zdarma</span></label>${hasHomeFilters()?'<button type="button" id="clearFilters" class="filter-reset">Vymazat vše</button>':''}</div>
+        </div>`:''}
+      </div>
+      <div id="searchSuggestion" aria-live="polite">${searchSuggestionMarkup(search,filterEvents({...homeFilterArgs(''),query:''}),'list')}</div>
+      <div class="results"><span>${events.length} akcí</span>${hasHomeFilters()&&!homeFiltersOpen?'<button type="button" id="clearFilters" class="filter-reset">Vymazat filtry</button>':''}</div>
       <div id="eventCards" class="cards ${events.length?'':'hidden'}">${events.map(card).join('')}</div>
-      <div id="searchEmpty" class="empty ${events.length?'hidden':''}"><div class="empty-icon">♫</div><h3>${search?'Nic jsme nenašli':'Zatím tady nic není'}</h3><p>Zkus upravit hledání nebo filtry.</p><button class="btn btn-primary" id="clearFiltersEmpty">Vymazat filtry</button></div>
+      <div id="searchEmpty" class="empty ${events.length?'hidden':''}"><div class="empty-icon">♫</div><h3>${search?'Nic jsme nenašli':'Žádná akce neodpovídá filtrům'}</h3><p>Zkus upravit hledání, datum nebo polohu.</p><button class="btn btn-primary" id="clearFiltersEmpty">Vymazat filtry</button></div>
     </section>`;
 }
   function hasVerifiedCoords(e){return e.lat!==null&&e.lng!==null&&e.lat!==undefined&&e.lng!==undefined&&Number.isFinite(Number(e.lat))&&Number.isFinite(Number(e.lng))&&Number(e.lat)>48.3&&Number(e.lat)<51.2&&Number(e.lng)>12&&Number(e.lng)<19.2;}
@@ -579,6 +611,16 @@ function showDetails(id){
       showToast('Poloha nalezena. Zobrazujeme akce do 25 km.');
     },()=>showToast('Polohu se nepodařilo získat. Povol přístup, případně použij filtr města.'),{enableHighAccuracy:false,timeout:12000});
   }
+  function locateHome(nextRadius=25){
+    const km=Math.max(1,Number(nextRadius)||25);
+    if(userCoords){homeRadius=km;city='';homeFiltersOpen=true;rerenderList();return;}
+    if(!navigator.geolocation){showToast('Polohu prohlížeč nepodporuje. Použij filtr města.');return;}
+    showToast('Zjišťuji tvoji polohu…');
+    navigator.geolocation.getCurrentPosition(pos=>{
+      userCoords=[pos.coords.latitude,pos.coords.longitude];homeRadius=km;city='';homeFiltersOpen=true;rerenderList();
+      showToast(`Zobrazujeme akce do ${km} km od tebe.`);
+    },()=>showToast('Polohu se nepodařilo získat. Povol přístup, případně vyber město.'),{enableHighAccuracy:false,timeout:12000});
+  }
   function initFormMap(){
     const target=el('formMap');if(!target)return;
     chosenCoords=[...CITIES.Praha];
@@ -723,7 +765,7 @@ function showDetails(id){
 
   document.addEventListener('click',e=>{
     const oz=e.target.closest('[data-offline-zoom]');if(oz){offlineZoom=Math.max(1,Math.min(5,offlineZoom-Number(oz.dataset.offlineZoom)*.45));const svg=oz.closest('.fallback-map')?.querySelector('.schematic');if(svg)svg.style.transform=`scale(${offlineZoom})`;return;}
-    const n=e.target.closest('[data-nav]');if(n){e.preventDefault();if(n.classList.contains('brand')){search='';city='';when='all';category='';}go(n.dataset.nav);return;}
+    const n=e.target.closest('[data-nav]');if(n){e.preventDefault();if(n.classList.contains('brand')){search='';city='';when='all';dateFrom='';dateTo='';homeRadius=0;homeFreeOnly=false;category='';onlyAvailable=false;}go(n.dataset.nav);return;}
     const suggestion=e.target.closest('[data-search-correction]');
     if(suggestion){
       if(suggestion.dataset.searchCorrection==='map'){
@@ -732,13 +774,16 @@ function showDetails(id){
       }else{search=suggestion.dataset.corrected;rerenderList();}
       return;
     }
-    const c=e.target.closest('[data-category]');if(c){category=c.dataset.category;rerenderList();return;}
+    const c=e.target.closest('[data-category]');if(c){category=c.dataset.category;homeFiltersOpen=true;rerenderList();return;}
     const f=e.target.closest('[data-fav]');if(f){e.preventDefault();e.stopPropagation();toggleFav(f.dataset.fav);return;}
     const share=e.target.closest('[data-share-event]');if(share){e.preventDefault();e.stopPropagation();const eventItem=getEvents().find(item=>item.id===share.dataset.shareEvent);if(eventItem&&window.UKAOnline?.openShare)window.UKAOnline.openShare(eventItem);else showToast('Přihlas se a přidej si přátele.');return;}
     const d=e.target.closest('[data-detail]');if(d){showDetails(d.dataset.detail);return;}
     const close=e.target.closest('[data-close]');if(close&&(e.target===close||e.target.closest('button[data-close]'))){closeModal();return;}
     const jump=e.target.closest('[data-jump]');if(jump){el(jump.dataset.jump)?.scrollIntoView({behavior:'smooth'});return;}
-    if(e.target.closest('#clearFilters, #clearFiltersEmpty')){search='';city='';when='all';category='';onlyAvailable=false;rerenderList();return;}
+    if(e.target.closest('#clearFilters, #clearFiltersEmpty')){search='';city='';when='all';dateFrom='';dateTo='';homeRadius=0;homeFreeOnly=false;category='';onlyAvailable=false;rerenderList();return;}
+    if(e.target.closest('#toggleHomeFilters')){homeFiltersOpen=!homeFiltersOpen;rerenderList();return;}
+    const hd=e.target.closest('[data-home-date]');if(hd){const value=hd.dataset.homeDate||'all';when=when===value&&value!=='all'?'all':value;dateFrom='';dateTo='';homeFiltersOpen=homeFiltersOpen||value==='month';rerenderList();return;}
+    const hr=e.target.closest('[data-home-radius]');if(hr){const km=Number(hr.dataset.homeRadius)||0;if(km===0||homeRadius===km){homeRadius=0;rerenderList();return;}city='';if(userCoords){homeRadius=km;homeFiltersOpen=true;rerenderList();}else locateHome(km);return;}
     if(e.target.closest('#locateMe')){locate();return;}
     const r=e.target.closest('[data-radius]');if(r){radius=Number(r.dataset.radius);renderMapListAndPins();return;}
     const focus=e.target.closest('[data-focus]');if(focus){focusMapEvent(focus.dataset.focus);return;}
@@ -753,7 +798,7 @@ function showDetails(id){
      }
      if(e.target.id==='searchInput'){
        search=e.target.value;
-       const list=filterEvents({favoritesOnly:favoriteOnly,cat:category,cityFilter:city,query:search,period:when});
+       const list=filterEvents(homeFilterArgs());
        const cards=el('eventCards');
        if(cards){cards.innerHTML=list.map(card).join('');cards.style.display=list.length?'grid':'none';}
        const empty=el('searchEmpty');
@@ -762,16 +807,25 @@ function showDetails(id){
        if(counter)counter.textContent=`${list.length} akcí`;
        const resultsRow=document.querySelector('.results');
        if(resultsRow){
-         const active=!!(search||category||city||when!=='all'||onlyAvailable);
+         const active=hasHomeFilters();
          const reset=resultsRow.querySelector('#clearFilters');
          if(active&&!reset)resultsRow.insertAdjacentHTML('beforeend','<button type="button" id="clearFilters" class="filter-reset">Vymazat filtry</button>');
          if(!active&&reset)reset.remove();
        }
        const hint=el('searchSuggestion');
-       if(hint)hint.innerHTML=searchSuggestionMarkup(search,filterEvents({favoritesOnly:favoriteOnly,cat:category,cityFilter:city,period:when}),'list');
+       if(hint)hint.innerHTML=searchSuggestionMarkup(search,filterEvents({...homeFilterArgs(''),query:''}),'list');
      }
   });
-  document.addEventListener('change',e=>{if(e.target.id==='homeAvailableOnly'||e.target.id==='mapAvailableOnly'){onlyAvailable=!!e.target.checked;if(page==='mapa')renderMapListAndPins();else rerenderList();return;}if(e.target.id==='cityFilter'){city=e.target.value;rerenderList()}if(e.target.id==='whenFilter'){when=e.target.value;rerenderList()}if(e.target.id==='mapCity'){mapCity=e.target.value;renderMapListAndPins()}if(e.target.id==='mapCat'){mapCategory=e.target.value;renderMapListAndPins()}if(e.target.id==='eCity')updateFormCity();});
+  document.addEventListener('change',e=>{
+    if(e.target.id==='homeAvailableOnly'||e.target.id==='mapAvailableOnly'){onlyAvailable=!!e.target.checked;if(page==='mapa')renderMapListAndPins();else{homeFiltersOpen=true;rerenderList();}return;}
+    if(e.target.id==='homeFreeOnly'){homeFreeOnly=!!e.target.checked;homeFiltersOpen=true;rerenderList();return;}
+    if(e.target.id==='cityFilter'){city=e.target.value;homeRadius=0;homeFiltersOpen=true;rerenderList();return;}
+    if(e.target.id==='homeDateFrom'){dateFrom=e.target.value||'';if(dateFrom&&!dateTo)dateTo=dateFrom;if(dateFrom&&dateTo<dateFrom)dateTo=dateFrom;when=dateFrom||dateTo?'custom':'all';homeFiltersOpen=true;rerenderList();return;}
+    if(e.target.id==='homeDateTo'){dateTo=e.target.value||'';if(dateTo&&!dateFrom)dateFrom=dateTo;if(dateTo&&dateFrom>dateTo)dateFrom=dateTo;when=dateFrom||dateTo?'custom':'all';homeFiltersOpen=true;rerenderList();return;}
+    if(e.target.id==='mapCity'){mapCity=e.target.value;renderMapListAndPins();return;}
+    if(e.target.id==='mapCat'){mapCategory=e.target.value;renderMapListAndPins();return;}
+    if(e.target.id==='eCity')updateFormCity();
+  });
   document.addEventListener('submit',e=>{if(e.target.id==='eventForm'){e.preventDefault();submitEvent();}});
   document.addEventListener('keydown',e=>{
      if(e.target.id==='mapSearch'&&e.key==='Enter'){

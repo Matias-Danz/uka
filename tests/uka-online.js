@@ -5,8 +5,9 @@
     user:null,profile:null,friends:[],incoming:[],outgoing:[],search:[],query:'',overview:[],
     route:{section:'social',profileId:null,friendId:null},viewedProfile:null,viewedFavorites:[],
     messages:[],loading:false,chatLoading:false,sending:false,error:'',editing:false,avatarBusy:false,
-    removeCandidate:null,shareEvent:null,shareMessage:'',shareSent:new Set(),
-    realtime:null,realtimeUserId:null,realtimeReady:false,pollTimer:null
+    removeCandidate:null,shareEvent:null,shareMessage:'',shareSent:new Set(),themeDialog:false,
+    followStats:{followers:0,following:0,is_following:false},chatTheme:'default',chatDraft:'',emojiPicker:false,reactionPicker:null,
+    realtime:null,reactionRealtime:null,realtimeUserId:null,realtimeReady:false,pollTimer:null
   };
   let authSubscribed=false,backgroundStarted=false;
 
@@ -15,6 +16,22 @@
   const nameOf=profile=>profile?.display_name||profile?.username||'Uživatel';
   const usernameOf=profile=>profile?.username?`@${profile.username}`:'@bez-jmena';
   const icon=(id,cls='')=>`<svg class="icon ${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
+  const CHAT_EMOJIS=['😀','😂','😍','🥰','😎','🥳','😭','😮','😅','🤝','👏','🙌','👍','👎','❤️','💚','🔥','✨','🎉','🎵','🎶','🫶','👀','💀','🤯','😈','🙏','✅','🚀','🍻'];
+  const REACTION_EMOJIS=['❤️','😂','🔥','😍','😭','😮','👍','👏'];
+  const CHAT_THEMES=[
+    {id:'default',name:'UKA',hint:'Výchozí, podle režimu'},
+    {id:'clean',name:'Clean',hint:'Minimalistické a čisté'},
+    {id:'graphite',name:'Graphite',hint:'Neutrální šedá'},
+    {id:'midnight',name:'Midnight',hint:'Noční modrá'},
+    {id:'ocean',name:'Ocean',hint:'Modrozelený gradient'},
+    {id:'sky',name:'Sky',hint:'Světlá modrá'},
+    {id:'aurora',name:'Aurora',hint:'Zelená záře'},
+    {id:'forest',name:'Forest',hint:'Tmavší zelená'},
+    {id:'sunset',name:'Sunset',hint:'Teplý gradient'},
+    {id:'rose',name:'Rose',hint:'Jemná růžová'},
+    {id:'violet',name:'Violet',hint:'Fialový gradient'},
+    {id:'sand',name:'Sand',hint:'Teplý neutrální tón'}
+  ];
 
   function page(){
     return `<section class="uka-online-page"><div class="container uka-online-container"><div id="ukaOnlineRoot" class="uka-online-root"><div class="uka-online-loading">Načítám…</div></div></div></section>`;
@@ -90,7 +107,14 @@
     if(outgoing)return '<span class="uka-online-state">Žádost odeslána</span>';
     const incoming=state.incoming.find(row=>row.sender_id===profile.id);
     if(incoming)return `<button type="button" class="btn btn-primary btn-sm" data-online-action="accept" data-request-id="${esc(incoming.id)}">Přijmout</button>`;
-    return `<button type="button" class="btn btn-primary btn-sm" data-online-action="add" data-user-id="${esc(profile.id)}">Přidat</button>`;
+    return `<button type="button" class="btn btn-primary btn-sm" data-online-action="add" data-user-id="${esc(profile.id)}">Přidat do spojení</button>`;
+  }
+
+  function followAction(profile){
+    if(!profile?.id||profile.id===state.user?.id)return '';
+    return state.followStats.is_following
+      ? `<button type="button" class="btn btn-outline btn-sm" data-online-action="unfollow" data-user-id="${esc(profile.id)}">V okruhu</button>`
+      : `<button type="button" class="btn btn-outline btn-sm" data-online-action="follow" data-user-id="${esc(profile.id)}">Sledovat</button>`;
   }
 
   function userRow(profile,actions=''){
@@ -113,18 +137,16 @@
   }
 
   function renderProfileHeader(profile,isOwn){
-    const requestCount=isOwn?state.incoming.length:0;
-    const friend=isOwn?state.friends.length:(isFriend(profile?.id)?1:0);
     const savedCount=state.viewedFavorites.length;
+    const followers=Number(state.followStats?.followers)||0;
+    const following=Number(state.followStats?.following)||0;
     const avatarHtml=isOwn
       ? `<div class="uka-online-avatar-wrap"><button type="button" class="uka-online-avatar-button" data-online-action="choose-avatar" ${state.avatarBusy?'disabled':''} aria-label="Změnit profilovou fotku">${avatar(profile)}<span class="uka-online-avatar-edit">${state.avatarBusy?'…':'+'}</span></button><input id="ukaOnlineAvatarInput" type="file" accept="image/jpeg,image/png,image/webp" hidden></div>`
       : `<div class="uka-online-avatar-wrap">${avatar(profile)}</div>`;
-    const stats=isOwn
-      ? `<div class="uka-online-stats"><button type="button" data-online-action="focus-friends"><strong>${friend}</strong><span>přátel</span></button><button type="button" data-online-action="focus-saved"><strong>${savedCount}</strong><span>uložených</span></button><button type="button" data-online-action="focus-requests"><strong>${requestCount}</strong><span>žádostí</span></button></div>`
-      : `<div class="uka-online-stats"><button type="button" data-online-action="focus-saved"><strong>${savedCount}</strong><span>uložených akcí</span></button></div>`;
+    const stats=`<div class="uka-online-stats"><span class="uka-online-stat"><strong>${followers}</strong><span>Sledující</span></span><span class="uka-online-stat"><strong>${following}</strong><span>Sleduji</span></span><button type="button" data-online-action="focus-saved"><strong>${savedCount}</strong><span>Uložené</span></button></div>`;
     const actions=isOwn
       ? `<div class="uka-online-profile-actions"><button type="button" class="btn btn-outline btn-sm" data-online-action="edit-profile">Upravit profil</button><button type="button" class="btn btn-outline btn-sm" data-online-action="focus-search">Najít lidi</button>${profile?.avatar_url?'<button type="button" class="uka-online-text-button uka-online-remove-photo" data-online-action="remove-avatar">Odebrat fotku</button>':''}</div>`
-      : `<div class="uka-online-profile-actions">${relationAction(profile)}</div>`;
+      : `<div class="uka-online-profile-actions">${followAction(profile)}${relationAction(profile)}</div>`;
     return `<section class="uka-online-profile-shell"><div class="uka-online-profile-top">${avatarHtml}<div class="uka-online-profile-copy"><div class="uka-online-profile-name-row"><h2>${esc(nameOf(profile))}</h2><span>${esc(usernameOf(profile))}</span></div>${stats}${profile?.bio?`<p class="uka-online-bio">${esc(profile.bio)}</p>`:(isOwn?'<p class="uka-online-bio is-empty">Přidej krátké bio, ať tě lidi poznají.</p>':'')}${actions}</div></div>${isOwn?renderEditor():''}</section>`;
   }
 
@@ -140,12 +162,12 @@
   }
 
   function renderFriends(){
-    if(!state.friends.length)return `<section id="ukaOnlineFriends" class="uka-online-section"><div class="uka-online-section-head"><h3>Přátelé</h3></div><div class="uka-online-soft-empty">Zatím tu nikoho nemáš. Najdi si prvního člověka.</div></section>`;
+    if(!state.friends.length)return `<section id="ukaOnlineFriends" class="uka-online-section"><div class="uka-online-section-head"><h3>Spojení</h3></div><div class="uka-online-soft-empty">Zatím tu nikoho nemáš. Najdi si první spojení.</div></section>`;
     const items=state.friends.map(row=>{
       const p=row.profile||{};
-      return `<div class="uka-online-friend"><button type="button" class="uka-online-friend-open" data-online-action="open-profile" data-user-id="${esc(row.friend_id)}"><div class="uka-online-friend-avatar">${avatar(p)}</div><strong>${esc(nameOf(p))}</strong><span>${esc(usernameOf(p))}</span></button><button type="button" class="uka-online-friend-message" data-online-action="open-chat" data-user-id="${esc(row.friend_id)}" aria-label="Napsat zprávu">${icon('message')}</button><button type="button" class="uka-online-friend-menu" data-online-action="remove" data-user-id="${esc(row.friend_id)}" aria-label="Odebrat přítele" title="Odebrat">×</button></div>`;
+      return `<div class="uka-online-friend"><button type="button" class="uka-online-friend-open" data-online-action="open-profile" data-user-id="${esc(row.friend_id)}"><div class="uka-online-friend-avatar">${avatar(p)}</div><strong>${esc(nameOf(p))}</strong><span>${esc(usernameOf(p))}</span></button><div class="uka-online-friend-actions"><button type="button" class="uka-online-friend-message" data-online-action="open-chat" data-user-id="${esc(row.friend_id)}">${icon('message')}<span>Zpráva</span></button><button type="button" class="uka-online-friend-menu" data-online-action="remove" data-user-id="${esc(row.friend_id)}" aria-label="Možnosti spojení" title="Odebrat">•••</button></div></div>`;
     }).join('');
-    return `<section id="ukaOnlineFriends" class="uka-online-section"><div class="uka-online-section-head"><h3>Přátelé</h3><span>${state.friends.length}</span></div><div class="uka-online-friends-strip">${items}</div></section>`;
+    return `<section id="ukaOnlineFriends" class="uka-online-section"><div class="uka-online-section-head"><h3>Spojení</h3><span>${state.friends.length}</span></div><div class="uka-online-friends-strip">${items}</div></section>`;
   }
 
   function renderRequests(){
@@ -185,20 +207,34 @@
   }
 
   function renderMessagesPage(){
-    return `${renderMessagesTopbar()}${state.error?`<div class="uka-online-error">${esc(state.error)}</div>`:''}<section class="uka-online-section uka-messages-page"><div class="uka-messages-intro"><div><strong>Konverzace</strong><span>${state.friends.length} přátel</span></div></div>${renderConversationRows()}</section>`;
+    return `${renderMessagesTopbar()}${state.error?`<div class="uka-online-error">${esc(state.error)}</div>`:''}<section class="uka-online-section uka-messages-page"><div class="uka-messages-intro"><div><strong>Konverzace</strong><span>${state.friends.length} spojení</span></div></div>${renderConversationRows()}</section>`;
   }
 
   function renderEventAttachment(eventId){
     const e=eventInfo(eventId);
-    if(!e)return `<button type="button" class="uka-chat-event-card is-missing" data-open-event="${esc(eventId)}"><span class="uka-chat-event-thumb">♫</span><span><small>Sdílená akce</small><strong>Akce už není v nabídce</strong></span></button>`;
+    if(!e)return `<button type="button" class="uka-chat-event-card is-missing" data-open-event="${esc(eventId)}"><span class="uka-chat-event-thumb">♫</span><span class="uka-chat-event-copy"><small>Sdílená akce</small><strong>Akce už není v nabídce</strong><em>Detail už není dostupný</em></span></button>`;
     const img=/^https:\/\//i.test(String(e.image_url||''))?`<img src="${esc(e.image_url)}" alt="">`:'♫';
     const where=[e.venue,e.city].filter(Boolean).join(' · ');
     return `<button type="button" class="uka-chat-event-card" data-open-event="${esc(eventId)}"><span class="uka-chat-event-thumb">${img}</span><span class="uka-chat-event-copy"><small>${esc(formatEventDate(e.date))}${e.time?` · ${esc(e.time)}`:''}</small><strong>${esc(e.title||'Akce')}</strong>${where?`<em>${esc(where)}</em>`:''}</span><span class="uka-chat-event-arrow">›</span></button>`;
   }
 
+  function renderReactionSummary(message){
+    const rows=message.reactions||[];if(!rows.length)return '';
+    const grouped=new Map();
+    for(const row of rows){
+      const item=grouped.get(row.emoji)||{emoji:row.emoji,count:0,mine:false};item.count+=1;if(row.user_id===state.user?.id)item.mine=true;grouped.set(row.emoji,item);
+    }
+    return `<div class="uka-message-reactions">${[...grouped.values()].map(item=>`<button type="button" class="uka-reaction-chip ${item.mine?'is-mine':''}" data-online-action="react-message" data-message-id="${esc(message.id)}" data-emoji="${esc(item.emoji)}"><span>${esc(item.emoji)}</span>${item.count>1?`<b>${item.count}</b>`:''}</button>`).join('')}</div>`;
+  }
+
+  function renderReactionPicker(message){
+    if(state.reactionPicker!==message.id)return '';
+    return `<div class="uka-reaction-picker" role="menu" aria-label="Reakce na zprávu">${REACTION_EMOJIS.map(emoji=>`<button type="button" data-online-action="react-message" data-message-id="${esc(message.id)}" data-emoji="${esc(emoji)}">${esc(emoji)}</button>`).join('')}</div>`;
+  }
+
   function renderMessage(message){
     const mine=message.sender_id===state.user?.id;
-    return `<div class="uka-chat-line ${mine?'is-mine':'is-theirs'}" data-message-id="${esc(message.id)}"><div class="uka-chat-bubble">${message.event_id?renderEventAttachment(message.event_id):''}${message.body?`<p>${esc(message.body)}</p>`:''}<time>${esc(formatTime(message.created_at))}</time></div></div>`;
+    return `<div class="uka-chat-line ${mine?'is-mine':'is-theirs'}" data-message-id="${esc(message.id)}"><div class="uka-chat-message-stack"><div class="uka-chat-bubble-wrap"><div class="uka-chat-bubble" data-chat-bubble="${esc(message.id)}">${message.event_id?renderEventAttachment(message.event_id):''}${message.body?`<p>${esc(message.body)}</p>`:''}<time>${esc(formatTime(message.created_at))}</time></div><button type="button" class="uka-message-react-trigger" data-online-action="open-reactions" data-message-id="${esc(message.id)}" aria-label="Reagovat na zprávu">♡</button>${renderReactionPicker(message)}</div>${renderReactionSummary(message)}</div></div>`;
   }
 
   function chatBody(){
@@ -208,10 +244,15 @@
     return `<div class="uka-chat-empty"><div class="uka-chat-empty-avatar">${avatar(p)}</div><strong>${esc(nameOf(p))}</strong><span>${esc(usernameOf(p))}</span><p>Napiš první zprávu nebo pošli akci, která stojí za to.</p></div>`;
   }
 
+  function renderEmojiPanel(){
+    if(!state.emojiPicker)return '';
+    return `<div class="uka-chat-emoji-panel" role="dialog" aria-label="Emoji">${CHAT_EMOJIS.map(emoji=>`<button type="button" data-online-action="insert-emoji" data-emoji="${esc(emoji)}">${esc(emoji)}</button>`).join('')}</div>`;
+  }
+
   function renderChat(){
     const row=friendRow(state.route.friendId),p=row?.profile||{};
-    if(!row)return `${renderMessagesTopbar()}<div class="uka-online-soft-empty">Tuhle konverzaci nemůžu otevřít. Uživatel už nejspíš není v přátelích.</div>`;
-    return `<div class="uka-chat-shell"><div class="uka-chat-header"><button type="button" class="uka-chat-back" data-online-action="messages-home" aria-label="Zpět">${icon('back')}</button><button type="button" class="uka-chat-profile-link" data-online-action="open-profile" data-user-id="${esc(row.friend_id)}">${avatar(p,'small')}<span class="uka-chat-header-copy"><strong>${esc(nameOf(p))}</strong><span>${esc(usernameOf(p))}</span></span></button></div><div id="ukaChatMessages" class="uka-chat-messages">${chatBody()}</div><form id="ukaChatForm" class="uka-chat-composer"><textarea id="ukaChatInput" name="message" rows="1" maxlength="2000" placeholder="Napiš zprávu…" autocomplete="off" ${state.sending?'disabled':''}></textarea><button type="submit" class="uka-chat-send" aria-label="Odeslat" ${state.sending?'disabled':''}>${icon('send')}</button></form></div>`;
+    if(!row)return `${renderMessagesTopbar()}<div class="uka-online-soft-empty">Tuhle konverzaci nemůžu otevřít. Uživatel už nejspíš není ve spojení.</div>`;
+    return `<div class="uka-chat-shell"><div class="uka-chat-header"><button type="button" class="uka-chat-back" data-online-action="messages-home" aria-label="Zpět">${icon('back')}</button><button type="button" class="uka-chat-profile-link" data-online-action="open-profile" data-user-id="${esc(row.friend_id)}">${avatar(p,'small')}<span class="uka-chat-header-copy"><strong>${esc(nameOf(p))}</strong><span>${esc(usernameOf(p))}</span></span></button><div class="uka-chat-header-actions"><button type="button" class="uka-chat-theme-button" data-online-action="chat-theme" aria-label="Změnit pozadí chatu" title="Pozadí chatu">✦</button></div></div><div id="ukaChatMessages" class="uka-chat-messages" data-chat-theme="${esc(state.chatTheme)}">${chatBody()}</div><div class="uka-chat-composer-wrap">${renderEmojiPanel()}<form id="ukaChatForm" class="uka-chat-composer"><button type="button" class="uka-chat-emoji-button" data-online-action="toggle-emoji" aria-label="Emoji">☺</button><textarea id="ukaChatInput" name="message" rows="1" maxlength="2000" placeholder="Napiš zprávu…" autocomplete="off" ${state.sending?'disabled':''}>${esc(state.chatDraft)}</textarea><button type="submit" class="uka-chat-send" aria-label="Odeslat" ${state.sending?'disabled':''}>${icon('send')}</button></form></div></div>`;
   }
 
   function renderApp(){
@@ -243,6 +284,10 @@
     return `<div class="uka-social-overlay" data-social-close="true"><div class="uka-social-dialog uka-remove-dialog" role="dialog" aria-modal="true" aria-labelledby="ukaRemoveTitle"><div class="uka-social-dialog-avatar">${avatar(p)}</div><h3 id="ukaRemoveTitle">Odebrat z přátel?</h3><p>Opravdu chceš odebrat <strong>${esc(nameOf(p))}</strong> z přátel?</p><div class="uka-social-dialog-actions"><button type="button" class="uka-social-danger-button" data-online-action="confirm-remove" data-user-id="${esc(state.removeCandidate?.friend_id||'')}">Ano, odebrat</button><button type="button" class="uka-social-cancel-button" data-online-action="close-dialog">Ne</button></div></div></div>`;
   }
 
+  function renderThemeDialog(){
+    return `<div class="uka-social-overlay" data-social-close="true"><div class="uka-social-dialog uka-theme-dialog" role="dialog" aria-modal="true" aria-labelledby="ukaThemeTitle"><div class="uka-social-dialog-head"><div><small>VZHLED CHATU</small><h3 id="ukaThemeTitle">Pozadí konverzace</h3></div><button type="button" class="uka-social-close" data-online-action="close-dialog" aria-label="Zavřít">×</button></div><div class="uka-theme-grid">${CHAT_THEMES.map(theme=>`<button type="button" class="uka-theme-option ${state.chatTheme===theme.id?'is-active':''}" data-online-action="set-chat-theme" data-theme-value="${esc(theme.id)}"><span class="uka-theme-swatch" data-theme-preview="${esc(theme.id)}"></span><strong>${esc(theme.name)}</strong><small>${esc(theme.hint)}</small></button>`).join('')}</div></div></div>`;
+  }
+
   function renderShareDialog(){
     const e=state.shareEvent;
     const img=/^https:\/\//i.test(String(e?.image_url||''))?`<img src="${esc(e.image_url)}" alt="">`:'♫';
@@ -257,16 +302,21 @@
     const root=ensurePortal();
     if(state.removeCandidate)root.innerHTML=renderRemoveDialog();
     else if(state.shareEvent)root.innerHTML=renderShareDialog();
+    else if(state.themeDialog)root.innerHTML=renderThemeDialog();
     else root.innerHTML='';
-    document.body.classList.toggle('uka-social-modal-open',!!(state.removeCandidate||state.shareEvent));
+    document.body.classList.toggle('uka-social-modal-open',!!(state.removeCandidate||state.shareEvent||state.themeDialog));
   }
 
-  function closeDialogs(){state.removeCandidate=null;state.shareEvent=null;state.shareMessage='';state.shareSent=new Set();renderPortal();}
+  function closeDialogs(){state.removeCandidate=null;state.shareEvent=null;state.themeDialog=false;state.shareMessage='';state.shareSent=new Set();renderPortal();}
   function notify(message){if(typeof window.showToast==='function')window.showToast(message);else console.info('UKA:',message);}
 
   function sameMessages(a,b){
     if(a.length!==b.length)return false;
-    for(let i=0;i<a.length;i++)if(a[i].id!==b[i].id||a[i].seen_at!==b[i].seen_at||a[i].body!==b[i].body||a[i].event_id!==b[i].event_id)return false;
+    for(let i=0;i<a.length;i++){
+      const ar=(a[i].reactions||[]).map(row=>`${row.user_id}:${row.emoji}`).sort().join('|');
+      const br=(b[i].reactions||[]).map(row=>`${row.user_id}:${row.emoji}`).sort().join('|');
+      if(a[i].id!==b[i].id||a[i].seen_at!==b[i].seen_at||a[i].body!==b[i].body||a[i].event_id!==b[i].event_id||ar!==br)return false;
+    }
     return true;
   }
 
@@ -308,20 +358,26 @@
     if(!friendId)return;
     if(state.route.section==='messages'&&state.route.friendId===friendId){
       if(!state.messages.some(row=>row.id===message.id)){
-        state.messages.push(message);renderChatMessagesOnly(true);
+        state.messages.push({...message,reactions:message.reactions||[]});renderChatMessagesOnly(true);
       }
       if(message.recipient_id===state.user.id)window.UKASocial.markConversationSeen(friendId).catch(()=>{});
     }
     await refreshOverview(state.route.section==='messages'&&!state.route.friendId);
   }
 
+  async function handleRealtimeReaction(){
+    if(state.route.section==='messages'&&state.route.friendId)await syncConversation();
+  }
+
   async function ensureRealtime(){
     const api=window.UKASocial;if(!api||!state.user)return;
-    if(state.realtime&&state.realtimeUserId===state.user.id)return;
+    if(state.realtime&&state.reactionRealtime&&state.realtimeUserId===state.user.id)return;
     if(state.realtime){await api.unsubscribeChannel(state.realtime);state.realtime=null;state.realtimeReady=false;}
+    if(state.reactionRealtime){await api.unsubscribeChannel(state.reactionRealtime);state.reactionRealtime=null;}
     try{
       state.realtimeUserId=state.user.id;
       state.realtime=await api.subscribeDirectMessages(handleRealtimeMessage,status=>{state.realtimeReady=status==='SUBSCRIBED';});
+      state.reactionRealtime=await api.subscribeMessageReactions(handleRealtimeReaction);
     }catch(error){console.warn('UKA realtime chat failed',error);}
   }
 
@@ -331,12 +387,14 @@
     if(state.route.section==='social'){
       const targetId=state.route.profileId||state.user.id;
       state.viewedProfile=targetId===state.user.id?state.profile:await api.getProfile(targetId);
-      state.viewedFavorites=state.viewedProfile?await api.getPublicFavorites(targetId):[];
-      state.messages=[];state.chatLoading=false;
+      const [favorites,followStats]=state.viewedProfile?await Promise.all([api.getPublicFavorites(targetId),api.getFollowStats(targetId)]):[[],{followers:0,following:0,is_following:false}];
+      state.viewedFavorites=favorites;state.followStats=followStats;
+      state.messages=[];state.chatLoading=false;state.emojiPicker=false;state.reactionPicker=null;
     }else if(state.route.friendId){
-      state.viewedProfile=null;state.viewedFavorites=[];state.chatLoading=true;renderApp();
+      state.viewedProfile=null;state.viewedFavorites=[];state.chatLoading=true;state.emojiPicker=false;state.reactionPicker=null;renderApp();
       if(friendRow(state.route.friendId)){
-        state.messages=await api.getConversation(state.route.friendId);
+        const [messages,theme]=await Promise.all([api.getConversation(state.route.friendId),api.getChatPreference(state.route.friendId)]);
+        state.messages=messages;state.chatTheme=theme||'default';
         await api.markConversationSeen(state.route.friendId);
         const overview=overviewFor(state.route.friendId);if(overview)overview.unread=0;
       }else state.messages=[];
@@ -352,7 +410,11 @@
     state.loading=true;renderApp();
     try{
       const nextUser=await api.currentUser();
-      if(state.user?.id&&nextUser?.id!==state.user.id&&state.realtime){await api.unsubscribeChannel(state.realtime);state.realtime=null;state.realtimeUserId=null;}
+      if(state.user?.id&&nextUser?.id!==state.user.id){
+        if(state.realtime)await api.unsubscribeChannel(state.realtime);
+        if(state.reactionRealtime)await api.unsubscribeChannel(state.reactionRealtime);
+        state.realtime=null;state.reactionRealtime=null;state.realtimeUserId=null;
+      }
       state.user=nextUser;
       if(!state.user){state.profile=null;state.friends=[];state.incoming=[];state.outgoing=[];state.overview=[];state.viewedProfile=null;state.viewedFavorites=[];return;}
       const [profile,friends,requests,overview]=await Promise.all([api.getMyProfile(),api.getFriends(),api.getFriendRequests(),api.getMessageOverview()]);
@@ -374,6 +436,24 @@
   }
 
   function scrollChatBottom(smooth=true){requestAnimationFrame(()=>{const box=document.getElementById('ukaChatMessages');if(box)box.scrollTo({top:box.scrollHeight,behavior:smooth?'smooth':'auto'});});}
+
+  function insertEmoji(emoji){
+    const input=document.getElementById('ukaChatInput');if(!input)return;
+    const start=input.selectionStart??input.value.length,end=input.selectionEnd??start;
+    input.value=input.value.slice(0,start)+emoji+input.value.slice(end);
+    state.chatDraft=input.value;
+    const cursor=start+emoji.length;input.focus();input.setSelectionRange(cursor,cursor);
+    input.dispatchEvent(new Event('input',{bubbles:true}));
+  }
+
+  async function setReaction(messageId,emoji){
+    const message=state.messages.find(row=>row.id===messageId);if(!message)return;
+    const mine=(message.reactions||[]).find(row=>row.user_id===state.user?.id);
+    const next=mine?.emoji===emoji?null:emoji;
+    state.reactionPicker=null;
+    try{await window.UKASocial.reactToMessage(messageId,next);await syncConversation();}
+    catch(error){notify(error?.message||'Reakci se nepodařilo uložit.');}
+  }
 
   async function uploadAvatar(file){
     if(!file)return;state.avatarBusy=true;state.error='';renderApp();
@@ -409,6 +489,7 @@
 
   document.addEventListener('click',event=>{
     const openEvent=event.target.closest('[data-open-event]');if(openEvent){window.UKAEvents?.open?.(openEvent.dataset.openEvent);return;}
+    if(state.reactionPicker&&!event.target.closest('.uka-reaction-picker')&&!event.target.closest('.uka-message-react-trigger')&&!event.target.closest('.uka-reaction-chip')){state.reactionPicker=null;renderChatMessagesOnly(false);}
     if(event.target.matches('.uka-social-overlay[data-social-close="true"]')){closeDialogs();return;}
     const button=event.target.closest('[data-online-action]');if(!button)return;
     const action=button.dataset.onlineAction;
@@ -426,7 +507,19 @@
     if(action==='focus-requests'){focusSection('ukaOnlineRequests');return;}
     if(action==='focus-saved'){focusSection('ukaProfileSaved');return;}
     if(action==='close-dialog'){closeDialogs();return;}
+    if(action==='chat-theme'){state.themeDialog=true;renderPortal();return;}
+    if(action==='toggle-emoji'){
+      const input=document.getElementById('ukaChatInput');state.chatDraft=input?.value||state.chatDraft;state.emojiPicker=!state.emojiPicker;state.reactionPicker=null;renderApp();setTimeout(()=>document.getElementById('ukaChatInput')?.focus(),0);return;
+    }
+    if(action==='insert-emoji'){insertEmoji(button.dataset.emoji||'');return;}
+    if(action==='open-reactions'){state.reactionPicker=state.reactionPicker===button.dataset.messageId?null:button.dataset.messageId;state.emojiPicker=false;renderChatMessagesOnly(false);return;}
+    if(action==='react-message'){setReaction(button.dataset.messageId,button.dataset.emoji||'❤️');return;}
     const api=window.UKASocial;if(!api)return;
+    if(action==='set-chat-theme'){
+      const theme=button.dataset.themeValue||'default';api.setChatPreference(state.route.friendId,theme).then(()=>{state.chatTheme=theme;state.themeDialog=false;renderPortal();renderApp();}).catch(error=>notify(error?.message||'Pozadí se nepodařilo uložit.'));return;
+    }
+    if(action==='follow'){run(()=>api.followUser(button.dataset.userId),'Teď tohoto uživatele sleduješ.');return;}
+    if(action==='unfollow'){run(()=>api.unfollowUser(button.dataset.userId),'Už tohoto uživatele nesleduješ.');return;}
     if(action==='remove-avatar')run(()=>api.removeAvatar(),'Profilová fotka odebrána.').then(()=>{state.avatarBusy=false;});
     if(action==='add')run(()=>api.sendFriendRequest(button.dataset.userId),'Žádost o přátelství odeslána.');
     if(action==='accept')run(()=>api.acceptFriendRequest(button.dataset.requestId),'Jste přátelé.');
@@ -447,12 +540,18 @@
 
   document.addEventListener('input',event=>{
     if(event.target?.id==='ukaShareMessage')state.shareMessage=String(event.target.value||'').slice(0,500);
-    if(event.target?.id==='ukaChatInput'){event.target.style.height='auto';event.target.style.height=`${Math.min(event.target.scrollHeight,120)}px`;}
+    if(event.target?.id==='ukaChatInput'){state.chatDraft=event.target.value;event.target.style.height='auto';event.target.style.height=`${Math.min(event.target.scrollHeight,120)}px`;}
   });
 
   document.addEventListener('keydown',event=>{
     if(event.target?.id==='ukaChatInput'&&event.key==='Enter'&&!event.shiftKey){event.preventDefault();event.target.form?.requestSubmit();}
-    if(event.key==='Escape'&&(state.removeCandidate||state.shareEvent))closeDialogs();
+    if(event.key==='Escape'&&(state.removeCandidate||state.shareEvent||state.themeDialog))closeDialogs();
+    else if(event.key==='Escape'&&(state.emojiPicker||state.reactionPicker)){state.emojiPicker=false;state.reactionPicker=null;renderApp();}
+  });
+
+  document.addEventListener('dblclick',event=>{
+    const bubble=event.target.closest('[data-chat-bubble]');if(!bubble)return;
+    setReaction(bubble.dataset.chatBubble,'❤️');
   });
 
   document.addEventListener('submit',event=>{
@@ -470,7 +569,8 @@
       const input=document.getElementById('ukaChatInput'),text=String(input?.value||'').trim();if(!text)return;
       state.sending=true;if(input)input.disabled=true;
       window.UKASocial.sendDirectMessage(friendId,text,null).then(message=>{
-        if(message&&!state.messages.some(row=>row.id===message.id))state.messages.push(message);
+        if(message&&!state.messages.some(row=>row.id===message.id))state.messages.push({...message,reactions:[]});
+        state.chatDraft='';state.emojiPicker=false;
         if(input){input.value='';input.style.height='auto';input.disabled=false;input.focus();}
         state.sending=false;renderChatMessagesOnly(true);refreshOverview(false);
       }).catch(error=>{state.sending=false;if(input)input.disabled=false;notify(error?.message||'Zprávu se nepodařilo odeslat.');});
