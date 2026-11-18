@@ -337,7 +337,7 @@ function pageHome(){
       <div id="searchSuggestion" aria-live="polite">${searchSuggestionMarkup(search,filterEvents({...homeFilterArgs(''),query:''}),'list')}</div>
       <div class="results"><span>${events.length} akcí</span>${hasHomeFilters()&&!homeFiltersOpen?'<button type="button" id="clearFilters" class="filter-reset">Vymazat filtry</button>':''}</div>
       <div id="eventCards" class="cards ${events.length?'':'hidden'}">${events.map(card).join('')}</div>
-      <div id="searchEmpty" class="empty ${events.length?'hidden':''}"><div class="empty-icon">♫</div><h3>${search?'Nic jsme nenašli':'Žádná akce neodpovídá filtrům'}</h3><p>Zkus upravit hledání, datum nebo polohu.</p><button class="btn btn-primary" id="clearFiltersEmpty">Vymazat filtry</button></div>
+      <div id="searchEmpty" class="empty ${events.length?'hidden':''}" style="${events.length?'display:none':''}"><div class="empty-icon">♫</div>${search?'<h3>Nic jsme nenašli</h3><p>Zkus jiné hledání.</p><button class="btn btn-primary" id="clearFiltersEmpty">Vymazat filtry</button>':hasHomeFilters()?`<h3>${favoriteOnly?'Žádná uložená akce neodpovídá filtrům':'Žádná akce neodpovídá filtrům'}</h3><p>Zkus upravit datum, polohu nebo další filtry.</p><button class="btn btn-primary" id="clearFiltersEmpty">Vymazat filtry</button>`:favoriteOnly?'<h3>Zatím nemáš žádné uložené akce</h3><p>Ulož si akci srdíčkem a objeví se tady.</p>':'<h3>Zatím tu nejsou žádné akce</h3><p>Zkus to znovu později.</p>'}</div>
     </section>`;
 }
   function hasVerifiedCoords(e){return e.lat!==null&&e.lng!==null&&e.lat!==undefined&&e.lng!==undefined&&Number.isFinite(Number(e.lat))&&Number.isFinite(Number(e.lng))&&Number(e.lat)>48.3&&Number(e.lat)<51.2&&Number(e.lng)>12&&Number(e.lng)<19.2;}
