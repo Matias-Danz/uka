@@ -325,7 +325,7 @@
     return true;
   }
 
-  const CHAT_THEMES=new Set(['default','midnight','aurora','sunset','violet']);
+  const CHAT_THEMES=new Set(['default','clean','paper','graphite','ice','sky','ocean','mint','aurora','forest','sand','peach','rose','sunset','lavender','violet','midnight','carbon']);
 
   async function getChatPreference(friendId){
     const user=await requireUser();
