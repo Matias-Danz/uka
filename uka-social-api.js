@@ -291,6 +291,86 @@
   }
 
 
+  async function getFollowStats(userId){
+    const user=await requireUser();
+    if(typeof userId!=='string'||!userId)throw new Error('Neplatný profil.');
+    const client=db();
+    const [followersResult,followingResult,mineResult]=await Promise.all([
+      client.from('profile_follows').select('follower_id',{count:'exact',head:true}).eq('followed_id',userId),
+      client.from('profile_follows').select('followed_id',{count:'exact',head:true}).eq('follower_id',userId),
+      user.id===userId?Promise.resolve({data:null,error:null}):client.from('profile_follows').select('followed_id').eq('follower_id',user.id).eq('followed_id',userId).maybeSingle()
+    ]);
+    // Starší deployment bez migrace V6 nesmí shodit celý profil.
+    const missing=[followersResult.error,followingResult.error,mineResult.error].find(error=>error&&error.code==='42P01');
+    if(missing)return {followers:0,following:0,is_following:false};
+    fail(followersResult.error,'Počet sledujících se nepodařilo načíst.');
+    fail(followingResult.error,'Počet sledovaných se nepodařilo načíst.');
+    fail(mineResult.error,'Stav sledování se nepodařilo načíst.');
+    return {followers:followersResult.count||0,following:followingResult.count||0,is_following:!!mineResult.data};
+  }
+
+  async function followUser(userId){
+    const user=await requireUser();
+    if(typeof userId!=='string'||!userId||userId===user.id)throw new Error('Neplatný profil.');
+    const {error}=await db().from('profile_follows').insert({follower_id:user.id,followed_id:userId});
+    if(error&&error.code!=='23505')fail(error,'Profil se nepodařilo sledovat.');
+    return true;
+  }
+
+  async function unfollowUser(userId){
+    const user=await requireUser();
+    if(typeof userId!=='string'||!userId)throw new Error('Neplatný profil.');
+    const {error}=await db().from('profile_follows').delete().eq('follower_id',user.id).eq('followed_id',userId);
+    fail(error,'Sledování se nepodařilo zrušit.');
+    return true;
+  }
+
+  const CHAT_THEMES=new Set(['default','midnight','aurora','sunset','violet']);
+
+  async function getChatPreference(friendId){
+    const user=await requireUser();
+    if(typeof friendId!=='string'||!friendId)return 'default';
+    const {data,error}=await db().from('chat_preferences').select('theme').eq('user_id',user.id).eq('friend_id',friendId).maybeSingle();
+    if(error?.code==='42P01')return 'default';
+    fail(error,'Vzhled chatu se nepodařilo načíst.');
+    return CHAT_THEMES.has(data?.theme)?data.theme:'default';
+  }
+
+  async function setChatPreference(friendId,theme){
+    const user=await requireUser();
+    const selected=String(theme||'default');
+    if(typeof friendId!=='string'||!friendId||friendId===user.id)throw new Error('Neplatná konverzace.');
+    if(!CHAT_THEMES.has(selected))throw new Error('Neplatné pozadí chatu.');
+    const {error}=await db().from('chat_preferences').upsert({user_id:user.id,friend_id:friendId,theme:selected,updated_at:new Date().toISOString()},{onConflict:'user_id,friend_id'});
+    fail(error,'Pozadí chatu se nepodařilo uložit.');
+    return selected;
+  }
+
+  async function getMessageReactions(messageIds){
+    await requireUser();
+    const ids=[...new Set((messageIds||[]).filter(Boolean))];
+    if(!ids.length)return new Map();
+    const {data,error}=await db().from('direct_message_reactions').select('message_id,user_id,emoji,created_at').in('message_id',ids);
+    if(error?.code==='42P01')return new Map();
+    fail(error,'Reakce se nepodařilo načíst.');
+    const grouped=new Map();
+    for(const row of data||[]){
+      if(!grouped.has(row.message_id))grouped.set(row.message_id,[]);
+      grouped.get(row.message_id).push(row);
+    }
+    return grouped;
+  }
+
+  async function reactToMessage(messageId,emoji=null){
+    await requireUser();
+    if(typeof messageId!=='string'||!messageId)throw new Error('Neplatná zpráva.');
+    const value=emoji==null?null:String(emoji);
+    const {data,error}=await db().rpc('uka_react_to_message',{p_message:messageId,p_emoji:value});
+    fail(error,'Reakci se nepodařilo uložit.');
+    return data;
+  }
+
+
   async function sendDirectMessage(recipientId,body='',eventId=null){
     await requireUser();
     if(typeof recipientId!=='string'||!recipientId)throw new Error('Neplatný příjemce.');
@@ -318,7 +398,9 @@
       .order('created_at',{ascending:false})
       .limit(size);
     fail(error,'Zprávy se nepodařilo načíst.');
-    return (data||[]).reverse();
+    const messages=(data||[]).reverse();
+    const reactions=await getMessageReactions(messages.map(row=>row.id));
+    return messages.map(row=>({...row,reactions:reactions.get(row.id)||[]}));
   }
 
   async function getMessageOverview(limit=500){
@@ -363,6 +445,16 @@
     return channel;
   }
 
+  async function subscribeMessageReactions(handler,statusHandler){
+    await requireUser();
+    if(typeof handler!=='function')throw new Error('Chybí obsluha reakcí.');
+    const client=db();
+    const channel=client.channel(`uka-reactions-${Date.now()}`)
+      .on('postgres_changes',{event:'*',schema:'public',table:'direct_message_reactions'},payload=>handler(payload))
+      .subscribe(status=>{if(typeof statusHandler==='function')statusHandler(status);});
+    return channel;
+  }
+
   async function unsubscribeChannel(channel){
     if(!channel)return;
     try{await db().removeChannel(channel);}catch{}
@@ -371,8 +463,10 @@
   window.UKASocial={
     currentUser,getMyProfile,getProfile,updateMyProfile,uploadAvatar,removeAvatar,searchUsers,
     sendFriendRequest,acceptFriendRequest,declineFriendRequest,getFriendRequests,getFriends,removeFriend,getPublicFavorites,
+    getFollowStats,followUser,unfollowUser,
     likeEvent,unlikeEvent,getEventLikes,getComments,addComment,editComment,deleteComment,
     shareEvent,getInbox,getUnreadCount,markShareSeen,
-    sendDirectMessage,getConversation,getMessageOverview,markConversationSeen,subscribeDirectMessages,unsubscribeChannel
+    getChatPreference,setChatPreference,reactToMessage,
+    sendDirectMessage,getConversation,getMessageOverview,markConversationSeen,subscribeDirectMessages,subscribeMessageReactions,unsubscribeChannel
   };
 })();
